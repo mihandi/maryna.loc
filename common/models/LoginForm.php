@@ -9,14 +9,15 @@ use yii\base\Model;
  */
 class LoginForm extends Model
 {
+    public $login;
     public $email;
     public $password;
 
     public function rules()
     {
         return [
-            [['email','password'],'required'],
-            ['email','email'],
+            [['login','password'],'required'],
+//            ['email','email'],
             ['password','validatePassword'] //собственная функция для валидации пароля
         ];
     }
@@ -32,7 +33,7 @@ class LoginForm extends Model
 
     public function getUser()
     {
-        return User::findOne(['email'=>$this->email]); // а получаем мы его по введенному имейлу
+        return User::findOne(['email' => $this->login]) ? User::findOne(['email' => $this->login]) : User::findOne(['login' => $this->login]);
     }
 
     public function login()

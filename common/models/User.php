@@ -13,6 +13,9 @@ use yii\web\IdentityInterface;
  * @property integer $id
  * @property string $password
  * @property string $email
+ * @property string $login
+ * @property string $first_name
+ * @property string $last_name
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
