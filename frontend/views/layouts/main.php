@@ -60,7 +60,7 @@ AppAsset::register($this);
                         <li class="nav-item"><a href="/site/login" class="nav-link animsition-link">Login</a></li>
                         <li class="nav-item"><a href="/site/signup" class="nav-link animsition-link">Sign up</a></li>
                     <?php else: ?>
-                        <li class="nav-item"><a href="/site/logout" class="nav-link animsition-link active">Logout <?=Yii::$app->user->identity->email?></a></li>
+                        <li class="nav-item"><a href="/site/logout" class="nav-link animsition-link active">Logout <?=Yii::$app->user->identity->login?></a></li>
                     <?php endif;?>
 <!--                    <li class="nav-item"><a href="#" class="nav-link animsition-link">About </a></li>-->
 <!--                    <li class="nav-item"><a href="blog.html" class="nav-link animsition-link">Contact</a></li>-->
@@ -119,15 +119,15 @@ AppAsset::register($this);
             <div class="col-md-4">
                 <div class="latest-posts"><a href="#">
                         <div class="post d-flex align-items-center">
-                            <div class="image"><img src="img/small-thumbnail-1.jpg" alt="..." class="img-fluid"></div>
+                            <div class="image"><img src="/img/small-thumbnail-1.jpg" alt="..." class="img-fluid"></div>
                             <div class="title"><strong>Hotels for all budgets</strong><span class="date last-meta">October 26, 2016</span></div>
                         </div></a><a href="#">
                         <div class="post d-flex align-items-center">
-                            <div class="image"><img src="img/small-thumbnail-2.jpg" alt="..." class="img-fluid"></div>
+                            <div class="image"><img src="/img/small-thumbnail-2.jpg" alt="..." class="img-fluid"></div>
                             <div class="title"><strong>Great street atrs in London</strong><span class="date last-meta">October 26, 2016</span></div>
                         </div></a><a href="#">
                         <div class="post d-flex align-items-center">
-                            <div class="image"><img src="img/small-thumbnail-3.jpg" alt="..." class="img-fluid"></div>
+                            <div class="image"><img src="/img/small-thumbnail-3.jpg" alt="..." class="img-fluid"></div>
                             <div class="title"><strong>Best coffee shops in Sydney</strong><span class="date last-meta">October 26, 2016</span></div>
                         </div></a></div>
             </div>

@@ -20,11 +20,12 @@ class AppAsset extends AssetBundle
     "css/style.default.css",
    "css/custom.css",
     "css/fontastic.css",
-   "https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js",
-    "https://oss.maxcdn.com/respond/1.4.2/respond.min.js"
+
     ];
     public $js = [
 //        "https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js",
+        "https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js",
+        "https://oss.maxcdn.com/respond/1.4.2/respond.min.js"
 //        "js/tether.min.js",
 //        "js/bootstrap.min.js",
 //        "js/jquery.cookie.js",
