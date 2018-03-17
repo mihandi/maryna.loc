@@ -36,6 +36,23 @@ class LoginForm extends Model
         return User::findOne(['email' => $this->login]) ? User::findOne(['email' => $this->login]) : User::findOne(['login' => $this->login]);
     }
 
+    public function getAdmin()
+    {
+        return User::findOne(['email' => $this->login,'status' => [5,10]])
+            ? User::findOne(['email' => $this->login,'status' => [5,10]])
+            : User::findOne(['login' => $this->login,'status' => [5,10]]);
+
+    }
+
+    public function loginAdmin()
+    {
+        if ($this->validate() && $this->getAdmin()) {
+            return Yii::$app->user->login($this->getAdmin());
+        }
+
+        return false;
+    }
+
     public function login()
     {
         if ($this->validate()) {

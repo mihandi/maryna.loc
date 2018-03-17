@@ -60,6 +60,7 @@ AppAsset::register($this);
                         <li class="nav-item"><a href="/site/login" class="nav-link animsition-link">Login</a></li>
                         <li class="nav-item"><a href="/site/signup" class="nav-link animsition-link">Sign up</a></li>
                     <?php else: ?>
+                        <li class="nav-item"><a href="/site/personal" class="nav-link animsition-link active">Personal</a></li>
                         <li class="nav-item"><a href="/site/logout" class="nav-link animsition-link active">Logout <?=Yii::$app->user->identity->login?></a></li>
                     <?php endif;?>
 <!--                    <li class="nav-item"><a href="#" class="nav-link animsition-link">About </a></li>-->
@@ -71,13 +72,13 @@ AppAsset::register($this);
         </div>
     </nav>
 
-    <div class="container">
+<!--    <div class="container">-->
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
-    </div>
+<!--    </div>-->
 </div>
 
 <footer class="main-footer">

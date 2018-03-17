@@ -113,4 +113,9 @@ class SiteController extends Controller
         return $this->render('signup',['model'=>$model]);
     }
 
+    public function actionPersonal()
+    {
+        return $this->render('personal');
+    }
+
 }

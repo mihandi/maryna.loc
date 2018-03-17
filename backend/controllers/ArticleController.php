@@ -39,6 +39,10 @@ class ArticleController extends Controller
      */
     public function actionIndex()
     {
+        if(yii::$app->user->isGuest) {
+            return $this->redirect('/site/login');
+        }
+
         $searchModel = new ArticleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -46,6 +50,8 @@ class ArticleController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+
+
     }
 
     /**
@@ -56,9 +62,14 @@ class ArticleController extends Controller
      */
     public function actionView($id)
     {
+        if(yii::$app->user->isGuest) {
+            return $this->redirect('/site/login');
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+
     }
 
     /**
@@ -68,6 +79,10 @@ class ArticleController extends Controller
      */
     public function actionCreate()
     {
+        if(yii::$app->user->isGuest) {
+            return $this->redirect('/site/login');
+        }
+
         $model = new Article();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -76,8 +91,9 @@ class ArticleController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-            'categories'=> Category::find()->all()
+            'categories' => Category::find()->all()
         ]);
+
     }
 
     /**
@@ -89,16 +105,20 @@ class ArticleController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if(yii::$app->user->isGuest) {
+            return $this->redirect('/site/login');
         }
+            $model = $this->findModel($id);
 
-        return $this->render('update', [
-            'model' => $model,
-            'categories'=> Category::find()->all()
-        ]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+                'categories' => Category::find()->all()
+            ]);
+
     }
 
     /**
@@ -110,12 +130,17 @@ class ArticleController extends Controller
      */
     public function actionDelete($id)
     {
+        if(yii::$app->user->isGuest) {
+            return $this->redirect('/site/login');
+        }
+
         $this->findModel($id)->delete();
 
         $imageU = new ImageUpload();
-        $imageU->removeDirectory(Yii::getAlias( '@webFrontend' ).'/uploads/article_'.yii::$app->request->get('id'));
+        $imageU->removeDirectory(Yii::getAlias('@webFrontend') . '/uploads/article_' . yii::$app->request->get('id'));
 
         return $this->redirect(['index']);
+
     }
 
     /**
@@ -136,37 +161,43 @@ class ArticleController extends Controller
 
     public function actionSetImage($id)
     {
+        if(yii::$app->user->isGuest) {
+            return $this->redirect('/site/login');
+        }
+
         $model = new ImageUpload;
-        if (Yii::$app->request->isPost)
-        {
+        if (Yii::$app->request->isPost) {
             $article = $this->findModel($id);
             $file = UploadedFile::getInstance($model, 'image');
-            if($article->saveImage($model->uploadFile($file, $article->image)))
-            {
-                return $this->redirect(['view', 'id'=>$article->id]);
+            if ($article->saveImage($model->uploadFile($file, $article->image))) {
+                return $this->redirect(['view', 'id' => $article->id]);
             }
         }
 
-        return $this->render('image', ['model'=>$model]);
+        return $this->render('image', ['model' => $model]);
+
     }
 
     public function actionSetCategory($id)
     {
+        if(yii::$app->user->isGuest) {
+            return $this->redirect('/site/login');
+        }
+
         $article = $this->findModel($id);
         $selectedCategory = $article->category->id;
         $categories = ArrayHelper::map(Category::find()->all(), 'id', 'title');
-        if(Yii::$app->request->isPost)
-        {
+        if (Yii::$app->request->isPost) {
             $category = Yii::$app->request->post('category');
-            if($article->saveCategory($category))
-            {
-                return $this->redirect(['view', 'id'=>$article->id]);
+            if ($article->saveCategory($category)) {
+                return $this->redirect(['view', 'id' => $article->id]);
             }
         }
         return $this->render('category', [
-            'article'=>$article,
-            'selectedCategory'=>$selectedCategory,
-            'categories'=>$categories
+            'article' => $article,
+            'selectedCategory' => $selectedCategory,
+            'categories' => $categories
         ]);
+
     }
 }

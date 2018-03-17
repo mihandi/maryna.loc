@@ -35,13 +35,17 @@ class CommentController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new CommentSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if(yii::$app->user->isGuest) {
+            return $this->redirect('/site/login');
+        }
+            $searchModel = new CommentSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+
     }
 
     /**
@@ -52,9 +56,14 @@ class CommentController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if(yii::$app->user->isGuest) {
+            return $this->redirect('/site/login');
+        }
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+
+
     }
 
     /**
@@ -64,15 +73,19 @@ class CommentController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Comment();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if(yii::$app->user->isGuest) {
+            return $this->redirect('/site/login');
         }
+            $model = new Comment();
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+
     }
 
     /**
@@ -84,15 +97,19 @@ class CommentController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if(yii::$app->user->isGuest) {
+            return $this->redirect('/site/login');
         }
+            $model = $this->findModel($id);
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+
     }
 
     /**
@@ -104,9 +121,13 @@ class CommentController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if(yii::$app->user->isGuest) {
+            return $this->redirect('/site/login');
+        }
+            $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+
     }
 
     /**

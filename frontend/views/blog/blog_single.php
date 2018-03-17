@@ -39,7 +39,7 @@
                                     <div class="text"><strong class="text-primary">Next Post </strong>
                                         <h6><?= $nextprev['next']['title']?></h6>
                                     </div>
-                                    <div class="icon next"><i class="fa fa-angle-right">   </i></div>
+                                    <div class="icon next"><i class="fa fa-angle-right"></i></div>
                                 </a>
                         </div>
 

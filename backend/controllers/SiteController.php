@@ -60,7 +60,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        if(!yii::$app->user->isGuest) {
+            return $this->render('index');
+        }
     }
 
     /**
@@ -75,7 +77,7 @@ class SiteController extends Controller
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        if ($model->load(Yii::$app->request->post()) && $model->loginAdmin()) {
             return $this->goBack();
         } else {
             $model->password = '';
@@ -97,4 +99,5 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+
 }
