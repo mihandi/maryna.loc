@@ -44,7 +44,18 @@ return [
             'rules' => [
             ],
         ],
+    ],
 
+    'controllerMap' => [
+        'elfinder' => [
+            'class' => 'mihaildev\elfinder\PathController',
+            'access' => ['@'],
+            'root' => [
+                'path' => 'elfinder/global',
+                'name' => 'Global'
+            ],
+//
+        ]
     ],
     'params' => $params,
 ];

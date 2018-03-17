@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\ImageUpload;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -12,6 +13,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\UploadedFile;
 
 /**
  * Site controller
@@ -117,5 +119,6 @@ class SiteController extends Controller
     {
         return $this->render('personal');
     }
+
 
 }

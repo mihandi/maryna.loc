@@ -26,7 +26,7 @@ $this->title = 'Blog';
                             </div>
                             <a href="/blog/article?id=<?=$article['id']?>" class="animsition-link">
                                 <h3 class="h4"><?= $article['title']?></h3></a>
-                            <p class="text-muted"><?= substr($article['content'],0,300)."..."?></p>
+                            <p class="text-muted"><?= substr($article['description'],0,300)."..."?></p>
                         </div>
                     </div>
                     <?php endforeach;?>

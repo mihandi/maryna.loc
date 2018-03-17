@@ -1,6 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\StringHelper;
+
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\ArticleSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -21,9 +23,27 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'id',
-            'title',
-            'description:ntext',
-            'content:ntext',
+            [
+                'label' =>'title',
+                'contentOptions'=>['style'=>'white-space: normal;'] ,
+                'value' => function ($model) {
+                    return substr($model['title'],0,100);
+                }
+            ],
+            [
+                'label' =>'description',
+                'contentOptions'=>['style'=>'white-space: normal;'] ,
+                'value' => function ($model) {
+                    return substr($model['description'],0,300);
+                }
+            ],
+            [
+                    'label' =>'content',
+                'contentOptions'=>['style'=>'white-space: normal;'] ,
+                'value' => function ($model) {
+                    return substr($model['content'],0,300);
+                    }
+            ],
             [
                 'format' => 'html',
                 'label' => 'Image',
