@@ -1,5 +1,6 @@
 <?php
 
+use mihaildev\elfinder\InputFile;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -24,6 +25,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= InputFile::widget([
+            'language'   => 'ru',
+            'controller' => 'elfinder', // вставляем название контроллера, по умолчанию равен elfinder
+            'path' => '/', // будет открыта папка из настроек контроллера с добавлением указанной под деритории
+//        'filter'     => 'image',    // фильтр файлов, можно задать массив фильтров https://github.com/Studio-42/elFinder/wiki/Client-configuration-options#wiki-onlyMimes
+            'name'       => 'myinput',
+//        'value'      => '',
+        ]);
+        ?>
     </p>
 
     <?= DetailView::widget([

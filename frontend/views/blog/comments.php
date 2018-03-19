@@ -46,20 +46,17 @@ use yii\widgets\LinkPager;
         </header>
         <form  class="commenting-form" method="post">
             <div class="row">
-    <!--            <div class="form-group col-md-6">-->
-    <!--                <input type="text" name="username" id="username" placeholder="Name" class="form-control">-->
-    <!--            </div>-->
-    <!--            <div class="form-group col-md-6">-->
-    <!--                <input type="email" name="Comment[text]" id="useremail" placeholder="Email Address (will not be published)" class="form-control">-->
-    <!--            </div>-->
-
                 <div class="form-group col-md-12">
                     <input type="hidden" name="Comment[user_id]" value="<?= YII::$app->user->id?>">
                     <input type="hidden" name="Comment[article_id]" value="<?= $article['id']?>">
                     <input id="comment" name="Comment[text]" placeholder="Type your comment" class="form-control">
                 </div>
                 <div class="form-group col-md-12">
-                    <input name="submit" type="submit" id="submit" class="submit" value="Post Comment">
+                    <?php if(!yii::$app->user->isGuest):?>
+                     <button name="submit" type="submit" id="submit" class="submit">Опубликовать</button>
+                    <?php else:?>
+                    <p class="alert">Для того чтобы оставить комментарий войдите или зарегистрируйтесь</p>
+                    <?php endif;?>
                 </div>
             </div>
         </form>

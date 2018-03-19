@@ -80,4 +80,14 @@ class Comment extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    public function deleteArticleComments($article_id)
+    {
+       return  Yii::$app->db->createCommand(
+            'delete  FROM `comment` 
+                where article_id = :article_id')
+            ->bindValue('article_id',$article_id)
+            ->execute();
+
+    }
 }

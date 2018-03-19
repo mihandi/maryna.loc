@@ -27,7 +27,7 @@ class ImageUpload extends Model{
 
     private function getFolder()
     {
-        $path_to_folder = Yii::getAlias( '@webFrontend' ).'/uploads/article_'.yii::$app->request->get('id');
+            $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/article_'.yii::$app->request->get('id');
         if(!is_dir($path_to_folder)){
            mkdir($path_to_folder);
         }

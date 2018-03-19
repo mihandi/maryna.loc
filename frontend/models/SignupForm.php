@@ -53,10 +53,10 @@ class SignupForm extends Model
     public function signup()
     {
         $user = new User();
-        $user->login = $this->login;
-        $user->email = $this->email;
-        $user->first_name = $this->first_name;
-        $user->last_name = $this->last_name;
+        $user->login = addslashes($this->login);
+        $user->email = addslashes($this->email);
+        $user->first_name = addslashes($this->first_name);
+        $user->last_name = addslashes($this->last_name);
         $user->setPassword($this->password);
 
         return $user->save() ? $user : null;

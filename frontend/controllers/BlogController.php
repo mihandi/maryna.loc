@@ -20,20 +20,42 @@ class BlogController extends Controller
     public function actionIndex()
     {
 
-        $data = Article::getAll(4);
+        if($category_id = yii::$app->request->get('category_id'))
+        {
+            $data = Article::getArticlesByCategories($category_id);
 
-        return $this->render('blog_grid',[
-            'pagination' => $data['pagination'],
-            'categories' => $data['categories'],
-            'recent' => $data['recent'],
-            'articles' => $data['articles']]);
+            return $this->render('blog_grid', [
+                'pagination' => $data['pagination'],
+                'articles' => $data['article'],
+                'count' => $data['count'],
+                'recent' => Article::getRecent(),
+                'categories' => Article::getCategories()
+
+
+            ]);
+
+        }else {
+            $data = Article::getArticles();
+
+            return $this->render('blog_grid', [
+                'pagination' => $data['pagination'],
+                'articles' => $data['article'],
+                'recent' => Article::getRecent(),
+                'categories' => Article::getCategories(),
+            ]);
+        }
     }
 
     public function actionArticle()
     {
 
         if(Yii::$app->request->isAjax) {
+            if (Yii::$app->user->isGuest) {
+                return $this->goBack();
+            }
             if(Yii::$app->request->get('comment')) {
+
+
                 $id  = yii::$app->request->get('comment');
                 Comment::findOne($id)->delete();
 
@@ -44,6 +66,7 @@ class BlogController extends Controller
                     'comments' => $data['comments']
                 ]);
             }else {
+
                 $commentPost = new Comment();
                 if ($commentPost->load(Yii::$app->request->post()) && $commentPost->validate()) {
                     $commentPost->save();
@@ -61,15 +84,19 @@ class BlogController extends Controller
         }
 
         $data = Article::getSingle();
-        Article::viewedCounter($data['article']['id'],$data['article']['viewed']);
+        if(!$data){return $this->redirect('/site/error');}
+        Article::viewedCounter($data['article']['id'], $data['article']['viewed']);
 
-        return $this->render('blog_single',[
+        return $this->render('blog_single', [
             'article' => $data['article'],
+            'nextprev' => $data['np'],
             'author' => $data['author'],
-            'categories' => $data['categories'],
+            'categories' => Article::getCategories(),
             'comments' => $data['comments'],
-            'recent' => $data['recent'],
-            'nextprev' => $data['np']
+            'recent' => Article::getRecent(),
+            'gallery' => Article::getGallery()
         ]);
+
+
     }
 }

@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\Category;
+use common\models\Comment;
 use common\models\ImageUpload;
 use Yii;
 use common\models\Article;
@@ -137,7 +138,10 @@ class ArticleController extends Controller
         $this->findModel($id)->delete();
 
         $imageU = new ImageUpload();
-        $imageU->removeDirectory(Yii::getAlias('@webFrontend') . '/uploads/article_' . yii::$app->request->get('id'));
+        $imageU->removeDirectory(Yii::getAlias('@backend') . '/web/elfinder/global/article_' . yii::$app->request->get('id'));
+
+        $comment = new Comment();
+        $comment->deleteArticleComments($id);
 
         return $this->redirect(['index']);
 

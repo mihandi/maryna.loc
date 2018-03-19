@@ -1,33 +1,50 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \common\models\LoginForm */
 
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
-
-$this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Вход';
+function err($errors)
+{
+    foreach ($errors as $error){
+        echo "<div class=\"help-block help-block-error \"> $error </div>";
+    }
+}
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>Please fill out the following fields to login:</p>
-
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-
-                <?= $form->field($model, 'login')->textInput(['autofocus' => true]) ?>
-
-                <?= $form->field($model, 'password')->passwordInput() ?>
-
+<div class="row">
+    <main class="posts-listing col-lg-8">
+        <div class="form">
+            <form class="form-horizontal"  action="/site/login" method="POST">
+                <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken()?>">
                 <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Логин</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" placeholder="Логин" name="LoginForm[login]" value="<?=$model['login']??''?>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">Пароль</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" placeholder="Пароль" name="LoginForm[password]">
+                            <?php if(isset($model->errors['password'])):?>
+                                <?php err($model->errors['password']); ?>
+                            <?php endif;?>
+                        </div>
+                    </div>
 
-            <?php ActiveForm::end(); ?>
-        </div>
-    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-default btn-sm">Войти</button>
+                        </div>
+                    </div>
+            </form>
+        </div><!-- form  -->
+    </main>
+    <aside class="col-lg-4">
+        <!-- Widget [Search Bar Widget]-->
+        <?php require_once ('../views/blog/search_bar.php');?>
+        <!-- Widget [Latest Posts Widget]        -->
+        <?php require_once ('../views/blog/latest_posts.php');?>
+        <!-- Widget [Categories Widget]-->
+        <?php require_once ('../views/blog/categories.php');?>
+    </aside>
 </div>

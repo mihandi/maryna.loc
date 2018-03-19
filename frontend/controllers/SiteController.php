@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Article;
 use common\models\ImageUpload;
 use Yii;
 use yii\base\InvalidParamException;
@@ -20,6 +21,7 @@ use yii\web\UploadedFile;
  */
 class SiteController extends Controller
 {
+    public $enableCsrfValidation = false;
     /**
      * {@inheritdoc}
      */
@@ -69,7 +71,12 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+
+        $data = Article::getPopular();
+
+        return $this->render('index',[
+            'recent' => $data]);
+
     }
 
     public function actionLogin()
@@ -86,6 +93,9 @@ class SiteController extends Controller
 
             return $this->render('login', [
                 'model' => $model,
+                'recent' => Article::getRecent(),
+                'categories' => Article::getCategories(),
+
             ]);
         }
     }
@@ -112,12 +122,24 @@ class SiteController extends Controller
             }
         }
 
-        return $this->render('signup',['model'=>$model]);
+        return $this->render('signup',[
+            'model'=>$model,
+            'recent' => Article::getRecent(),
+            'categories' => Article::getCategories(),]);
     }
 
     public function actionPersonal()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         return $this->render('personal');
+    }
+
+    public function action404()
+    {
+        return $this->render('404.php');
     }
 
 

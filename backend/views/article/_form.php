@@ -1,7 +1,9 @@
 <?php
 
+use mihaildev\elfinder\InputFile;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\web\JsExpression;
 use yii\widgets\ActiveForm;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
@@ -24,13 +26,11 @@ use mihaildev\elfinder\ElFinder;
         ]);
     ?>
 
-
     <?= $form->field($model, 'user_id')->hiddenInput(['value'=> Yii::$app->user->id])->label(false);?>
 
     <?= $form->field($model, 'category_id')->dropDownList(
         ArrayHelper::map($categories, 'id', 'title')
     ) ?>
-
 
 
 

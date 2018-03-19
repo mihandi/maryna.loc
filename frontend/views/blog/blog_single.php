@@ -1,4 +1,7 @@
+<?php
 
+$this->title = $article['title'];
+?>
 <div class="container">
     <div class="row">
         <!-- Latest Posts -->
@@ -6,11 +9,11 @@
             <div class="container">
                 <div class="post-single">
                     <div class="post-thumbnail">
-                        <img src="<?= '/uploads/article_'.$article['id'].'/'.$article['image']?>" alt="..." class="img-fluid"></div>
+                        <img src="<?= '/elfinder/global/article_'.$article['id'].'/'.$article['image']?>" alt="..." class="img-fluid"></div>
                     <div class="post-details">
                         <div class="post-meta d-flex justify-content-between">
                             <div class="category">
-                                <a href="<?php //Todo?>"><?=$article['category']['title']?></a>
+                                <a href="<?= '/blog/index?category_id='.$article['category']['id']?>"><?= $article['category']['title']?></a>
                             </div>
                         </div>
                         <h1><?= $article['title']?><a href="#"><i class="fa fa-bookmark-o"></i></a></h1>
@@ -26,6 +29,27 @@
                         <div class="post-body">
                             <p><?= $article['content']?></p>
                         </div>
+                        <section class="gallery no-padding">
+                            <div class="row">
+                                <?php $i=0;?>
+                                <?php foreach($gallery as $photo): ++$i;?>
+                                    <div class="mix col-lg-3 col-md-3 col-sm-5">
+                                        <?php if ($i < 5): ?>
+                                            <div class="item">
+                                                <a href="<?= '/elfinder/global/article_'.$article['id'].'/'.$photo?>" data-fancybox="gallery" class="image">
+                                                        <img src="<?= '/elfinder/global/article_'.$article['id'].'/'.$photo?>" alt="..." class="img-fluid">
+                                                        <div class="overlay d-flex align-items-center justify-content-center">
+                                                            <i class="icon-search"></i>
+                                                        </div>
+                                                </a>
+                                            </div>
+                                        <?php else: ?>
+                                            <a href="<?= '/elfinder/global/article_'.$article['id'].'/'.$photo?>" data-fancybox="gallery" class="image"></a>
+                                        <?php endif;?>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </section>
 <!--                        <div class="post-tags"><a href="#" class="tag">#Business</a><a href="#" class="tag">#Tricks</a><a href="#" class="tag">#Financial</a><a href="#" class="tag">#Economy</a></div>-->
                         <div class="posts-nav d-flex justify-content-between align-items-stretch flex-column flex-md-row">
                                 <a href="<?= $nextprev['prev']['id']?'/blog/article?id='.$nextprev['prev']['id']:''?>" class="prev-post text-left d-flex align-items-center">

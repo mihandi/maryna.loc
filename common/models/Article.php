@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use SplFileInfo;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\data\Pagination;
@@ -87,7 +88,7 @@ class Article extends \yii\db\ActiveRecord
 
     public function getImage()
     {
-        return ($this->image) ? '/uploads/article_'.$this->id.'/' . $this->image : '/no-image.png';
+        return ($this->image) ? '/elfinder/global/article_'.$this->id.'/' . $this->image : '/no-image.png';
     }
 
     public function deleteImage()
@@ -109,6 +110,7 @@ class Article extends \yii\db\ActiveRecord
 
     public static function getCategories()
     {
+        $res = array();
         $categories =  Yii::$app->db->createCommand(
             'SELECT * FROM category Limit 4')
             ->queryAll();
@@ -135,22 +137,24 @@ class Article extends \yii\db\ActiveRecord
 
     //FRONTEND
 
-
-    public static function getAll($pageSize = 4)
+    public static function getArticles()
     {
-        $query = Article::find();
-        $count = $query->count();
-        $pagination = new Pagination(['totalCount' => $count, 'pageSize'=>$pageSize]);
-        $articles = $query->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
+        $count = Yii::$app->db->createCommand(
+            'SELECT COUNT(id) as count FROM article')
+            ->queryOne();
 
-        $data['articles'] = $articles;
-        $data['recent'] = Article::getRecent();
-        $data['categories'] = Article::getCategories();
-        $data['pagination'] = $pagination;
+        $article['pagination'] = new Pagination(['totalCount' =>  $count['count'], 'pageSize'=>4]);
 
-        return $data;
+        $article['article'] =  Yii::$app->db->createCommand(
+            'SELECT a.id,a.title,a.image,a.description,a.created_at,c.id as \'category_id\',c.title as \'category\',COUNT(cm.id) as \'comment_count\' FROM article a 
+                  INNER JOIN category c On a.category_id = c.id 
+                  Left Join comment cm On cm.article_id = a.id
+                  GROUP BY a.id LIMIT :offset, :limit')
+            ->bindValue('offset',$article['pagination']->offset)
+            ->bindValue('limit',$article['pagination']->limit)
+            ->queryAll();
+
+        return $article;
     }
 
     public static function getPrevNext($article)
@@ -174,9 +178,8 @@ class Article extends \yii\db\ActiveRecord
     {
         $id  = yii::$app->request->get('id');
         $article['article'] = Article::findOne($id);
+        if(!$article['article']){return false;}
         $article['author'] = self::getAuthor($article['article']['user_id']);
-        $article['recent'] = Article::getRecent();
-        $article['categories'] = Article::getCategories();
         $article['np'] = Article::getPrevNext($article['article']);
 
 
@@ -187,27 +190,52 @@ class Article extends \yii\db\ActiveRecord
         return $article;
     }
 
-    public static function getPopular()
+    public static function getArticlesByCategories($category_id)
     {
-        $articles =  Yii::$app->db->createCommand(
-            'SELECT id,image,title,viewed FROM article
-                  ORDER BY viewed DESC Limit 4')
+        $article['count'] = Yii::$app->db->createCommand(
+            'SELECT count(id) FROM article 
+                  WHERE category_id=:category_id')
+            ->bindValue('category_id',$category_id)
             ->queryAll();
 
-        foreach ($articles as $article)
-        {
-            $article['count'] = Comment::find()->where(['article_id' => $article['id']])->count();
-            $res[] = $article;
-        }
+        $article['pagination'] = new Pagination(['totalCount' =>  $article['count'], 'pageSize'=>4]);
 
-        return $res;
+        $article['article'] =  Yii::$app->db->createCommand(
+            'SELECT a.id,a.title,a.image,a.description,a.created_at,c.id as \'category_id\',
+                  c.title as \'category\',COUNT(cm.id) as \'comment_count\' FROM article a 
+                  INNER JOIN category c On a.category_id = c.id 
+                  Left Join comment cm On cm.article_id = a.id
+                  WHERE a.category_id=:category_id
+                  GROUP BY a.id LIMIT :offset, :limit')
+            ->bindValue('category_id',$category_id)
+            ->bindValue('offset',$article['pagination']->offset)
+            ->bindValue('limit',$article['pagination']->limit)
+            ->queryAll();
+
+        return $article;
+
     }
 
-    public static function getRecent()
+    public static function getPopular($limit = 3)
     {
+        return Yii::$app->db->createCommand(
+            'SELECT a.id,a.image,a.title,a.viewed,a.description,a.created_at,c.id as \'category_id\',c.title as \'category_title\' FROM article a
+                  Left Join category c On c.id = a.category_id
+                  Where a.image is not NULL 
+                  ORDER BY a.viewed DESC Limit  :limit')
+            ->bindValue('limit',$limit)
+            ->queryAll();
+
+
+    }
+
+    public static function getRecent($limit = 4)
+    {
+        $res = array();
         $articles =  Yii::$app->db->createCommand(
             'SELECT id,image,title,viewed FROM article
-                  ORDER BY created_at DESC Limit 4')
+                  ORDER BY created_at DESC Limit :limit')
+            ->bindValue('limit',$limit)
             ->queryAll();
 
         foreach ($articles as $article)
@@ -218,6 +246,29 @@ class Article extends \yii\db\ActiveRecord
 
         return $res;
 
+    }
+
+    public static function getGallery()
+    {
+        $id  = yii::$app->request->get('id');
+        $dir = Yii::getAlias( '@backend' ).'/web/elfinder/global/article_'.$id;
+
+        if(file_exists($dir)) {
+            $files1 = scandir($dir);
+
+            foreach ($files1 as $value) {
+                if (!in_array($value, array(".", ".."))
+                    && !is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
+                    $info = new SplFileInfo($value);
+                    if (in_array($info->getExtension(), array("jpg", "png"))) {
+
+                        $result[] = $value;
+                    }
+                }
+            }
+
+            return $result;
+        }
     }
 
     public function getArticleComments($id)
