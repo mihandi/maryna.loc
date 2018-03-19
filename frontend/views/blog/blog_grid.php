@@ -6,6 +6,7 @@ use yii\grid\GridView;
 use yii\widgets\LinkPager;
 
 $this->title = 'Blog';
+
 ?>
 
 <div class="container">
@@ -14,6 +15,10 @@ $this->title = 'Blog';
         <main class="posts-listing col-lg-8">
             <div class="container">
                 <div class="row">
+                    <?php if(!$articles):?>
+                        <h2>По вашему запросу ничего не найдено</h2>
+                    <?php endif;?>
+
                     <?php foreach($articles as $article):?>
                     <!-- post -->
                     <div class="post col-xl-6">

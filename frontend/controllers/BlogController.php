@@ -99,4 +99,16 @@ class BlogController extends Controller
 
 
     }
+
+    public function actionSearch()
+    {
+        $search_result = Article::searchFr();
+
+        return $this->render('blog_grid', [
+            'pagination' => $search_result['pagination'],
+            'articles' => $search_result['articles'],
+            'recent' => Article::getRecent(),
+            'categories' => Article::getCategories(),
+        ]);
+    }
 }

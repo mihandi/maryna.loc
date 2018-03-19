@@ -77,7 +77,7 @@ $(document).ready(function () {
 
 
     // ---------------------------------------------- //
-    // Search Bar
+        // Search Bar
     // ---------------------------------------------- //
     $('.search-btn').on('click', function (e) {
         e.preventDefault();

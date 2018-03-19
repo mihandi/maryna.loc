@@ -34,7 +34,7 @@ AppAsset::register($this);
                 <div class="close-btn"><i class="icon-close"></i></div>
                 <div class="row">
                     <div class="col-md-8 push-md-2">
-                        <form action="#">
+                        <form action="/blog/search">
                             <div class="form-group">
                                 <input type="search" name="search" id="search" placeholder="What are you looking for?">
                                 <button type="submit" class="submit"><i class="icon-search-1"></i></button>
