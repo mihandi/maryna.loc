@@ -137,17 +137,18 @@ class Article extends \yii\db\ActiveRecord
 
     //FRONTEND
 
-    public static function getArticles()
+    public static function getArticles($page_size = 4)
     {
         $count = Yii::$app->db->createCommand(
             'SELECT COUNT(id) as count FROM article')
             ->queryOne();
 
-        $article['pagination'] = new Pagination(['totalCount' =>  $count['count'], 'pageSize'=>4]);
+        $article['pagination'] = new Pagination(['totalCount' =>  $count['count'], 'pageSize'=>$page_size]);
 
         $article['article'] =  Yii::$app->db->createCommand(
-            'SELECT a.id,a.title,a.image,a.description,a.created_at,c.id as \'category_id\',c.title as \'category\',COUNT(cm.id) as \'comment_count\' FROM article a 
+            'SELECT u.login,a.id,a.title,a.image,a.description,a.created_at,c.id as \'category_id\',c.title as \'category\',COUNT(cm.id) as \'comment_count\' FROM article a 
                   INNER JOIN category c On a.category_id = c.id 
+                  INNER JOIN user u On u.id = a.user_id 
                   Left Join comment cm On cm.article_id = a.id
                   GROUP BY a.id LIMIT :offset, :limit')
             ->bindValue('offset',$article['pagination']->offset)
@@ -174,15 +175,21 @@ class Article extends \yii\db\ActiveRecord
        return $res;
     }
 
-    public static function getSingle()
+    public static function  getSingle()
     {
         $id  = yii::$app->request->get('id');
-        $article['article'] = Article::findOne($id);
+        $article['article'] = Yii::$app->db->createCommand(
+            'SELECT a.id,u.login,a.title,a.content,a.image,a.description,a.viewed,a.created_at,u.id as \'user_id\',c.id as \'category_id\',
+                  c.title as \'category\',COUNT(cm.id) as \'comment_count\' FROM article a 
+                  INNER JOIN category c On a.category_id = c.id 
+                  INNER JOIN user u On u.id = a.user_id
+                  Left Join comment cm On cm.article_id = a.id
+                  WHERE a.id=:article_id
+                  GROUP BY a.id')
+            ->bindValue('article_id',$id)
+            ->queryOne();
         if(!$article['article']){return false;}
-        $article['author'] = self::getAuthor($article['article']['user_id']);
         $article['np'] = Article::getPrevNext($article['article']);
-
-
 
         $articleObj = new Article();
         $article['comments'] = $articleObj->getArticleComments($id);
@@ -201,9 +208,10 @@ class Article extends \yii\db\ActiveRecord
         $article['pagination'] = new Pagination(['totalCount' =>  $article['count'], 'pageSize'=>4]);
 
         $article['article'] =  Yii::$app->db->createCommand(
-            'SELECT a.id,a.title,a.image,a.description,a.created_at,c.id as \'category_id\',
+            'SELECT a.id,u.login,a.title,a.image,a.description,a.created_at,c.id as \'category_id\',
                   c.title as \'category\',COUNT(cm.id) as \'comment_count\' FROM article a 
                   INNER JOIN category c On a.category_id = c.id 
+                  INNER JOIN user u On u.id = a.user_id
                   Left Join comment cm On cm.article_id = a.id
                   WHERE a.category_id=:category_id
                   GROUP BY a.id LIMIT :offset, :limit')
@@ -216,36 +224,30 @@ class Article extends \yii\db\ActiveRecord
 
     }
 
-    public static function getPopular($limit = 3)
+     public static function getPopular($limit = 3)
     {
-        return Yii::$app->db->createCommand(
-            'SELECT a.id,a.image,a.title,a.viewed,a.description,a.created_at,c.id as \'category_id\',c.title as \'category_title\' FROM article a
+        return  Yii::$app->db->createCommand(
+            'SELECT count(cm.id) as \'comments_count\',a.id,a.image,a.title,a.viewed,a.description,a.created_at,u.login, c.id as \'category_id\',c.title as \'category_title\' FROM article a
+                  Inner join user u On u.id = a.user_id
+                  left join comment cm On cm.article_id = a.id 
                   Left Join category c On c.id = a.category_id
-                  Where a.image is not NULL 
+                  Where a.image is not NULL   
+                  GROUP BY a.id
                   ORDER BY a.viewed DESC Limit  :limit')
             ->bindValue('limit',$limit)
             ->queryAll();
-
-
     }
 
     public static function getRecent($limit = 4)
     {
-        $res = array();
-        $articles =  Yii::$app->db->createCommand(
-            'SELECT id,image,title,viewed FROM article
-                  ORDER BY created_at DESC Limit :limit')
+
+        return  Yii::$app->db->createCommand(
+            'SELECT count(cm.id) as \'comments_count\',a.id,a.image,a.title,a.viewed,a.description FROM article a
+                  LEFT join comment cm On cm.article_id = a.id 
+                  GROUP By a.id
+                  ORDER BY a.created_at DESC Limit :limit')
             ->bindValue('limit',$limit)
             ->queryAll();
-
-        foreach ($articles as $article)
-        {
-            $article['count'] = Comment::find()->where(['article_id' => $article['id']])->count();
-            $res[] = $article;
-        }
-
-        return $res;
-
     }
 
     public static function getGallery()
@@ -260,7 +262,7 @@ class Article extends \yii\db\ActiveRecord
                 if (!in_array($value, array(".", ".."))
                     && !is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
                     $info = new SplFileInfo($value);
-                    if (in_array($info->getExtension(), array("jpg", "png"))) {
+                    if (in_array($info->getExtension(), array("jpg", "png","jpeg"))) {
 
                         $result[] = $value;
                     }
@@ -273,22 +275,35 @@ class Article extends \yii\db\ActiveRecord
 
     public function getArticleComments($id)
     {
-        $comments['count'] = Comment::find()->where(['article_id' => $id])->count();
-        $pagination = new Pagination(['totalCount' => $comments['count'], 'pageSize'=>6]);
+        $result['count'] = Comment::find()->where(['article_id' => $id])->count();
+        $pagination = new Pagination(['totalCount' => $result['count'], 'pageSize'=>6]);
 
         $comments['comments'] = Yii::$app->db->createCommand(
-            'SELECT c.id,c.text,c.created_at,c.user_id,u.login,u.created_at as "user_created_at" FROM `comment` c
-                Inner join user as u 
-                where c.article_id =:article_id and c.user_id = u.id 
+            'SELECT c.user_id,c.id,c.text,c.created_at,c.user_id,u.login,u.created_at as "user_created_at" FROM `comment` c
+                Inner join user as u On c.user_id = u.id
+                where c.article_id =:article_id and ISNULL(c.parent_id)
                 LIMIT :offset, :limit')
             ->bindValue('article_id',$id)
             ->bindValue('offset',$pagination->offset)
             ->bindValue('limit',$pagination->limit)
             ->queryAll();
 
-        $comments['pagination'] = $pagination;
+        foreach ($comments['comments'] as $comment)
+        {
+            $comment['answers'] = Yii::$app->db->createCommand(
+                'SELECT c.parent_id,c.id,c.user_id,c.text,c.created_at,c.user_id,u.login,u.created_at as "user_created_at" FROM `comment` c
+                Inner join user as u On c.user_id = u.id
+                where c.article_id =:article_id and c.parent_id=:parent_id')
+                ->bindValue('article_id',$id)
+                ->bindValue('parent_id',$comment['id'])
+                ->queryAll();
+            $result['comments'][] = $comment;
+        }
 
-        return  $comments;
+        $result['pagination'] = $pagination;
+
+        return  $result;
+
     }
 
     public static function getAuthor($user_id)

@@ -1,89 +1,123 @@
 <?php
 
+/* @var $this yii\web\View */
+
+use yii\grid\GridView;
+use yii\widgets\LinkPager;
+
 $this->title = $article['title'];
+
+$article_image_path = '/elfinder/global/article_'.$article['id'].'/'.$article['image'];
+
+$articles_path = '/blog/article?id=';
+$user_path = '';
+$category_path =  '/blog/index?category_id='.$article['category_id'];
+
 ?>
-<div class="container">
-    <div class="row">
-        <!-- Latest Posts -->
-        <main class="post blog-post col-lg-8">
-            <div class="container">
-                <div class="post-single">
-                    <div class="post-thumbnail">
-                        <img src="<?= '/elfinder/global/article_'.$article['id'].'/'.$article['image']?>" alt="..." class="img-fluid"></div>
-                    <div class="post-details">
-                        <div class="post-meta d-flex justify-content-between">
-                            <div class="category">
-                                <a href="<?= '/blog/index?category_id='.$article['category']['id']?>"><?= $article['category']['title']?></a>
-                            </div>
-                        </div>
-                        <h1><?= $article['title']?><a href="#"><i class="fa fa-bookmark-o"></i></a></h1>
-                        <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="#" class="author d-flex align-items-center flex-wrap">
-                                <div class="avatar"><img src="/img/avatar-1.jpg" alt="..." class="img-fluid"></div>
-                                <div class="title"><span><?= $author['login'];?></span></div></a>
-                            <div class="d-flex align-items-center flex-wrap">
-                                <div class="date"><i class="icon-clock"></i><?= date('Y-m-d', $article['created_at'])?></div>
-                                <div class="views"><i class="icon-eye"></i><?= (int)$article['viewed']?></div>
-                                <div class="comments meta-last"><i class="icon-comment"></i><?= $comments['count']?></div>
-                            </div>
-                        </div>
+<!-- main content-->
+<main class="page-two-col bg-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="page-col-one p-t-35 p-b-60">
+                    <article class="post-blog m-b-55">
+                        <header class="post-header m-b-125">
+                            <ul class="post-bre h-list">
+                                <li>
+                                    <a href="/">Главная</a>
+                                </li>
+                                <li>
+                                    <a href="/blog/index">Статьи</a>
+                                </li>
+                                <li>
+                                    <a href="<?= $articles_path.$article['id']?>"><?= $article['title']?></a>
+                                </li>
+                            </ul>
+                            <h3 class="post-title"><?= $article['title']?></h3>
+                        </header>
+                        <figure class="post-image img-radius m-b-45">
+                            <img class="img-fluid" src="<?= $article_image_path?>" alt="<?= $article['title']?>">
+                        </figure>
                         <div class="post-body">
-                            <p><?= $article['content']?></p>
+                            <h3 class="post-title"><?= $article['title']?></h3>
+                            <ul class="post-info h-list">
+                                <li class="post-info-item">by
+                                    <a href="<?= $user_path?>"><?= $article['login']?></a>
+                                </li>
+                                <li class="post-info-item"><?= date('Y-m-d', $article['created_at'])?></li>
+                                <li class="post-info-item">
+                                    <a href="<?= $category_path?>"><?= $article['category']?></a>
+                                </li>
+                                <li class="post-info-item">
+                                        <span>
+                                            <a href="#"><?= $article['comment_count']?> Комменатриев</a>
+                                        </span>
+                                </li>
+                            </ul>
+                            <p class="post-paragraph">
+                               <?= $article['content']?>
+                            </p>
                         </div>
-                        <section class="gallery no-padding">
-                            <div class="row">
-                                <?php $i=0;?>
-                                <?php foreach($gallery as $photo): ++$i;?>
-                                    <div class="mix col-lg-3 col-md-3 col-sm-5">
-                                        <?php if ($i < 5): ?>
-                                            <div class="item">
-                                                <a href="<?= '/elfinder/global/article_'.$article['id'].'/'.$photo?>" data-fancybox="gallery" class="image">
-                                                        <img src="<?= '/elfinder/global/article_'.$article['id'].'/'.$photo?>" alt="..." class="img-fluid">
-                                                        <div class="overlay d-flex align-items-center justify-content-center">
-                                                            <i class="icon-search"></i>
-                                                        </div>
-                                                </a>
-                                            </div>
-                                        <?php else: ?>
-                                            <a href="<?= '/elfinder/global/article_'.$article['id'].'/'.$photo?>" data-fancybox="gallery" class="image"></a>
-                                        <?php endif;?>
-                                    </div>
-                                <?php endforeach; ?>
+                        <footer class="post-footer">
+                            <div class="flex-bar d-md-flex align-items-start justify-content-lg-between m-b-40">
+                                <ul class="post-tags h-list">
+                                    <li class="post-tag-item">
+                                        <a href="#">website</a>
+                                    </li>
+                                    <li class="post-tag-item">
+                                        <a href="#">onepage</a>
+                                    </li>
+                                    <li class="post-tag-item">
+                                        <a href="#">profesional</a>
+                                    </li>
+                                </ul>
+                                <div class="post-socials">
+                                    <span class="post-social-label">SHARE</span>
+                                    <ul class="h-list social-list">
+                                        <li class="list-item" data-toggle="tooltip" title="Facebook">
+                                            <a class="fa fa-facebook" href="#"></a>
+                                        </li>
+                                        <li class="list-item" data-toggle="tooltip" title="Twitter">
+                                            <a class="fa fa-twitter" href="#"></a>
+                                        </li>
+                                        <li class="list-item" data-toggle="tooltip" title="Google Plus">
+                                            <a class="fa fa-google-plus" href="#"></a>
+                                        </li>
+                                        <li class="list-item" data-toggle="tooltip" title="Linkedin">
+                                            <a class="fa fa-linkedin" href="#"></a>
+                                        </li>
+                                        <li class="list-item" data-toggle="tooltip" title="Other">
+                                            <a class="fa fa-plus" href="#"></a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </section>
-<!--                        <div class="post-tags"><a href="#" class="tag">#Business</a><a href="#" class="tag">#Tricks</a><a href="#" class="tag">#Financial</a><a href="#" class="tag">#Economy</a></div>-->
-                        <div class="posts-nav d-flex justify-content-between align-items-stretch flex-column flex-md-row">
-                                <a href="<?= $nextprev['prev']['id']?'/blog/article?id='.$nextprev['prev']['id']:''?>" class="prev-post text-left d-flex align-items-center">
-                                    <div class="icon prev"><i class="fa fa-angle-left"></i></div>
-                                    <div class="text"><strong class="text-primary">Previous Post </strong>
-                                        <h6><?= $nextprev['prev']['title']?></h6>
-                                    </div>
-                                </a>
-
-                                <a href="<?= $nextprev['next']['id']?'/blog/article?id='.$nextprev['next']['id']:''?>" class="next-post text-right d-flex align-items-center justify-content-end">
-                                    <div class="text"><strong class="text-primary">Next Post </strong>
-                                        <h6><?= $nextprev['next']['title']?></h6>
-                                    </div>
-                                    <div class="icon next"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                        </div>
-
-                        <?php require_once ('comments.php');?>
-                    </div>
+                        </footer>
+                    </article>
+                    <?php require_once ('comments.php');?>
                 </div>
             </div>
-        </main>
-        <aside class="col-lg-4">
-            <!-- Widget [Search Bar Widget]-->
-            <?php require_once ('search_bar.php');?>
-            <!-- Widget [Latest Posts Widget]        -->
-            <?php require_once ('latest_posts.php');?>
-            <!-- Widget [Categories Widget]-->
-            <?php require_once ('categories.php');?>
+            <div class="col-lg-3">
+                <aside class="page-col-two p-t-100">
+                    <?php require_once ('search_bar.php');?>
+                    <!-- Widget [Categories Widget]-->
+                    <?php require_once ('categories.php');?>
+                    <!-- Widget [Latest Posts Widget]        -->
+                    <?php require_once ('latest_posts.php');?>
 
-        </aside>
+                    <?php require_once ('../views/archive.php');?>
+
+                    <?php require_once ('../views/contacts.php');?>
+                </aside>
+            </div>
+        </div>
     </div>
+</main>
+<!-- end main content-->
+
+
+
+
+<div id="up-to-top">
+    <i class="fa fa-angle-up"></i>
 </div>
-
-<script>
-
-</script>

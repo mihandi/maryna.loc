@@ -1,11 +1,11 @@
-<div class="widget categories">
-    <header>
-        <h3 class="h6">Категории</h3>
-    </header>
-    <?php foreach ($categories as $category):?>
-        <div class="item d-flex justify-content-between">
-            <a href="<?= '/blog/index?category_id='.$category['id']?>"><?= $category['title']?></a>
-            <span><?= $category['count']?></span>
-        </div>
-    <?php endforeach; ?>
+<div class="list-widget cates-widget m-b-60">
+    <h4 class="lw-title">КАТЕГОРИИ</h4>
+    <ul class="lw-list v-list">
+        <?php foreach ($categories as $category):?>
+            <li>
+                <a href="<?= '/blog/index?category_id='.$category['id']?>"><?= $category['title']?></a>
+            </li>
+        <?php endforeach; ?>
+
+    </ul>
 </div>

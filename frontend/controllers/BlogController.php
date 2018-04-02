@@ -28,19 +28,29 @@ class BlogController extends Controller
                 'pagination' => $data['pagination'],
                 'articles' => $data['article'],
                 'count' => $data['count'],
-                'recent' => Article::getRecent(),
+                'popular_articles' => Article::getPopular(),
                 'categories' => Article::getCategories()
 
 
             ]);
 
-        }else {
+        }elseif($var = yii::$app->request->get('var')){
+            $data = Article::getArticles(6);
+
+            return $this->render('blog_grid_var_2', [
+                'pagination' => $data['pagination'],
+                'articles' => $data['article'],
+                'popular_articles' => Article::getPopular(),
+                'categories' => Article::getCategories(),
+            ]);
+        }
+        else {
             $data = Article::getArticles();
 
             return $this->render('blog_grid', [
                 'pagination' => $data['pagination'],
                 'articles' => $data['article'],
-                'recent' => Article::getRecent(),
+                'popular_articles' => Article::getPopular(),
                 'categories' => Article::getCategories(),
             ]);
         }
@@ -57,7 +67,7 @@ class BlogController extends Controller
 
 
                 $id  = yii::$app->request->get('comment');
-                Comment::findOne($id)->delete();
+                Comment::deleteComment($id);
 
                 $data = Article::getSingle();
 
@@ -90,10 +100,9 @@ class BlogController extends Controller
         return $this->render('blog_single', [
             'article' => $data['article'],
             'nextprev' => $data['np'],
-            'author' => $data['author'],
             'categories' => Article::getCategories(),
             'comments' => $data['comments'],
-            'recent' => Article::getRecent(),
+            'popular_articles' => Article::getPopular(),
             'gallery' => Article::getGallery()
         ]);
 

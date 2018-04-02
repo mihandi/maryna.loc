@@ -36,8 +36,9 @@ class Comment extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'article_id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['text'], 'string', 'max' => 255],
+            [['text'], 'string', 'max' => 1000],
             [['article_id'], 'exist', 'skipOnError' => true, 'targetClass' => Article::className(), 'targetAttribute' => ['article_id' => 'id']],
+            ['parent_id','number'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -89,5 +90,14 @@ class Comment extends \yii\db\ActiveRecord
             ->bindValue('article_id',$article_id)
             ->execute();
 
+    }
+
+    public static function deleteComment($comment_id)
+    {
+        return  Yii::$app->db->createCommand(
+            'delete  FROM `comment` 
+                where id = :comment_id or parent_id = :comment_id')
+            ->bindValue('comment_id',$comment_id)
+            ->execute();
     }
 }

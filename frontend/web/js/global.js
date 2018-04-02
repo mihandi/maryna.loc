@@ -272,13 +272,13 @@
 
     var header_fix_top = header_fix.offset().top;
 
-    $(window).on("scroll", function () {
-        if ($(this).scrollTop() > header_fix_top) {
-            header_fix.addClass("sticky");
-        } else {
-            header_fix.removeClass("sticky");
-        }
-    });
+    // $(window).on("scroll", function () {
+    //     if ($(this).scrollTop() > header_fix_top) {
+    //         header_fix.addClass("sticky");
+    //     } else {
+    //         header_fix.removeClass("sticky");
+    //     }
+    // });
 
     // Navbar
     // Navbar vertial and Navbar mobile

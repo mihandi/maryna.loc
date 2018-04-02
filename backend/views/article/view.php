@@ -48,8 +48,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'user_id',
             'status',
             'category_id',
-            'created_at',
-            'updated_at',
+            'created_at:date',
+            'updated_at:date',
         ],
     ]) ?>
 

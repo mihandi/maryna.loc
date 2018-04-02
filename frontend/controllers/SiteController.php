@@ -15,6 +15,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use yii\web\UploadedFile;
+use common\models\User;
 
 /**
  * Site controller
@@ -72,7 +73,8 @@ class SiteController extends Controller
     public function actionIndex()
     {
 
-        $data = Article::getPopular();
+        
+        $data = Article::getRecent(9);
 
         return $this->render('index',[
             'recent' => $data]);
@@ -84,19 +86,15 @@ class SiteController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            $model->password = '';
 
-            return $this->render('login', [
-                'model' => $model,
-                'recent' => Article::getRecent(),
-                'categories' => Article::getCategories(),
-
-            ]);
+        if(yii::$app->request->isAjax) {
+            if ($model->load(Yii::$app->request->post()) && $model->login()) {
+                return $this->renderAjax('modal_template',['model' => $model]);
+            }else{
+                $model->password = '';
+                return $this->renderAjax('login',['model' => $model]);
+            }
         }
     }
 
@@ -110,37 +108,76 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $model = new SignupForm();
-        if(isset($_POST['SignupForm']))
-        {
-            $model->attributes = Yii::$app->request->post('SignupForm');
-            if($model->validate() && $user = $model->signup())
-            {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
+        if(yii::$app->request->isAjax) {
+            if($model->load(Yii::$app->request->post())){
+                if($model->validate() && $user = $model->signup())
+                {
+                    Yii::$app->getUser()->login($user);
+                    return $this->renderAjax('modal_template',['model' => $model]);
+                } else{
+                    $model->password = '';
+                    return $this->renderAjax('signup',['model' => $model]);
                 }
-
             }
+            return $this->renderAjax('signup',['model' => $model]);
         }
-
-        return $this->render('signup',[
-            'model'=>$model,
-            'recent' => Article::getRecent(),
-            'categories' => Article::getCategories(),]);
     }
 
-    public function actionPersonal()
+   public function actionPersonal()
     {
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
-        return $this->render('personal');
+        $user = User::findOne(yii::$app->user->id);
+
+        if(yii::$app->request->isAjax) {
+
+            if ( (0 < $_FILES['file']['error']) || is_bool(strripos($_FILES['file']['type'],'image'))  )
+            {
+                echo 'Error: ' . $_FILES['file']['error'] . '<br>';
+            } else {
+                $create_folder = new ImageUpload();
+                $create_folder->createUserFolder(yii::$app->user->id);
+
+                move_uploaded_file($_FILES['file']['tmp_name'],
+                    Yii::getAlias( '@backend' ).'/web/elfinder/users/user_'.yii::$app->user->id.'/user_logo.jpg');
+            }
+        }
+
+        if ($user->load(Yii::$app->request->post())) {
+            
+            if($user->save()){
+
+
+            }else{
+                return $this->render('personal',[
+                    'user' => $user,
+                    'popular_articles' => Article::getPopular(),
+                    'categories' => Article::getCategories(),
+                ]);
+            }
+        }
+
+        return $this->render('personal',[
+            'user' => $user,
+            'popular_articles' => Article::getPopular(),
+
+            'categories' => Article::getCategories(),
+        ]);
     }
 
-    public function action404()
-    {
-        return $this->render('404.php');
-    }
+   public function actionContact(){
+
+        $model = new ContactForm();
+
+       if ($model->load(Yii::$app->request->post()) && $model->validate()){
+           $model->sendEmail('adrej997@gmail.com');
+           return $this->goHome();
+       }
+
+        return $this->render('contact',['model' => $model]);
+   }
 
 
 }

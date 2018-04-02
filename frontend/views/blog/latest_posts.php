@@ -1,21 +1,18 @@
-<div class="widget latest-posts">
-    <header>
-        <h3 class="h6">Последние статьи</h3>
-    </header>
-    <div class="blog-posts">
-        <?php foreach ($recent as $latest):?>
-            <a href="<?= '/blog/article?id='.$latest['id']?>">
-                <div class="item d-flex align-items-center">
-                    <div class="image"><img src="<?= '/elfinder/global/article_'.$latest['id'].'/'.$latest['image']?>" alt="..." class="img-fluid"></div>
-                    <div class="title"><strong><?= $latest['title']?></strong>
-                        <div class="d-flex align-items-center">
-                            <div class="views"><i class="icon-eye"></i><?= (int)$latest['viewed']?></div>
-                            <div class="comments"><i class="icon-comment"></i><?= $latest['count']?></div>
-                        </div>
-                    </div>
-                </div>
+<div class="list-widget blog-popular-widget m-b-60">
+    <h4 class="lw-title">ПОПУЛЯРНЫЕ СТАТЬИ</h4>
+    <ul class="blog-sm-list v-list">
+        <?php foreach ($popular_articles as $article):?>
+            <li class="box-blog-sm">
+            <a class="box-image" href="<?= '/blog/article?id='.$article['id']?>">
+                <img src="<?= '/elfinder/global/article_'.$article['id'].'/'.$article['image']?>" alt="Популярные статьи">
             </a>
-        <?php endforeach; ?>
-
-    </div>
+            <div class="box-content">
+                <h3 class="box-title">
+                    <a href="<?= '/blog/article?id='.$article['id']?>"><?= $article['title']?></a>
+                </h3>
+                <span class="blog-post-time"><?php $article['created_at']?></span>
+            </div>
+        </li>
+        <?php endforeach;?>
+    </ul>
 </div>

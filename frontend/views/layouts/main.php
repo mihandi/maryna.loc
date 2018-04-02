@@ -19,7 +19,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="/img/logos.ico">
+    <link rel="shortcut icon" href="/images/logos.ico">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -28,104 +28,173 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrap">
-    <nav class="navbar navbar-toggleable-md">
-        <div class="search-area">
-            <div class="search-area-inner d-flex align-items-center justify-content-center">
-                <div class="close-btn"><i class="icon-close"></i></div>
-                <div class="row">
-                    <div class="col-md-8 push-md-2">
-                        <form action="/blog/search">
-                            <div class="form-group">
-                                <input type="search" name="search" id="search" placeholder="What are you looking for?">
-                                <button type="submit" class="submit"><i class="icon-search-1"></i></button>
-                            </div>
-                        </form>
+    <header class="header">
+        <!-- header desktop-->
+        <div class="header-primary header-fixed d-lg-block d-none sticky">
+            <div class="container-fluid">
+                <div class="section-inner header-bar">
+                    <div class="header-bar-logo">
+                        <a class="logo-link" href="/">
+                            <img class="logo-light" src="/images/logos.ico" width="45">
+                            <span style="color: #FF7C87;">НЕОБМЕЖЕНI МОЖЛИВОСТI</span>
+                        </a>
+                    </div>
+                    <div class="header-bar-menu">
+                        <nav class="navbar-primary">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/">ГЛАВНАЯ</a>
+                                </li>
+                                <li class="nav-item has-drop">
+                                    <a class="nav-link" href="/blog/index">СТАТЬИ</a>
+                                    <ul class="drop-menu left">
+                                        <li class="drop-item">
+                                            <a class="drop-link" href="/blog/index?var=2">ВАРИАНТ 2</a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                <?php if (Yii::$app->user->isGuest): ?>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="modal" data-target="#LoginModal" href="/site/login">ВОЙТИ</a>
+                                    </li>
+
+                                <?php else: ?>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/site/personal">МОЙ ПРОФИЛЬ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/site/logout">ВЫЙТИ</a>
+                                    </li>
+                                <?php endif;?>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="header-bar-featured d-none d-xl-block">
+                        <a class="au-btn au-btn-radius au-btn-primary" href="site/contact">НАПИШИ НАМ</a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container">
-            <!-- Navbar Brand -->
-            <div class="navbar-header d-flex align-items-center justify-content-between">
-                <a href="/"><img class="logo-light" src="/img/logos.ico" width="45"></a>
-                <!-- Navbar Brand -->
-                <!-- Toggle Button-->
-                <button type="button" data-toggle="collapse" data-target="#navbarcollapse" aria-controls="navbarcollapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span></span><span></span><span></span></button>
+        <!-- end header desktop-->
+<?php // TODO починить залипание при скролле ?>
+        <!-- header mobile-->
+        <div class="header-mobile header-fixed d-lg-none">
+            <div class="container-fluid">
+                <div class="header-bar">
+                    <div class="header-bar-logo">
+                        <a class="logo-link" href="/">
+                            <img class="logo-light" src="/images/logos.ico" width="45">
+                            <span>НЕОБМЕЖЕНI МОЖЛИВОСТI</span>
+                        </a>
+                    </div>
+                    <div class="header-bar-menu">
+                        <button class="handler-slidebar hamburger" type="button">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <!-- Navbar Menu -->
-            <div id="navbarcollapse" class="collapse navbar-collapse">
-                <ul class="navbar-nav ml-auto">
-                    <!-- Search-->
-                    <li class="nav-item"><a href="/" class="nav-link animsition-link">Главная</a></li>
-                    <li class="nav-item"><a href="/blog/index" class="nav-link animsition-link">Статьи</a></li>
-                    <?php if (Yii::$app->user->isGuest): ?>
-                        <li class="nav-item"><a href="/site/login" class="nav-link animsition-link">Войти</a></li>
-                        <li class="nav-item"><a href="/site/signup" class="nav-link animsition-link">Регистрация</a></li>
-                    <?php else: ?>
-                        <li class="nav-item"><a href="/site/personal" class="nav-link animsition-link">Личный Кабинет</a></li>
-                        <li class="nav-item"><a href="/site/logout" class="nav-link animsition-link">Выйти</a></li>
-                    <?php endif;?>
-<!--                    <li class="nav-item"><a href="#" class="nav-link animsition-link">About </a></li>-->
-<!--                    <li class="nav-item"><a href="blog.html" class="nav-link animsition-link">Contact</a></li>-->
-                </ul>
-                <div class="navbar-text"><a href="#" class="search-btn"><i class="icon-search-1"></i></a></div>
+            <div class="header-slidebar header-slidebar-primary closed">
+                <div class="header-slidebar-inner">
+                    <div class="box-author">
+                        <a href="/">
+                            <div class="author-image">
+                                <img src="/images/logos.ico" alt="Необмежені можливості">
+                            </div>
+                            <h3 class="author-name">Необмежені можливості</h3>
+                        </a>
+                    </div>
+                    <nav class="navbar-vertical navbar-vertical-white">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">ГЛАВНАЯ</a>
+
+                            </li>
+                            <li class="nav-item has-drop">
+                                <a class="nav-link" href="/blog/index">СТАТЬИ</a>
+                                <ul class="drop-menu left">
+                                    <li class="drop-item">
+                                        <a class="drop-link" href="/blog/index?var=2">ВАРИАНТ 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <?php if (Yii::$app->user->isGuest): ?>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="modal" data-target="#LoginModal" href="/site/login">ВОЙТИ</a>
+                                </li>
+
+                            <?php else: ?>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/site/personal">МОЙ ПРОФИЛЬ</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/site/logout">ВЫЙТИ</a>
+                                </li>
+                            <?php endif;?>
+                        </ul>
+                    </nav>
+                    <?php //TODO  modify mobile footer?>
+                    <div class="slidebar-footer">
+                        <ul class="socials h-list">
+                            <li class="social-item">
+                                <a class="fa fa-envelope" href="#" data-toggle="tooltip" title="Email"></a>
+                            </li>
+                            <li class="social-item">
+                                <a class="fa fa-twitter" href="#" data-toggle="tooltip" title="Twitter"></a>
+                            </li>
+                            <li class="social-item">
+                                <a class="fa fa-dribbble" href="#" data-toggle="tooltip" title="Dribbble"></a>
+                            </li>
+                            <li class="social-item">
+                                <a class="fa fa-linkedin" href="#" data-toggle="tooltip" title="Linkedin"></a>
+                            </li>
+                        </ul>
+                        <p class="fo-copy"> Mika 2018</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </nav>
+        <!-- end header mobile-->
 
-<!--    <div class="container">-->
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
+    </header>
+
         <?= $content ?>
-<!--    </div>-->
 </div>
 
-<footer class="main-footer">
+<footer class="footer footer-primary bg-dark-2 p-t-30 p-b-30">
     <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="logo">
-                    <h6 class="text-white">Bootstrap Blog</h6>
-                </div>
-                <div class="contact-details">
-                    <p>53 Broadway, Broklyn, NY 11249</p>
-                    <p>Телефон: (020) 123 456 789</p>
-                    <p>Email: <a href="mailto:info@company.com">Info@Company.com</a></p>
-                    <ul class="social-menu">
-                        <li class="list-inline-item"><a target="_blank" href="https://www.facebook.com/neobmezheni.mozhlyvosti/"><i class="fa fa-facebook"></i></a></li>
-                        <li class="list-inline-item"><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li class="list-inline-item"><a href="#"><i class="fa fa-instagram"></i></a></li>
-                        <li class="list-inline-item"><a href="#"><i class="fa fa-behance"></i></a></li>
-                        <li class="list-inline-item"><a href="#"><i class="fa fa-pinterest"></i></a></li>
-                    </ul>
-                </div>
+        <div class="row align-items-center">
+            <div class="col-md-6 fo-left">
+                <p class="fo-copy">Mika 2018</p>
             </div>
-            <div class="col-md-4">
-                <div class="menus d-flex">
-                    <ul class="list-unstyled">
-                        <li> <a href="#">Мой Аккаунт</a></li>
-                        <li> <a href="/site/our-partners">Наши партнеры</a></li>
-                        <li> <a href="/site/contact">Pricing</a></li>
-                        <li> <a href="#">Privacy &amp; Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="copyrights">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <p>&copy; Murka 2018. All rights reserved.</p>
-                </div>
-
+            <div class="col-md-6 fo-right">
+                <ul class="socials h-list">
+                    <li class="social-item">
+                        <a class="fa fa-envelope" href="#" data-toggle="tooltip" title="Email"></a>
+                    </li>
+                    <li class="social-item">
+                        <a class="fa fa-twitter" href="#" data-toggle="tooltip" title="Twitter"></a>
+                    </li>
+                    <li class="social-item">
+                        <a class="fa fa-dribbble" href="#" data-toggle="tooltip" title="Dribbble"></a>
+                    </li>
+                    <li class="social-item">
+                        <a class="fa fa-linkedin" href="#" data-toggle="tooltip" title="Linkedin"></a>
+                    </li>
+                    <li class="social-item">
+                        <a class="fa fa-vimeo" href="#" data-toggle="tooltip" title="Vimeo"></a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 </footer>
+
+<?php require_once ('../views/site/modal_template.php');?>
+
 
 <?php $this->endBody() ?>
 </body>
