@@ -19,6 +19,14 @@ function errr($errors)
 }
 ?>
 
+<?php if (Yii::$app->session->hasFlash('success')): ?>
+    <div class="alert alert-success alert-dismissable">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        <h4><i class="icon fa fa-check"></i>Перемога!</h4>
+        <?= Yii::$app->session->getFlash('success') ?>
+    </div>
+<?php endif; ?>
+
 
 <!-- section contact-->
 <section class="section section-contact bg-white p-t-120 p-b-135">

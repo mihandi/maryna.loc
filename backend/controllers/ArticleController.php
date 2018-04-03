@@ -8,11 +8,17 @@ use common\models\ImageUpload;
 use Yii;
 use common\models\Article;
 use common\models\ArticleSearch;
+use yii\base\DynamicModel;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 use yii\web\UploadedFile;
+use yii\imagine\Image;
+use Imagine\Image\Box;
 
 /**
  * ArticleController implements the CRUD actions for Article model.
@@ -165,6 +171,49 @@ class ArticleController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    public function actionUploadPhoto()
+    {
+        if (Yii::$app->request->isPost) {
+            $post = yii::$app->request->post();
+            $article_id = yii::$app->request->get('id');
+            $file_path_to_save = Yii::getAlias( '@backend' ).'/web/elfinder/global/article_'.$article_id;
+
+            $file = UploadedFile::getInstanceByName('file');
+
+            $image = Image::crop(
+                $file->tempName ,
+                    intval($post['w']),
+                    intval($post['h']),
+                    [$post['x'], $post['y']]
+                )->resize(
+                    new Box($post['width'], $post['height'])
+                );
+
+            $jpegQuality = 100;
+            $pngCompressionLevel = 1;
+
+            $saveOptions = ['jpeg_quality' => $jpegQuality, 'png_compression_level' => $pngCompressionLevel];
+
+            if ($image->save($file_path_to_save . 'main.jpg', $saveOptions)) {
+                $article =   Article::findOne($article_id);
+                $article->saveImage('main.jpg');
+//                    $result = $file_path_to_save.'main.jpg';
+                $result = [
+                    'filelink' => Url::base().'/elfinder/global/article_'.$article_id.'main.jpg'
+                ];
+           }else{
+               $result = [
+                   'error' => Yii::t('cropper', 'ERROR_CAN_NOT_UPLOAD_FILE')
+               ];
+           }
+           Yii::$app->response->format = Response::FORMAT_JSON;
+
+            return $result;
+        } else {
+            throw new BadRequestHttpException(Yii::t('cropper', 'ONLY_POST_REQUEST'));
+        }
+    }
+/*
     public function actionSetImage($id)
     {
         if(yii::$app->user->isGuest) {
@@ -172,8 +221,8 @@ class ArticleController extends Controller
         }
 
         $model = new ImageUpload;
+        $article = $this->findModel($id);
         if (Yii::$app->request->isPost) {
-            $article = $this->findModel($id);
             $file = UploadedFile::getInstance($model, 'image');
 
             if ($article->saveImage($model->uploadFile($file, $article->image))) {
@@ -186,32 +235,10 @@ class ArticleController extends Controller
             }
         }
 
-        return $this->render('image', ['model' => $model]);
+        return $this->render('image', ['model' => $model,'article_id' => $article['id']]);
 
     }
-
-    function crop($image, $x_o, $y_o, $w_o, $h_o) {
-        if (($x_o < 0) || ($y_o < 0) || ($w_o < 0) || ($h_o < 0)) {
-            echo "Некорректные входные параметры";
-            return false;
-        }
-        list($w_i, $h_i, $type) = getimagesize($image); // Получаем размеры и тип изображения (число)
-        $types = array("", "gif", "jpeg", "png"); // Массив с типами изображений
-        $ext = $types[$type]; // Зная "числовой" тип изображения, узнаём название типа
-        if ($ext) {
-            $func = 'imagecreatefrom'.$ext; // Получаем название функции, соответствующую типу, для создания изображения
-            $img_i = $func($image); // Создаём дескриптор для работы с исходным изображением
-        } else {
-            echo 'Некорректное изображение'; // Выводим ошибку, если формат изображения недопустимый
-            return false;
-        }
-        if ($x_o + $w_o > $w_i) $w_o = $w_i - $x_o; // Если ширина выходного изображения больше исходного (с учётом x_o), то уменьшаем её
-        if ($y_o + $h_o > $h_i) $h_o = $h_i - $y_o; // Если высота выходного изображения больше исходного (с учётом y_o), то уменьшаем её
-        $img_o = imagecreatetruecolor($w_o, $h_o); // Создаём дескриптор для выходного изображения
-        imagecopy($img_o, $img_i, 0, 0, $x_o, $y_o, $w_o, $h_o); // Переносим часть изображения из исходного в выходное
-        $func = 'image'.$ext; // Получаем функция для сохранения результата
-        return $func($img_o, $image); // Сохраняем изображение в тот же файл, что и исходное, возвращая результат этой операции
-    }
+*/
 
     public function actionSetCategory($id)
     {

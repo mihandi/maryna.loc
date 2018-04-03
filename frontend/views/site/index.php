@@ -5,6 +5,14 @@ $articles = array_chunk($recent,3);
 
 $testemonials = array_chunk([1,2,3,4,5,6],2);
 ?>
+
+<?php if (Yii::$app->session->hasFlash('success')): ?>
+    <div class="alert alert-success alert-dismissable">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        <h4><i class="icon fa fa-check"></i>Перемога!</h4>
+        <?= Yii::$app->session->getFlash('success') ?>
+    </div>
+<?php endif; ?>
 <!-- INTRO-->
 <!-- START REVOLUTION SLIDER-->
 <div class="slide rev_slider_wrapper fullwidthbanner-container">
@@ -165,7 +173,8 @@ $testemonials = array_chunk([1,2,3,4,5,6],2);
     </div>
 </section>
 <!-- end section testimonials-->
-
+<?php
+/*
 <!-- section partner-->
 <section class="section section-partner bg-white p-t-120 p-b-125">
     <div class="container">
@@ -201,46 +210,59 @@ $testemonials = array_chunk([1,2,3,4,5,6],2);
     </div>
 </section>
 <!-- end section partner-->
-
+*/
+?>
 <!-- section contact-->
 <section class="section section-contact bg-dark-1 p-t-120 p-b-135">
     <div class="container">
         <div class="section-inner">
-            <h3 class="section-heading m-b-90">CONTACT ME</h3>
+            <h3 class="section-heading m-b-90">Напишите нам</h3>
             <div class="messages" id="status"></div>
-            <form class="co-form" method="post" action="includes/contact-form.php" name="contact" id="contact-form" role="form">
-                <div class="row co-form-input">
+
+            <form  method="post" action="/site/contact?action=index">
+            <div class="row co-form-input">
                     <div class="col-xl-6 col-lg-12">
                         <div class="input-item">
                             <div class="input-title">
                                 <span class="input-label input-label-white">NAME*</span>
                             </div>
-                            <input class="au-input au-input-white au-input-radius" type="text" id="name" name="name" required>
+                            <input class="au-input au-input-white au-input-radius" type="text" id="name" name="ContactForm[name]" value="<?= $model['name']??''?>" required>
+                            <?php if(isset($model->errors['name'])):?>
+                                <?php errr($model->errors['name']); ?>
+                            <?php endif;?>
                         </div>
                         <div class="input-item">
                             <div class="input-title input-label-white">
                                 <span class="input-label">EMAIL*</span>
                             </div>
-                            <input class="au-input au-input-white au-input-radius" type="email" id="email" name="email" required>
+                            <input class="au-input au-input-white au-input-radius" type="email" id="email" name="ContactForm[email]" value="<?= $model['email']??''?>" required>
+                            <?php if(isset($model->errors['email'])):?>
+                                <?php errr($model->errors['email']); ?>
+                            <?php endif;?>
                         </div>
                         <div class="input-item">
                             <div class="input-title input-label-white">
-                                <span class="input-label">SUBJECT*</span>
+                                <span class="input-label">Тема*</span>
                             </div>
-                            <input class="au-input au-input-white au-input-radius" type="text" id="subject" name="subject" required>
+                            <input class="au-input au-input-white au-input-radius" type="text" id="subject" name="ContactForm[subject]" value="<?= $model['subject']??''?>" required>
+                            <?php if(isset($model->errors['subject'])):?>
+                                <?php errr($model->errors['subject']); ?>
+                            <?php endif;?>
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-12">
                         <div class="input-item">
                             <div class="input-title input-label-white">
-                                <span class="input-label">MESSAGE*</span>
+                                <span class="input-label">Сообщение*</span>
                             </div>
-                            <textarea class="au-input au-input-white au-input-radius" style="height: 230px;" id="msg" name="msg" required></textarea>
+                            <textarea class="au-input au-input-white au-input-radius" style="height: 230px;" id="msg" name="ContactForm[body]" required>
+                                <?= $model['body']??''?>
+                            </textarea>
                         </div>
                     </div>
                 </div>
                 <div class="co-form-btn">
-                    <input class="au-btn au-btn-radius au-btn-primary" type="submit" id="contactBtn" value="SUBMIT">
+                    <input class="au-btn au-btn-radius au-btn-primary" type="submit" value="Отправить">
                 </div>
             </form>
         </div>
