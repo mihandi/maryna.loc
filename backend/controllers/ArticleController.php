@@ -10,8 +10,6 @@ use common\models\Article;
 use common\models\ArticleSearch;
 use yii\base\DynamicModel;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
-use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -93,7 +91,7 @@ class ArticleController extends Controller
         $model = new Article();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-              $create_folder = new ImageUpload();
+            $create_folder = new ImageUpload();
             $create_folder->createFolder($model->id);
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -117,16 +115,16 @@ class ArticleController extends Controller
         if(yii::$app->user->isGuest) {
             return $this->redirect('/site/login');
         }
-            $model = $this->findModel($id);
+        $model = $this->findModel($id);
 
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
 
-            return $this->render('update', [
-                'model' => $model,
-                'categories' => Category::find()->all()
-            ]);
+        return $this->render('update', [
+            'model' => $model,
+            'categories' => Category::find()->all()
+        ]);
 
     }
 
@@ -173,72 +171,54 @@ class ArticleController extends Controller
 
     public function actionSetImage()
     {
-        if (Yii::$app->request->isPost) {
-            $post = yii::$app->request->post();
-            $article_id = yii::$app->request->get('id');
-            $file_path_to_save = Yii::getAlias( '@backend' ).'/web/elfinder/global/article_'.$article_id;
-
-            $file = UploadedFile::getInstanceByName('file');
-
-            $image = Image::crop(
-                $file->tempName ,
-                    intval($post['w']),
-                    intval($post['h']),
-                    [$post['x'], $post['y']]
-                )->resize(
-                    new Box($post['width'], $post['height'])
-                );
-
-            $jpegQuality = 100;
-            $pngCompressionLevel = 1;
-
-            $saveOptions = ['jpeg_quality' => $jpegQuality, 'png_compression_level' => $pngCompressionLevel];
-
-            if ($image->save($file_path_to_save . 'main.jpg', $saveOptions)) {
-                $article =   Article::findOne($article_id);
-                $article->saveImage('main.jpg');
-//                    $result = $file_path_to_save.'main.jpg';
-                $result = [
-                    'filelink' => Url::base().'/elfinder/global/article_'.$article_id.'main.jpg'
-                ];
-           }else{
-               $result = [
-                   'error' => Yii::t('cropper', 'ERROR_CAN_NOT_UPLOAD_FILE')
-               ];
-           }
-           Yii::$app->response->format = Response::FORMAT_JSON;
-
-            return $result;
-        } else {
-            throw new BadRequestHttpException(Yii::t('cropper', 'ONLY_POST_REQUEST'));
-        }
-    }
-/*
-    public function actionSetImage($id)
-    {
         if(yii::$app->user->isGuest) {
             return $this->redirect('/site/login');
         }
+        $id = yii::$app->request->get('id');
 
-        $model = new ImageUpload;
+        $model = new ImageUpload();
         $article = $this->findModel($id);
-        if (Yii::$app->request->isPost) {
-            $file = UploadedFile::getInstance($model, 'image');
+        $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/article_'.$id;
 
-            if ($article->saveImage($model->uploadFile($file, $article->image))) {
-                //TODO crop images
-//                $image_to_crop = $model->getFolder().'/'.$article->image;
-//                if(file_exists($image_to_crop)){
-//                   $this->crop($image_to_crop, 100, 100, 1600, 718);
-//                }
-                return $this->redirect(['view', 'id' => $article->id]);
+        if (Yii::$app->request->isPost) {
+            $post = yii::$app->request->post();
+            $file = UploadedFile::getInstanceByName('file');
+//var_dump($file);die();
+            $model = new DynamicModel(compact('file'));
+            $image = Image::crop(
+                $file->tempName,
+                intval($post['w']),
+                intval($post['h']),
+                [$post['x'], $post['y']]
+            )->resize(
+                new Box($post['width'],$post['height'])
+            );
+//            var_dump($image);die();
+
+            $saveOptions = ['jpeg_quality' => 100, 'png_compression_level' => 1];
+
+            if(!is_dir($path_to_folder)){
+                mkdir($path_to_folder);
             }
+            $imageName = 'main.jpg';
+            if ($image->save($path_to_folder . $imageName, $saveOptions) && $article->saveImage($imageName)) {
+                $result = [
+                    'filelink' => '/elfinder/global/article_'.$id.'main.jpg'
+                ];
+            } else {
+                $result = [
+                    'error' => Yii::t('cropper', 'ERROR_CAN_NOT_UPLOAD_FILE')
+                ];
+            }
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            return $result;
         }
 
         return $this->render('image', ['model' => $model,'article_id' => $article['id']]);
 
     }
-*/
+
 
     public function actionSetCategory($id)
     {

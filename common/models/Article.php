@@ -160,11 +160,11 @@ class Article extends \yii\db\ActiveRecord
 
     public static function getPrevNext($article)
     {
-       $res['prev'] = Yii::$app->db->createCommand(
-           "SELECT id,title FROM article WHERE created_at <:time
+        $res['prev'] = Yii::$app->db->createCommand(
+            "SELECT id,title FROM article WHERE created_at <:time
             ORDER BY created_at DESC LIMIT 1")
-           ->bindValue('time',$article['created_at'])
-           ->queryOne();
+            ->bindValue('time',$article['created_at'])
+            ->queryOne();
 
         $res['next'] = Yii::$app->db->createCommand(
             "SELECT id,title FROM article WHERE created_at >:time
@@ -172,7 +172,7 @@ class Article extends \yii\db\ActiveRecord
             ->bindValue('time',$article['created_at'])
             ->queryOne();
 
-       return $res;
+        return $res;
     }
 
     public static function  getSingle()
@@ -224,7 +224,7 @@ class Article extends \yii\db\ActiveRecord
 
     }
 
-     public static function getPopular($limit = 3)
+    public static function getPopular($limit = 3)
     {
         return  Yii::$app->db->createCommand(
             'SELECT count(cm.id) as \'comments_count\',a.id,a.image,a.title,a.viewed,a.description,a.created_at,u.login, c.id as \'category_id\',c.title as \'category_title\' FROM article a
@@ -316,7 +316,7 @@ class Article extends \yii\db\ActiveRecord
 
     public static function viewedCounter($article_id,$viewed)
     {
-       return $comments['comments'] = Yii::$app->db->createCommand(
+        return $comments['comments'] = Yii::$app->db->createCommand(
             'UPDATE article
                       SET viewed=:viewed
                       WHERE id=:article_id')
