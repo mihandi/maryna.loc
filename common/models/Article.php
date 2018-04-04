@@ -330,8 +330,9 @@ class Article extends \yii\db\ActiveRecord
         $search_line  = yii::$app->request->get('search');
 
         $articles =  Yii::$app->db->createCommand(
-            'SELECT a.id FROM article a
+            'SELECT u.login,a.id FROM article a
                   INNER JOIN category c On a.category_id = c.id
+                  Inner join user u On u.id = a.user_id
                   Left Join comment cm On cm.article_id = a.id
                   WHERE a.title LIKE :search
                   OR a.description LIKE :search OR a.content LIKE :search
@@ -343,8 +344,9 @@ class Article extends \yii\db\ActiveRecord
         $result['pagination'] = new Pagination(['totalCount' =>  $count, 'pageSize'=>2]);
 
         $result['articles'] =  Yii::$app->db->createCommand(
-            'SELECT a.id,a.title,a.image,a.description,a.created_at,c.id as \'category_id\',c.title as \'category\',COUNT(cm.id) as \'comment_count\' FROM article a
+            'SELECT u.login,a.id,a.title,a.image,a.description,a.created_at,c.id as \'category_id\',c.title as \'category\',COUNT(cm.id) as \'comment_count\' FROM article a
                   INNER JOIN category c On a.category_id = c.id
+                  Inner join user u On u.id = a.user_id
                   Left Join comment cm On cm.article_id = a.id
                   WHERE a.title LIKE :search
                   OR a.description LIKE :search OR a.content LIKE :search
@@ -354,9 +356,6 @@ class Article extends \yii\db\ActiveRecord
             ->bindValue('offset',$result['pagination']->offset)
             ->bindValue('limit',$result['pagination']->limit)
             ->queryAll();
-
-
-
 
         return $result;
     }

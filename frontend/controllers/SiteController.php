@@ -141,7 +141,7 @@ class SiteController extends Controller
                 $create_folder->createUserFolder(yii::$app->user->id);
 
                 move_uploaded_file($_FILES['file']['tmp_name'],
-                    Yii::getAlias( '@backend' ).'/web/elfinder/users/user_'.yii::$app->user->id.'/user_logo.jpg');
+                    Yii::getAlias( '@backend' ).'/web/elfinder/global/users/user_'.yii::$app->user->id.'/user_logo.jpg');
             }
         }
 

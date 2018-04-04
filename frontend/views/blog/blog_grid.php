@@ -18,6 +18,9 @@ $articles_path = '/blog/article?id=';
     <div class="container">
         <div class="row">
             <div class="col-lg-9">
+                <?php if(!$articles):?>
+                <h>kek</h>
+                <?php endif;?>
                 <section class="section-blog-wide-list page-col-one">
                     <div class="blog-wide-list p-t-100 p-b-135">
                         <?php foreach ($articles as $article): ?>
@@ -38,7 +41,7 @@ $articles_path = '/blog/article?id=';
                                 </a>
                             </figure>
                             <div class="bw-body m-b-30">
-                                <p class="bw-text"><?= $article['description']?></p>
+                                <p class="bw-text"><?= substr($article['description'],0,600)?></p>
                                 <a class="read-more" href="<?= $articles_path.$article['id']?>">ПРОДОЛЖИТЬ ЧТЕНИЕ</a>
                             </div>
                             <div class="bw-footer">

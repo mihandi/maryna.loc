@@ -116,7 +116,7 @@ class BlogController extends Controller
         return $this->render('blog_grid', [
             'pagination' => $search_result['pagination'],
             'articles' => $search_result['articles'],
-            'recent' => Article::getRecent(),
+            'popular_articles' => Article::getPopular(),
             'categories' => Article::getCategories(),
         ]);
     }
