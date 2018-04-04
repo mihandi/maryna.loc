@@ -171,9 +171,18 @@ class SiteController extends Controller
 
         $model = new ContactForm();
 
+
+
        if ($model->load(Yii::$app->request->post()) && $model->validate()){
            $model->sendEmail('adrej997@gmail.com');
-           return $this->goHome();
+           Yii::$app->session->setFlash('success', "Ваше сообщение успешно отправлено");
+           if(Yii::$app->request->get('action') == 'index'){
+               return $this->goHome();
+           }else {
+               return $this->render('contact');
+           }
+       }else{
+           return $this->render('contact',['model' => $model]);
        }
 
         return $this->render('contact',['model' => $model]);

@@ -171,7 +171,7 @@ class ArticleController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionUploadPhoto()
+    public function actionSetImage()
     {
         if (Yii::$app->request->isPost) {
             $post = yii::$app->request->post();

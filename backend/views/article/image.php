@@ -19,7 +19,7 @@ $route = '/article/upload-photo?id='.$article_id;
 <?php $form = ActiveForm::begin(); ?>
 <?php echo $form->field($model, 'image')->widget(Widget::className(), [
     'uploadUrl' => Url::toRoute($route),
-    'width' => 400,
-    'height'=> 200
+    'width' => 1600,
+    'height'=> 718
 ]) ?>
 <?php ActiveForm::end(); ?>
