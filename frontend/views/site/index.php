@@ -224,7 +224,7 @@ $testemonials = array_chunk([1,2,3,4,5,6],2);
                     <div class="col-xl-6 col-lg-12">
                         <div class="input-item">
                             <div class="input-title">
-                                <span class="input-label input-label-white">NAME*</span>
+                                <span class="input-label input-label-white">Ваше имя*</span>
                             </div>
                             <input class="au-input au-input-white au-input-radius" type="text" id="name" name="ContactForm[name]" value="<?= isset($model['name'])?$model['name']:''?>" required>
                             <?php if(isset($model->errors['name'])):?>
@@ -233,7 +233,7 @@ $testemonials = array_chunk([1,2,3,4,5,6],2);
                         </div>
                         <div class="input-item">
                             <div class="input-title input-label-white">
-                                <span class="input-label">EMAIL*</span>
+                                <span class="input-label">Ваш email*</span>
                             </div>
                             <input class="au-input au-input-white au-input-radius" type="email" id="email" name="ContactForm[email]" value="<?= isset($model['email'])?$model['email']:''?>" required>
                             <?php if(isset($model->errors['email'])):?>
@@ -242,7 +242,7 @@ $testemonials = array_chunk([1,2,3,4,5,6],2);
                         </div>
                         <div class="input-item">
                             <div class="input-title input-label-white">
-                                <span class="input-label">Тема*</span>
+                                <span class="input-label">Тема сообщения*</span>
                             </div>
                             <input class="au-input au-input-white au-input-radius" type="text" id="subject" name="ContactForm[subject]" value="<?= isset($model['subject'])? $model['subject']:''?>" required>
                             <?php if(isset($model->errors['subject'])):?>

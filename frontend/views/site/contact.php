@@ -39,7 +39,7 @@ function errr($errors)
                     <div class="col-lg-6">
                         <div class="input-item">
                             <div class="input-title">
-                                <span class="input-label">Имя</span>
+                                <span class="input-label">Ваше имя</span>
                             </div>
                             <input class="au-input au-input-border-light au-input-radius" type="text" id="name" name="ContactForm[name]" value="<?= isset($model['name'])?$model['name']:''?>" >
                             <?php if(isset($model->errors['name'])):?>
@@ -48,7 +48,7 @@ function errr($errors)
                         </div>
                         <div class="input-item">
                             <div class="input-title">
-                                <span class="input-label">EMAIL*</span>
+                                <span class="input-label">Ваш email*</span>
                             </div>
                             <input class="au-input au-input-border-light au-input-radius" type="email" id="email" name="ContactForm[email]" value="<?= isset($model['email'])?$model['email']:''?>" >
                             <?php if(isset($model->errors['email'])):?>
@@ -57,7 +57,7 @@ function errr($errors)
                         </div>
                         <div class="input-item">
                             <div class="input-title">
-                                <span class="input-label">Тема*</span>
+                                <span class="input-label">Тема cообщения*</span>
                             </div>
                             <input class="au-input au-input-border-light au-input-radius" type="text" id="subject" name="ContactForm[subject]" value="<?= isset($model['subject'])?$model['subject']:''?>" >
                             <?php if(isset($model->errors['subject'])):?>
