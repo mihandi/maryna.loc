@@ -11,7 +11,7 @@ function err($errors)
     <form method="post" action="/site/login" id="form_to_login">
         <div class="form-group">
             <label  class="form-control-label">Логин:</label>
-            <input type="text" class="form-control" name="LoginForm[login]" id="login" value="<?= $model['login']??''?>">
+            <input type="text" class="form-control" name="LoginForm[login]" id="login" value="<?= isset($model['login'])?$model['login']:''?>">
             <?php if(isset($model->errors['login'])):?>
                 <?php err($model->errors['login']); ?>
             <?php endif;?>

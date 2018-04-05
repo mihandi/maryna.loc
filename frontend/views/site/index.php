@@ -226,7 +226,7 @@ $testemonials = array_chunk([1,2,3,4,5,6],2);
                             <div class="input-title">
                                 <span class="input-label input-label-white">NAME*</span>
                             </div>
-                            <input class="au-input au-input-white au-input-radius" type="text" id="name" name="ContactForm[name]" value="<?= $model['name']??''?>" required>
+                            <input class="au-input au-input-white au-input-radius" type="text" id="name" name="ContactForm[name]" value="<?= isset($model['name'])?$model['name']:''?>" required>
                             <?php if(isset($model->errors['name'])):?>
                                 <?php errr($model->errors['name']); ?>
                             <?php endif;?>
@@ -235,7 +235,7 @@ $testemonials = array_chunk([1,2,3,4,5,6],2);
                             <div class="input-title input-label-white">
                                 <span class="input-label">EMAIL*</span>
                             </div>
-                            <input class="au-input au-input-white au-input-radius" type="email" id="email" name="ContactForm[email]" value="<?= $model['email']??''?>" required>
+                            <input class="au-input au-input-white au-input-radius" type="email" id="email" name="ContactForm[email]" value="<?= isset($model['email'])?$model['email']:''?>" required>
                             <?php if(isset($model->errors['email'])):?>
                                 <?php errr($model->errors['email']); ?>
                             <?php endif;?>
@@ -244,7 +244,7 @@ $testemonials = array_chunk([1,2,3,4,5,6],2);
                             <div class="input-title input-label-white">
                                 <span class="input-label">Тема*</span>
                             </div>
-                            <input class="au-input au-input-white au-input-radius" type="text" id="subject" name="ContactForm[subject]" value="<?= $model['subject']??''?>" required>
+                            <input class="au-input au-input-white au-input-radius" type="text" id="subject" name="ContactForm[subject]" value="<?= isset($model['subject'])? $model['subject']:''?>" required>
                             <?php if(isset($model->errors['subject'])):?>
                                 <?php errr($model->errors['subject']); ?>
                             <?php endif;?>
@@ -256,7 +256,7 @@ $testemonials = array_chunk([1,2,3,4,5,6],2);
                                 <span class="input-label">Сообщение*</span>
                             </div>
                             <textarea class="au-input au-input-white au-input-radius" style="height: 230px;" id="msg" name="ContactForm[body]" required>
-                                <?= $model['body']??''?>
+                                <?= isset($model['body'])? $model['body']:''?>
                             </textarea>
                         </div>
                     </div>

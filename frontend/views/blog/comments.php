@@ -78,7 +78,7 @@
         <p class="leave-comment-pane-notify">You must be logged in to post a comment.</p>
     </div>
     <div class="leave-comment-pane-body">
-        <form class="leave-comment-pane-form" method="post">
+        <form class="leave-comment-pane-form" method="post" id="leave_comment">
             <div class="form-group input-item">
                 <input type="hidden" name="Comment[parent_id]" id="parent_id" value="">
                 <input type="hidden" name="Comment[article_id]"  value="<?= $article['id']?>">
@@ -95,7 +95,7 @@
 <script>
     // A $( document ).ready() block.
     $( document ).ready(function() {
-        $( "form" ).submit(function( event ) {
+        $( "leave_comment" ).submit(function( event ) {
             event.preventDefault();
             $.ajax({
                 type: $(this).attr('method'),

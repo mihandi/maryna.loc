@@ -41,7 +41,7 @@ function errr($errors)
                             <div class="input-title">
                                 <span class="input-label">Имя</span>
                             </div>
-                            <input class="au-input au-input-border-light au-input-radius" type="text" id="name" name="ContactForm[name]" value="<?= $model['name']??''?>" >
+                            <input class="au-input au-input-border-light au-input-radius" type="text" id="name" name="ContactForm[name]" value="<?= isset($model['name'])?$model['name']:''?>" >
                             <?php if(isset($model->errors['name'])):?>
                                 <?php errr($model->errors['name']); ?>
                             <?php endif;?>
@@ -50,7 +50,7 @@ function errr($errors)
                             <div class="input-title">
                                 <span class="input-label">EMAIL*</span>
                             </div>
-                            <input class="au-input au-input-border-light au-input-radius" type="email" id="email" name="ContactForm[email]" value="<?= $model['email']??''?>" >
+                            <input class="au-input au-input-border-light au-input-radius" type="email" id="email" name="ContactForm[email]" value="<?= isset($model['email'])?$model['email']:''?>" >
                             <?php if(isset($model->errors['email'])):?>
                                 <?php errr($model->errors['email']); ?>
                             <?php endif;?>
@@ -59,7 +59,7 @@ function errr($errors)
                             <div class="input-title">
                                 <span class="input-label">Тема*</span>
                             </div>
-                            <input class="au-input au-input-border-light au-input-radius" type="text" id="subject" name="ContactForm[subject]" value="<?= $model['subject']??''?>" >
+                            <input class="au-input au-input-border-light au-input-radius" type="text" id="subject" name="ContactForm[subject]" value="<?= isset($model['subject'])?$model['subject']:''?>" >
                             <?php if(isset($model->errors['subject'])):?>
                                 <?php errr($model->errors['subject']); ?>
                             <?php endif;?>
@@ -71,7 +71,7 @@ function errr($errors)
                                 <span class="input-label">Сообщение*</span>
                             </div>
                             <textarea class="au-input au-input-border-light au-input-radius" style="height: 230px;" id="msg" name="ContactForm[body]" >
-                                <?= $model['body']??''?>
+                                <?= isset($model['body'])?$model['body']:''?>
                             </textarea>
                             <?php if(isset($model->errors['body'])):?>
                                 <?php errr($model->errors['body']); ?>
