@@ -85,9 +85,17 @@
                 <input type="hidden" name="Comment[user_id]" value="<?= YII::$app->user->id?>">
                 <textarea class="au-input au-input-border au-input-radius" name="Comment[text]" id="comment_form" placeholder="Ваш комментарий..."></textarea>
             </div>
-            <div class="input-submit">
-                <input class="au-btn au-btn-primary au-btn-pill au-btn-shadow" type="submit"  value="Опубликовать">
-            </div>
+            <?php if (Yii::$app->user->isGuest): ?>
+                <h3 class="leave-comment-pane-title">ВОЙДИТЕ ЧТОБЫ ОСТАВИТЬ КОММЕНТАРИЙ</h3>
+                <div >
+                    <a class="au-btn au-btn-primary au-btn-pill au-btn-shadow" data-toggle="modal" data-target="#LoginModal" href="/site/login">ВОЙТИ</a>
+                 </div>
+            <?php else: ?>
+                <div class="input-submit">
+                    <input class="au-btn au-btn-primary au-btn-pill au-btn-shadow" type="submit"  value="Опубликовать">
+                </div>
+            <?php endif;?>
+
         </form>
     </div>
 </div>
