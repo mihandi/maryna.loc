@@ -175,6 +175,7 @@ class SiteController extends Controller
 
        if ($model->load(Yii::$app->request->post()) && $model->validate()){
            $model->sendEmail('adrej997@gmail.com');
+//           todo change email for organization email
            Yii::$app->session->setFlash('success', "Ваше сообщение успешно отправлено");
            if(Yii::$app->request->get('action') == 'index'){
                return $this->goHome();

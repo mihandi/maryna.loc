@@ -29,7 +29,8 @@ class BlogController extends Controller
                 'articles' => $data['article'],
                 'count' => $data['count'],
                 'popular_articles' => Article::getPopular(),
-                'categories' => Article::getCategories()
+                'categories' => Article::getCategories(),
+                'months' => Article::getArchive()
 
 
             ]);
@@ -52,6 +53,7 @@ class BlogController extends Controller
                 'articles' => $data['article'],
                 'popular_articles' => Article::getPopular(),
                 'categories' => Article::getCategories(),
+                'months' => Article::getArchive(),
             ]);
         }
     }
@@ -103,7 +105,8 @@ class BlogController extends Controller
             'categories' => Article::getCategories(),
             'comments' => $data['comments'],
             'popular_articles' => Article::getPopular(),
-            'gallery' => Article::getGallery()
+            'gallery' => Article::getGallery(),
+            'months' => Article::getArchive(),
         ]);
 
 
