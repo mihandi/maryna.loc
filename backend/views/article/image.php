@@ -11,13 +11,17 @@ use budyaga\cropper\Widget;
 $route = "article/set-image?id=$article_id";
 ?>
 
+<a class="btn btn-default" href="/article/view?id=<?=$article_id?>">Return</a>
 
-<a class="btn btn-success" href="/article/view?id=<?=$article_id?>">Save Image</a>
+<a class="btn btn-success" href="/article/view?id=<?=$article_id?>&saveImage=1">Save Image</a>
+
+
+
 <?php $form = ActiveForm::begin(['id' => 'form-profile']); ?>
 <?php echo $form->field($model, 'image')->widget(Widget::className(), [
     'uploadUrl' => Url::toRoute($route),
     'width' => 1600,
-    'height' => 718
+    'height' => 718,
 ]) ?>
 <?php ActiveForm::end(); ?>
 

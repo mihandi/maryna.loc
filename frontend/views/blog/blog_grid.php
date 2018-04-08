@@ -18,11 +18,11 @@ $articles_path = '/blog/article?id=';
     <div class="container">
         <div class="row">
             <div class="col-lg-9">
-                <?php if(!$articles):?>
-                <h>kek</h>
-                <?php endif;?>
                 <section class="section-blog-wide-list page-col-one">
                     <div class="blog-wide-list p-t-100 p-b-135">
+                        <?php if(!$articles):?>
+                        <h4 class="lw-title">По вашему запросу ничего не найдено. Попробуйте еще раз.</h4>
+                        <?php endif;?>
                         <?php foreach ($articles as $article): ?>
                              <article class="box-blog-wide">
                             <header class="bw-header m-b-30">

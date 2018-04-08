@@ -57,6 +57,8 @@ $category_path =  '/blog/index?category_id='.$article['category_id'];
                             <p class="post-paragraph">
                                <?= $article['content']?>
                             </p>
+                            <?php require_once ('gallery.php');?>
+
                         </div>
                         <footer class="post-footer">
                             <div class="flex-bar d-md-flex align-items-start justify-content-lg-between m-b-40">

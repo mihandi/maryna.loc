@@ -11,7 +11,7 @@ class ImageUpload extends Model{
     {
         return [
             [['image'], 'required'],
-            [['image'], 'file', 'extensions' => 'jpg,png']
+            [['image'], 'file', 'extensions' => 'jpg,png,jpeg,JPG,JPEG']
         ];
     }
 
@@ -27,7 +27,7 @@ class ImageUpload extends Model{
 
     public function getFolder()
     {
-            $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/article_'.yii::$app->request->get('id');
+        $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/article_'.yii::$app->request->get('id');
         if(!is_dir($path_to_folder)){
            mkdir($path_to_folder);
         }
@@ -81,7 +81,7 @@ class ImageUpload extends Model{
 
   public function createUserFolder($user_id)
     {
-        $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/users/user_'.$user_id;
+        $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/users/user_'.$user_id;
         if(!is_dir($path_to_folder)){
             mkdir($path_to_folder);
         }

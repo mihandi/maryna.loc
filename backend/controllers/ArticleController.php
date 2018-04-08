@@ -67,12 +67,27 @@ class ArticleController extends Controller
      */
     public function actionView($id)
     {
+
         if(yii::$app->user->isGuest) {
             return $this->redirect('/site/login');
         }
 
+        $model =  $this->findModel($id);
+        $path_to_Cropped_image = Yii::getAlias( '@backend' ).'/web/elfinder/global/article_'.$id.'/main-cropped.jpg';
+        $path_to_art_dir = Yii::getAlias( '@backend' ).'/web/elfinder/global/article_'.$id.'/';
+        if (isset($_GET['saveImage']) && $_GET['saveImage'] == 1)
+        {
+            $model->saveImage('main.jpg');
+            rename($path_to_Cropped_image,
+                $path_to_art_dir.'main.jpg');
+        }elseif(file_exists($path_to_Cropped_image) ){
+            unlink($path_to_Cropped_image);
+        }
+
+
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
 
     }
@@ -174,10 +189,15 @@ class ArticleController extends Controller
         if(yii::$app->user->isGuest) {
             return $this->redirect('/site/login');
         }
+
+
         $id = yii::$app->request->get('id');
 
-        $model = new ImageUpload();
         $article = $this->findModel($id);
+        $model = new ImageUpload();
+        if($article->image) {
+            $model->image = '/elfinder/global/article_' . $id . '/' . $article->image;
+        }
         $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/article_'.$id;
 
         if (Yii::$app->request->isPost) {
@@ -200,10 +220,10 @@ class ArticleController extends Controller
             if(!is_dir($path_to_folder)){
                 mkdir($path_to_folder);
             }
-            $imageName = 'main.jpg';
-            if ($image->save($path_to_folder . $imageName, $saveOptions) && $article->saveImage($imageName)) {
+            $imageName = 'main-cropped.jpg';
+            if ($image->save($path_to_folder . $imageName, $saveOptions)) {
                 $result = [
-                    'filelink' => '/elfinder/global/article_'.$id.'main.jpg'
+                    'filelink' => '/elfinder/global/article_'.$id.$imageName
                 ];
             } else {
                 $result = [
