@@ -78,8 +78,10 @@ class ArticleController extends Controller
         if (isset($_GET['saveImage']) && $_GET['saveImage'] == 1)
         {
             $model->saveImage('main.jpg');
-            rename($path_to_Cropped_image,
-                $path_to_art_dir.'main.jpg');
+            if(file_exists($path_to_Cropped_image) ) {
+                rename($path_to_Cropped_image,
+                    $path_to_art_dir.'main.jpg');
+            }
         }elseif(file_exists($path_to_Cropped_image) ){
             unlink($path_to_Cropped_image);
         }
