@@ -252,6 +252,7 @@ class Article extends \yii\db\ActiveRecord
 
     public static function getGallery()
     {
+        $result = [];
         $id  = yii::$app->request->get('id');
         $dir = Yii::getAlias( '@backend' ).'/web/elfinder/global/article_'.$id;
 

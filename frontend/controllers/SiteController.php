@@ -162,7 +162,7 @@ class SiteController extends Controller
         return $this->render('personal',[
             'user' => $user,
             'popular_articles' => Article::getPopular(),
-
+            'months' => Article::getArchive(),
             'categories' => Article::getCategories(),
         ]);
     }

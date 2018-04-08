@@ -47,12 +47,12 @@ $testemonials = array_chunk([1,2,3,4,5,6],2);
                         Ціль організації "Необмежені можливості" спонукати до створення рівних прав та можливосткй
                         людей з інвалідністю з іншими громадянами України.
                     </p>
-                    <div class="ab-sign">
-                        <img src="images/icons/sign-01.png" alt="Sign">
-                    </div>
-                    <div class="ab-btn">
-                        <a class="au-btn au-btn-border au-btn-radius wow zoomIn" href="#">DOWNLOAD CV</a>
-                    </div>
+<!--                    <div class="ab-sign">-->
+<!--                        <img src="images/icons/sign-01.png" alt="Sign">-->
+<!--                    </div>-->
+<!--                    <div class="ab-btn">-->
+<!--                        <a class="au-btn au-btn-border au-btn-radius wow zoomIn" href="#">DOWNLOAD CV</a>-->
+<!--                    </div>-->
                 </div>
             </div>
         </article>
