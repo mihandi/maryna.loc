@@ -3,7 +3,13 @@ $articles_path = '/blog/article?id=';
 $articles_image_path = '/elfinder/global/article_';
 $articles = array_chunk($recent,3);
 
-$testemonials = array_chunk([1,2,3,4,5,6],2);
+$testemonials = array_chunk([
+    ['name' => 'Юля Емельяненко','testemonial' => 'Благодаря этой организации я стала иначе смотреть на мир и бла бла бла бла бла блабла бла бла ','city' => 'Донецк'],
+    ['name' => 'Юля Емельяненко','testemonial' => 'Благодаря этой организации я стала иначе смотреть на мир ты ебла бла блабла бла блабла бла бла','city' => 'Донецк'],
+    ['name' => 'Юля Емельяненко','testemonial' => 'Благодаря этой организации я стала иначе смотреть на мир ты ебла бла блабла бла блабла бла бла','city' => 'Донецк'],
+    ['name' => 'Юля Емельяненко','testemonial' => 'Благодаря этой организации я стала иначе смотреть на  ты ебла бла блабла бла блабла бла бла','city' => 'Донецк'],
+    ['name' => 'Юля Емельяненко','testemonial' => 'Благодаря этой организации я стала иначе смотреть на ты ебла бла блабла бла блабла бла бламир','city' => 'Донецк'],
+    ['name' => 'Юля Емельяненко','testemonial' => 'Благодаря этой организации я стала иначе смотреть на ты ебла бла блабла бла блабла бла бламир','city' => 'Донецк'],],2);
 ?>
 
 <?php if (Yii::$app->session->hasFlash('success')): ?>
@@ -72,25 +78,25 @@ $testemonials = array_chunk([1,2,3,4,5,6],2);
                 <li class="col-md-3 col-sm-6">
                     <div class="box box-number">
                         <span class="number counterUp">69</span>
-                        <span class="title">PROJECTS</span>
+                        <span class="title">Мероприятий</span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6">
                     <div class="box box-number">
                         <span class="number counterUp">12</span>
-                        <span class="title">DESIGN AWARDS</span>
+                        <span class="title">Баллов по физике</span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6">
                     <div class="box box-number">
                         <span class="number counterUp">7918</span>
-                        <span class="title">WORKING HOURS</span>
+                        <span class="title">Попаданий накатом справа</span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6">
                     <div class="box box-number">
                         <span class="number counterUp">896</span>
-                        <span class="title">COFFEE</span>
+                        <span class="title">Проданный Владом чашек кофе</span>
                     </div>
                 </li>
             </ul>
@@ -115,7 +121,7 @@ $testemonials = array_chunk([1,2,3,4,5,6],2);
                                     <figure class="box-figure">
     <!--                                    --><?//= var_dump($articles_image_path.$article['id'].'/'.$article['image']);die();?>
                                         <a href="<?= $articles_path.$article['id']?>">
-                                            <img class="box-image blog-image" src="<?= $articles_image_path.$article['id'].'/'.$article['image']?>" alt="MOBILE FIRST &amp; RESPONSIVE" />
+                                            <img class="box-image blog-image" src="<?= $articles_image_path.$article['id'].'/'.$article['image']?>" alt="<?= $article['title']?>" />
                                         </a>
                                     </figure>
                                     <header class="box-header">
@@ -153,14 +159,12 @@ $testemonials = array_chunk([1,2,3,4,5,6],2);
                                 <article class="box-primary box-testi">
                                     <figure class="box-figure">
                                         <a href="#">
-                                            <img class="box-image testi-image" src="images/avatar-01.jpg" alt="CRYSTAL ELLIOTT, ENVATO" />
+                                            <img class="box-image testi-image" src="images/avatar-01.jpg" alt="<?= $testemonial['name']?>,<?= $testemonial['city']?>" />
                                         </a>
                                     </figure>
                                     <div class="box-body">
-                                        <p class="box-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sapien augue, dictum et gravida et, viverra et est. Phasellus accumsan dapibus nunc quis gravida. Nam quis purus erat. Suspendisse convallis molestie
-                                            ullamcorper
-                                        </p>
-                                        <p class="box-title testi-title">CRYSTAL ELLIOTT, ENVATO</p>
+                                        <p class="box-text"><?= $testemonial['testemonial']?></p>
+                                        <p class="box-title testi-title"><?= $testemonial['name']?>,<?= $testemonial['city']?></p>
                                     </div>
                                 </article>
                             </div>
