@@ -4600,7 +4600,7 @@ ul.list-reset {
 }
 
 .header-slidebar-primary {
-  background: #FF7C87;
+  background: #999999;
 }
 
 .header-slidebar-primary .box-author .author-name {
@@ -6347,4 +6347,19 @@ section.gallery .overlay i {
   transition: all 0.5s;
   opacity: 0;
   font-size: 2em;
+}
+
+
+html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+.wrap {
+  flex: 1 0 auto;
+}
+.footer {
+  flex-shrink: 0;
 }
