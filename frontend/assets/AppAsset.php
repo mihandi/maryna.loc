@@ -26,7 +26,9 @@ class AppAsset extends AssetBundle
         "vendor/revolution/css/layers.css",
         "vendor/revolution/css/navigation.css",
         "vendor/revolution/css/settings.css",
-         "css/theme.css"
+         "css/theme.css",
+        "https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.0/jquery.fancybox.min.css",
+//        "css/jquery.fancybox.css"
 
 
     ];
@@ -46,7 +48,8 @@ class AppAsset extends AssetBundle
         "vendor/revolution/js/jquery.themepunch.revolution.min.js",
         "js/config-revolution-slider.min.js",
         "js/config-contact.js",
-        "js/global.js"
+        "js/global.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.0/jquery.fancybox.min.js"
 
 
 

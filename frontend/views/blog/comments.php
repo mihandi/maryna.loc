@@ -103,7 +103,7 @@
 <script>
     // A $( document ).ready() block.
     $( document ).ready(function() {
-        $( "leave_comment" ).submit(function( event ) {
+        $("#leave_comment" ).submit(function( event ) {
             event.preventDefault();
             $.ajax({
                 type: $(this).attr('method'),
