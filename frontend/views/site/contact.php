@@ -70,9 +70,7 @@ function errr($errors)
                             <div class="input-title">
                                 <span class="input-label">Сообщение*</span>
                             </div>
-                            <textarea class="au-input au-input-border-light au-input-radius" style="height: 230px;" id="msg" name="ContactForm[body]" >
-                                <?= isset($model['body'])?$model['body']:''?>
-                            </textarea>
+                            <textarea class="au-input au-input-border-light au-input-radius" style="height: 230px;" id="msg" name="ContactForm[body]" ><?= isset($model['body'])?$model['body']:''?></textarea>
                             <?php if(isset($model->errors['body'])):?>
                                 <?php errr($model->errors['body']); ?>
                             <?php endif;?>

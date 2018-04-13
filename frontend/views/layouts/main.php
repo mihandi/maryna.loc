@@ -77,7 +77,7 @@ AppAsset::register($this);
             </div>
         </div>
         <!-- end header desktop-->
-<?php // TODO починить залипание при скролле ?>
+<?php  ?>
         <!-- header mobile-->
         <div class="header-mobile header-fixed d-lg-none">
             <div class="container-fluid">
@@ -85,7 +85,7 @@ AppAsset::register($this);
                     <div class="header-bar-logo">
                         <a class="logo-link" href="/">
                             <img class="logo-light" src="/images/logos.ico" width="45">
-                            <span>НЕОБМЕЖЕНI МОЖЛИВОСТI</span>
+                            <span style="color: #FF7C87;">НЕОБМЕЖЕНI МОЖЛИВОСТI</span>
                         </a>
                     </div>
                     <div class="header-bar-menu">
@@ -137,7 +137,7 @@ AppAsset::register($this);
                         </ul>
                     </nav>
                     <?php //TODO  modify mobile footer?>
-                    <div class="slidebar-footer">
+                    <div class="slidebar-footer" >
                         <ul class="socials h-list">
                             <li class="social-item">
                                 <a class="fa fa-envelope" href="#" data-toggle="tooltip" title="Email"></a>
@@ -164,7 +164,7 @@ AppAsset::register($this);
         <?= $content ?>
 </div>
 
-<footer class="footer footer-primary bg-dark-2 p-t-30 p-b-30">
+<footer class="footer footer-primary bg-dark-2 p-t-30 p-b-30" >
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6 fo-left">
