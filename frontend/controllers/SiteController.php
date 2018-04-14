@@ -3,7 +3,9 @@ namespace frontend\controllers;
 
 use common\models\Article;
 use common\models\ImageUpload;
+use Imagine\Imagick\Image;
 use Yii;
+use yii\base\DynamicModel;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -14,6 +16,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\Response;
 use yii\web\UploadedFile;
 use common\models\User;
 
@@ -123,7 +126,7 @@ class SiteController extends Controller
         }
     }
 
-   public function actionPersonal()
+    public function actionPersonal()
     {
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
@@ -131,19 +134,6 @@ class SiteController extends Controller
 
         $user = User::findOne(yii::$app->user->id);
 
-        if(yii::$app->request->isAjax) {
-
-            if ( (0 < $_FILES['file']['error']) || is_bool(strripos($_FILES['file']['type'],'image'))  )
-            {
-                echo 'Error: ' . $_FILES['file']['error'] . '<br>';
-            } else {
-                $create_folder = new ImageUpload();
-                $create_folder->createUserFolder(yii::$app->user->id);
-
-                move_uploaded_file($_FILES['file']['tmp_name'],
-                    Yii::getAlias( '@backend' ).'/web/elfinder/global/users/user_'.yii::$app->user->id.'/user_logo.jpg');
-            }
-        }
 
         if ($user->load(Yii::$app->request->post())) {
             
@@ -165,6 +155,60 @@ class SiteController extends Controller
             'months' => Article::getArchive(),
             'categories' => Article::getCategories(),
         ]);
+    }
+
+    public function actionSetImage()
+    {
+        if(yii::$app->user->isGuest) {
+            return $this->redirect('/site/login');
+        }
+
+        $id = yii::$app->user->id;
+
+        $user = User::findOne($id);
+        $model = new ImageUpload();
+        if($user->image) {
+            $model->image = '/elfinder/global/user_' . $id . '/' . $user->image;
+        }
+        $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/user_'.$id;
+
+        if (Yii::$app->request->isPost) {
+            $post = yii::$app->request->post();
+            $file = UploadedFile::getInstanceByName('file');
+//var_dump($file);die();
+            $model = new DynamicModel(compact('file'));
+            $image = Image::crop(
+                $file->tempName,
+                intval($post['w']),
+                intval($post['h']),
+                [$post['x'], $post['y']]
+            )->resize(
+                new Box($post['width'],$post['height'])
+            );
+//            var_dump($image);die();
+
+            $saveOptions = ['jpeg_quality' => 100, 'png_compression_level' => 1];
+
+            if(!is_dir($path_to_folder)){
+                mkdir($path_to_folder);
+            }
+            $imageName = 'user-logo.jpg';
+            if ($image->save($path_to_folder . $imageName, $saveOptions)) {
+                $result = [
+                    'filelink' => '/elfinder/global/user_'.$id.$imageName
+                ];
+            } else {
+                $result = [
+                    'error' => Yii::t('cropper', 'ERROR_CAN_NOT_UPLOAD_FILE')
+                ];
+            }
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            return $result;
+        }
+
+        return $this->render('image', ['model' => $model,'article_id' => $article['id']]);
+
     }
 
    public function actionContact(){
