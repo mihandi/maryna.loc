@@ -10,11 +10,11 @@ use yii\widgets\ActiveForm;
 
 $this->title = 'Личный кабинет';
 
-$user_image = Yii::getAlias( '@backend' ).'/web/elfinder/users/user_'.yii::$app->user->id.'/user_logo.jpg'
-    ?'/admin/elfinder/users/user_'.yii::$app->user->id.'/user_logo.jpg'
-    :'/admin/elfinder/global/no-img.jpg';
+$user_image = Yii::getAlias( '@backend' ).'/web/elfinder/global/users/user_'.Yii::$app->user->id.'/user-logo.jpg'
+    ?'/elfinder/global/users/user_'.Yii::$app->user->id.'/user-logo.jpg'
+    :'/elfinder/global/no-img.jpg';
 
-
+$user->image = $user_image;
 $route = "/site/set-image";
 
 ?>
@@ -118,14 +118,14 @@ $route = "/site/set-image";
             <div class="col-lg-9">
                 <?php $form = ActiveForm::begin(['id' => 'form-profile']); ?>
                 <div class="row">
-                        <div class="col-lg-6 col-md-6">
+                        <div class="col-lg-6 col-md-6 ">
                             <?php echo $form->field($user, 'image')->widget(Widget::className(), [
                                 'uploadUrl' => Url::toRoute($route),
                                 'width' => 1600,
                                 'height' => 718,
                             ]) ?>
                         </div>
-                    <div class="col-lg-3 col-md-2" style="margin-top: 8%">
+                    <div class="col-lg-6 col-md-6 ">
                         <?= $form->field($user, 'login')->textInput() ?>
                         <?= $form->field($user, 'email')->textInput() ?>
                         <?= $form->field($user, 'created_at')->textInput() ?>

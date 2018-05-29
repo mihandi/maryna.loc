@@ -45,14 +45,16 @@ AppAsset::register($this);
                                 <li class="nav-item">
                                     <a class="nav-link" href="/">ГЛАВНАЯ</a>
                                 </li>
-                                <li class="nav-item has-drop">
+                                <li class="nav-item
+<!--                                 has-drop-->
+                                 ">
                                     <a class="nav-link" href="/blog/index">СТАТЬИ</a>
-                                    <ul class="drop-menu left">
-                                        <li class="drop-item">
-                                            <a class="drop-link" href="/blog/index?var=2">ВАРИАНТ 2</a>
-                                        </li>
-
-                                    </ul>
+<!--                                    <ul class="drop-menu left">-->
+<!--                                        <li class="drop-item">-->
+<!--                                            <a class="drop-link" href="/blog/index?var=2">ВАРИАНТ 2</a>-->
+<!--                                        </li>-->
+<!---->
+<!--                                    </ul>-->
                                 </li>
                                 <?php if (Yii::$app->user->isGuest): ?>
                                     <li class="nav-item">
@@ -113,13 +115,15 @@ AppAsset::register($this);
                                 <a class="nav-link" href="/">ГЛАВНАЯ</a>
 
                             </li>
-                            <li class="nav-item has-drop">
+                            <li class="nav-item
+<!--                             has-drop-->
+                             ">
                                 <a class="nav-link" href="/blog/index">СТАТЬИ</a>
-                                <ul class="drop-menu left">
-                                    <li class="drop-item">
-                                        <a class="drop-link" href="/blog/index?var=2">ВАРИАНТ 2</a>
-                                    </li>
-                                </ul>
+<!--                                <ul class="drop-menu left">-->
+<!--                                    <li class="drop-item">-->
+<!--                                        <a class="drop-link" href="/blog/index?var=2">ВАРИАНТ 2</a>-->
+<!--                                    </li>-->
+<!--                                </ul>-->
                             </li>
                             <?php if (Yii::$app->user->isGuest): ?>
                                 <li class="nav-item">

@@ -23,7 +23,7 @@
                     <div class="mix col-lg-3 col-md-3 col-sm-5">
                         <div class="item">
                             <a href="<?= '/elfinder/global/article_'.$article['id'].'/'.$photo?>" data-fancybox="gallery" class="image">
-                                <img src="<?= '/elfinder/global/article_'.$article['id'].'/'.$photo?>" alt="..." class="img-fluid">
+                                <img src="<?= '/elfinder/global/article_'.$article['id'].'/'.$photo?>"  class="img-fluid">
 
                                 <div class="overlay d-flex align-items-center justify-content-center">
                                     <i class="icon-search"></i>
@@ -32,6 +32,17 @@
                         </div>
                     </div>
                 <?php endif;?>
+                <div class="mix col-lg-3 col-md-3 col-sm-5" style="display: none">
+                    <div class="item">
+                        <a href="<?= '/elfinder/global/article_'.$article['id'].'/'.$photo?>" data-fancybox="gallery" class="image">
+                            <img src="<?= '/elfinder/global/article_'.$article['id'].'/'.$photo?>"  class="img-fluid">
+
+                            <div class="overlay d-flex align-items-center justify-content-center">
+                                <i class="icon-search"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
             <?php endforeach; ?>
         <?php endif; ?>
     </div>

@@ -26,14 +26,14 @@ class AppAsset extends AssetBundle
         "vendor/revolution/css/layers.css",
         "vendor/revolution/css/navigation.css",
         "vendor/revolution/css/settings.css",
-         "css/theme.css",
+        "css/theme.css",
         "https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.0/jquery.fancybox.min.css",
 //        "css/jquery.fancybox.css"
 
 
     ];
     public $js = [
-        "vendor/jquery/jquery.min.js",
+//        "vendor/jquery/jquery.min.js",
         "vendor/popper.js/popper.min.js",
         "vendor/bootstrap/bootstrap.min.js",
         "vendor/slick/slick.min.js",
@@ -55,8 +55,8 @@ class AppAsset extends AssetBundle
 
     ];
     public $depends = [
-//        'yii\web\YiiAsset',
-//        'yii\bootstrap\BootstrapAsset',
+        'yii\web\YiiAsset',
+        'yii\bootstrap\BootstrapAsset',
 
     ];
 }

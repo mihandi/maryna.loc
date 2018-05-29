@@ -224,8 +224,9 @@ class ArticleController extends Controller
             }
             $imageName = 'main-cropped.jpg';
             if ($image->save($path_to_folder . $imageName, $saveOptions)) {
+                $date = date_create();
                 $result = [
-                    'filelink' => '/elfinder/global/article_'.$id.$imageName
+                    'filelink' => '/elfinder/global/article_'.$id.$imageName.'?'.date_timestamp_get($date)
                 ];
             } else {
                 $result = [

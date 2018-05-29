@@ -3,8 +3,9 @@ namespace frontend\controllers;
 
 use common\models\Article;
 use common\models\ImageUpload;
-use Imagine\Imagick\Image;
+use Imagine\Image\Box;
 use Yii;
+use yii\imagine\Image;
 use yii\base\DynamicModel;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -159,23 +160,23 @@ class SiteController extends Controller
 
     public function actionSetImage()
     {
-        if(yii::$app->user->isGuest) {
+        if(Yii::$app->user->isGuest) {
             return $this->redirect('/site/login');
         }
 
-        $id = yii::$app->user->id;
+        $id = Yii::$app->user->id;
 
         $user = User::findOne($id);
         $model = new ImageUpload();
         if($user->image) {
-            $model->image = '/elfinder/global/user_' . $id . '/' . $user->image;
+            $model->image = '/elfinder/global/users/user_' . $id . '/' . $user->image;
         }
-        $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/user_'.$id;
+        $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/users/user_'.$id;
 
         if (Yii::$app->request->isPost) {
-            $post = yii::$app->request->post();
+            $post = Yii::$app->request->post();
             $file = UploadedFile::getInstanceByName('file');
-//var_dump($file);die();
+
             $model = new DynamicModel(compact('file'));
             $image = Image::crop(
                 $file->tempName,
@@ -193,9 +194,10 @@ class SiteController extends Controller
                 mkdir($path_to_folder);
             }
             $imageName = 'user-logo.jpg';
-            if ($image->save($path_to_folder . $imageName, $saveOptions)) {
+            if ($image->save($path_to_folder.'/'. $imageName, $saveOptions)) {
+                $date = date_create();
                 $result = [
-                    'filelink' => '/elfinder/global/user_'.$id.$imageName
+                    'filelink' => '/elfinder/global/users/user_'.$id.'/'.$imageName.'?'.date_timestamp_get($date)
                 ];
             } else {
                 $result = [
@@ -207,7 +209,7 @@ class SiteController extends Controller
             return $result;
         }
 
-        return $this->render('image', ['model' => $model,'article_id' => $article['id']]);
+        return $this->render('image', ['model' => $model]);
 
     }
 

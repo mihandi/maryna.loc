@@ -46,12 +46,12 @@ class User extends ActiveRecord implements IdentityInterface
             ['login', 'string', 'max' => 100],
             ['login', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This login  has already been taken.'],
 
-
-            ['first_name', 'trim'],
-            ['first_name', 'string', 'max' => 50],
-
-            ['first_name', 'trim'],
-            ['last_name', 'string', 'max' => 50],
+//
+//            ['first_name', 'trim'],
+//            ['first_name', 'string', 'max' => 50],
+//
+//            ['first_name', 'trim'],
+//            ['last_name', 'string', 'max' => 50],
         ];
     }
 
