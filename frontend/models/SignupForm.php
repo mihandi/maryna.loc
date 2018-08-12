@@ -35,9 +35,11 @@ class SignupForm extends Model
 
 
             ['first_name', 'trim'],
+            ['first_name', 'required'],
             ['first_name', 'string', 'max' => 50],
 
             ['first_name', 'trim'],
+            ['first_name', 'required'],
             ['last_name', 'string', 'max' => 50],
 
             ['password', 'required'],

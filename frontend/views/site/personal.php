@@ -121,19 +121,19 @@ $route = "/site/set-image";
                         <div class="col-lg-6 col-md-6 ">
                             <?php echo $form->field($user, 'image')->widget(Widget::className(), [
                                 'uploadUrl' => Url::toRoute($route),
-                                'width' => 1600,
-                                'height' => 718,
+                                'width' => 300,
+                                'height' => 300,
                             ]) ?>
                         </div>
                     <div class="col-lg-6 col-md-6 ">
                         <?= $form->field($user, 'login')->textInput() ?>
                         <?= $form->field($user, 'email')->textInput() ?>
-                        <?= $form->field($user, 'created_at')->textInput() ?>
-                        <?= $form->field($user, 'updated_at')->textInput() ?>
+                        <?= $form->field($user, 'first_name')->textInput() ?>
+                        <?= $form->field($user, 'last_name')->textInput() ?>
                     </div>
                 </div>
                 <div class="form-group" align="center">
-                    <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary']) ?>
+                    <?= Html::submitButton('Відправити', ['class' => 'btn btn-primary']) ?>
                 </div>
                 <?php ActiveForm::end(); ?>
             </div>

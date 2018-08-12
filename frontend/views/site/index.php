@@ -26,10 +26,10 @@ $testemonials = array_chunk([
         <ul>
             <!-- LAYER No.1-->
             <li class="revo-layer-1" data-transition="fade" data-slotamount="7" data-masterspeed="500">
-                <img class="rev-slidebg" src="images/slide-01.jpg" alt="#" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="15" />
+                <img class="rev-slidebg" src="images/test/main.jpg" alt="#" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="15" />
                 <div class="tp-caption tp-resizeme revo-cap-1" data-frames="[{&quot;from&quot;:&quot;y:50px;opacity:0;&quot;,&quot;speed&quot;:1500,&quot;to&quot;:&quot;o:1;&quot;,&quot;delay&quot;:500,&quot;ease&quot;:&quot;Power4.easeOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:500,&quot;to&quot;:&quot;y:-50px;opacity:0;&quot;,&quot;ease&quot;:&quot;Power2.easeIn&quot;}]"
                      data-x="['center']" data-y="['center']" data-hoffset="['0', '0', '0', '0']" data-voffset="['0', '0', '0', '-100']" data-width="['1170', '970', '768', '480']" data-whitespace="normal" data-textAlign="[center']" data-fontsize="[72, 72, 72, 72]"
-                     data-lineheight="[72, 72, 72, 72]" data-fontweight="700" data-color="#fff">МЫ ЭТО</div>
+                     data-lineheight="[72, 72, 72, 72]" data-fontweight="700" data-color="#fff">МИ ЦЕ</div>
                 <div class="tp-caption tp-resizeme revo-cap-2" data-frames="[{&quot;from&quot;:&quot;y:50px;opacity:0;&quot;,&quot;speed&quot;:1600,&quot;to&quot;:&quot;o:1;&quot;,&quot;delay&quot;:1100,&quot;ease&quot;:&quot;Power4.easeOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:500,&quot;to&quot;:&quot;y:-50px;opacity:0;&quot;,&quot;ease&quot;:&quot;Power2.easeIn&quot;}]"
                      data-x="['center']" data-y="['center']" data-hoffset="['0', '0', '0', '0']" data-voffset="['110', '110', '110', '20']" data-width="['1170', '970', '768', '480']" data-whitespace="normal" data-textAlign="[center']" data-fontsize="[72, 72, 72, 72]"
                      data-lineheight="[72, 72, 72, 72]" data-fontweight="700" data-color="#fff">НЕОБМЕЖЕНI МОЖЛИВОСТI</div>
@@ -46,7 +46,7 @@ $testemonials = array_chunk([
 <section class="section section-about bg-white p-t-120 p-b-135">
     <div class="container">
         <article class="section-inner">
-            <h3 class="section-heading m-b-40">НЕМНОЖКО О НАС </h3>
+            <h3 class="section-heading m-b-40">ТРОХИ ПРО НАС</h3>
             <div class="row justify-content-center">
                 <div class="col">
                     <p class="ab-text">
@@ -96,7 +96,7 @@ $testemonials = array_chunk([
                 <li class="col-md-3 col-sm-6">
                     <div class="box box-number">
                         <span class="number counterUp">896</span>
-                        <span class="title">Проданный Владом чашек кофе</span>
+                        <span class="title">Проданных Владом чашек кофе</span>
                     </div>
                 </li>
             </ul>
@@ -109,7 +109,7 @@ $testemonials = array_chunk([
 <section class="section section-blog bg-white p-t-120 p-b-135">
     <div class="container">
         <div class="section-inner">
-            <h3 class="section-heading m-b-55">СТАТЬИ</h3>
+            <h3 class="section-heading m-b-55">СТАТТІ</h3>
             <div class="js-slick slick-arrow-style-1 bo-list" data-slick-lg="1" data-slick-dots="true" data-slick-arrows="true" data-slick-prevarrow="&lt;i class='arrow arrow-prev arrow_carrot-left'&gt;&lt;/i&gt;" data-slick-nextarrow="&lt;i class='arrow arrow-next arrow_carrot-right'&gt;&lt;/i&gt;"
                  data-slick-dotsClass="slick-dots dots-style-1">
                 <?php foreach ($articles as $recent): ?>
@@ -131,7 +131,7 @@ $testemonials = array_chunk([
                                     </header>
                                     <p class="box-text"><?= substr($article['description'],0,400).'...'?></p>
                                     <footer class="box-footer">
-                                        <a class="blog-link" href="<?= $articles_path.$article['id']?>">Продолжить чтение</a>
+                                        <a class="blog-link" href="<?= $articles_path.$article['id']?>">продовжити читання</a>
                                     </footer>
                                 </article>
                             </div>
@@ -149,7 +149,7 @@ $testemonials = array_chunk([
 <section class="section section-testi bg-grey-1 p-t-110 p-b-135">
     <div class="container">
         <div class="section-inner">
-            <h3 class="section-heading m-b-55">ОТЗЫВЫ КЛИЕНТОВ</h3>
+            <h3 class="section-heading m-b-55">ВІДГУКИ КЛІЄНТІВ </h3>
             <div class="js-slick slick-arrow-style-1 te-list" data-slick-lg="1" data-slick-dots="true" data-slick-dotsClass="slick-dots dots-style-1">
                 <?php foreach ($testemonials as $block): ?>
                     <div class="item">
@@ -220,7 +220,7 @@ $testemonials = array_chunk([
 <section class="section section-contact bg-dark-1 p-t-120 p-b-135">
     <div class="container">
         <div class="section-inner">
-            <h3 class="section-heading m-b-90">Напишите нам</h3>
+            <h3 class="section-heading m-b-90">НАПИШІТЬ НАМ</h3>
             <div class="messages" id="status"></div>
 
             <form  method="post" action="/site/contact?action=index">
@@ -228,7 +228,7 @@ $testemonials = array_chunk([
                     <div class="col-xl-6 col-lg-12">
                         <div class="input-item">
                             <div class="input-title">
-                                <span class="input-label input-label-white">Ваше имя*</span>
+                                <span class="input-label input-label-white">Ваше ім'я*</span>
                             </div>
                             <input class="au-input au-input-white au-input-radius" type="text" id="name" name="ContactForm[name]" value="<?= isset($model['name'])?$model['name']:''?>" required>
                             <?php if(isset($model->errors['name'])):?>
@@ -246,7 +246,7 @@ $testemonials = array_chunk([
                         </div>
                         <div class="input-item">
                             <div class="input-title input-label-white">
-                                <span class="input-label">Тема сообщения*</span>
+                                <span class="input-label">Тема повідомлення*</span>
                             </div>
                             <input class="au-input au-input-white au-input-radius" type="text" id="subject" name="ContactForm[subject]" value="<?= isset($model['subject'])? $model['subject']:''?>" required>
                             <?php if(isset($model->errors['subject'])):?>
@@ -257,7 +257,7 @@ $testemonials = array_chunk([
                     <div class="col-xl-6 col-lg-12">
                         <div class="input-item">
                             <div class="input-title input-label-white">
-                                <span class="input-label">Сообщение*</span>
+                                <span class="input-label">Повідомлення*</span>
                             </div>
                             <textarea class="au-input au-input-white au-input-radius" style="height: 230px;" id="msg" name="ContactForm[body]" required>
                                 <?= isset($model['body'])? $model['body']:''?>
@@ -266,7 +266,7 @@ $testemonials = array_chunk([
                     </div>
                 </div>
                 <div class="co-form-btn">
-                    <input class="au-btn au-btn-radius au-btn-primary" type="submit" value="Отправить">
+                    <input class="au-btn au-btn-radius au-btn-primary" type="submit" value="Відправити">
                 </div>
             </form>
         </div>

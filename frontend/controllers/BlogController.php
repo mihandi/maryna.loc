@@ -69,6 +69,10 @@ class BlogController extends Controller
 
 
                 $id  = yii::$app->request->get('comment');
+                $comment = Comment::findOne($id);
+                if($comment->user_id != Yii::$app->user->id){
+                    return $this->goBack();
+                }
                 Comment::deleteComment($id);
 
                 $data = Article::getSingle();
