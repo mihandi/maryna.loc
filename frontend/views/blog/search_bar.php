@@ -13,7 +13,6 @@
 <script>
     function submitFunc() {
         var search_val = document.getElementById("form-query").value;
-        alert(search_val);
         if(search_val != '') {
             $("#myform").submit();
         }
