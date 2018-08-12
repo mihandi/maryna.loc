@@ -6363,3 +6363,10 @@ body {
 .footer {
   flex-shrink: 0;
 }
+
+.pagination > .next:last-child>a {
+  border-radius: 50%;
+}
+.pagination > .prev:first-child>a {
+  border-radius: 50%;
+}
