@@ -125,4 +125,19 @@ class BlogController extends Controller
 
         ]);
     }
+    
+    public function actionArchive($month)
+    {
+        $year = 2018;
+        $search_result = Article::getArticlesByMonthYear($month,$year);
+
+        return $this->render('blog_grid', [
+            'pagination' => $search_result['pagination'],
+            'articles' => $search_result['articles'],
+            'popular_articles' => Article::getPopular(),
+            'categories' => Article::getCategories(),
+            'months' => Article::getArchive()
+
+        ]);
+    }
 }

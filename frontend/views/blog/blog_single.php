@@ -24,10 +24,10 @@ $category_path =  '/blog/index?category_id='.$article['category_id'];
                         <header class="post-header m-b-125">
                             <ul class="post-bre h-list">
                                 <li>
-                                    <a href="/">Главная</a>
+                                    <a href="/">Головна</a>
                                 </li>
                                 <li>
-                                    <a href="/blog/index">Статьи</a>
+                                    <a href="/blog/index">Статті</a>
                                 </li>
                                 <li>
                                     <a href="<?= $articles_path.$article['id']?>"><?= $article['title']?></a>
@@ -50,7 +50,7 @@ $category_path =  '/blog/index?category_id='.$article['category_id'];
                                 </li>
                                 <li class="post-info-item">
                                         <span>
-                                            <a href="#"><?= $article['comment_count']?> Комменатриев</a>
+                                            <a href="#"><?= $article['comment_count']?> Коментарів</a>
                                         </span>
                                 </li>
                             </ul>
@@ -74,7 +74,7 @@ $category_path =  '/blog/index?category_id='.$article['category_id'];
                                     </li>
                                 </ul>
                                 <div class="post-socials">
-                                    <span class="post-social-label">SHARE</span>
+                                    <span class="post-social-label">Поділитися</span>
                                     <ul class="h-list social-list">
                                         <li class="list-item" data-toggle="tooltip" title="Facebook">
                                             <a class="fa fa-facebook" href="#"></a>

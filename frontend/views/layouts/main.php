@@ -43,12 +43,12 @@ AppAsset::register($this);
                         <nav class="navbar-primary">
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/">ГЛАВНАЯ</a>
+                                    <a class="nav-link" href="/">ГОЛОВНА</a>
                                 </li>
                                 <li class="nav-item
 <!--                                 has-drop-->
                                  ">
-                                    <a class="nav-link" href="/blog/index">СТАТЬИ</a>
+                                    <a class="nav-link" href="/blog/index">СТАТТІ</a>
 <!--                                    <ul class="drop-menu left">-->
 <!--                                        <li class="drop-item">-->
 <!--                                            <a class="drop-link" href="/blog/index?var=2">ВАРИАНТ 2</a>-->
@@ -58,22 +58,22 @@ AppAsset::register($this);
                                 </li>
                                 <?php if (Yii::$app->user->isGuest): ?>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="modal" data-target="#LoginModal" href="/site/login">ВОЙТИ</a>
+                                        <a class="nav-link" data-toggle="modal" data-target="#LoginModal" href="/site/login">УВІЙТИ</a>
                                     </li>
 
                                 <?php else: ?>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/site/personal">МОЙ ПРОФИЛЬ</a>
+                                        <a class="nav-link" href="/site/personal">МІЙ ПРОФІЛЬ</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/site/logout">ВЫЙТИ</a>
+                                        <a class="nav-link" href="/site/logout">ВИЙТИ</a>
                                     </li>
                                 <?php endif;?>
                             </ul>
                         </nav>
                     </div>
                     <div class="header-bar-featured d-none d-xl-block">
-                        <a class="au-btn au-btn-radius au-btn-primary" href="/site/contact">НАПИШИ НАМ</a>
+                        <a class="au-btn au-btn-radius au-btn-primary" href="/site/contact">НАПИШІТЬ НАМ</a>
                     </div>
                 </div>
             </div>
@@ -112,13 +112,13 @@ AppAsset::register($this);
                     <nav class="navbar-vertical navbar-vertical-white">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link" href="/">ГЛАВНАЯ</a>
+                                <a class="nav-link" href="/">ГОЛОВНА</a>
 
                             </li>
                             <li class="nav-item
 <!--                             has-drop-->
                              ">
-                                <a class="nav-link" href="/blog/index">СТАТЬИ</a>
+                                <a class="nav-link" href="/blog/index">СТАТТІ</a>
 <!--                                <ul class="drop-menu left">-->
 <!--                                    <li class="drop-item">-->
 <!--                                        <a class="drop-link" href="/blog/index?var=2">ВАРИАНТ 2</a>-->
@@ -127,15 +127,15 @@ AppAsset::register($this);
                             </li>
                             <?php if (Yii::$app->user->isGuest): ?>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="modal" data-target="#LoginModal" href="/site/login">ВОЙТИ</a>
+                                    <a class="nav-link" data-toggle="modal" data-target="#LoginModal" href="/site/login">УВІЙТИ</a>
                                 </li>
 
                             <?php else: ?>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/site/personal">МОЙ ПРОФИЛЬ</a>
+                                    <a class="nav-link" href="/site/personal">МІЙ ПРОФІЛЬ</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/site/logout">ВЫЙТИ</a>
+                                    <a class="nav-link" href="/site/logout">УВІЙТИ</a>
                                 </li>
                             <?php endif;?>
                         </ul>

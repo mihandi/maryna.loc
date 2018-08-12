@@ -27,6 +27,7 @@ use yii\data\SqlDataProvider;
  */
 class Article extends \yii\db\ActiveRecord
 {
+    const PAGE_SIZE = 4;
     /**
      * @inheritdoc
      */
@@ -370,6 +371,38 @@ class Article extends \yii\db\ActiveRecord
                      GROUP by month
                      ORDER by month Desc
             ")->queryAll();
+    }
+
+    public static function getArticlesByMonthYear($month,$year){
+        $count = Yii::$app->db->createCommand(
+            'SELECT COUNT(id) as count FROM article
+                     WHERE month(FROM_UNIXTIME(created_at,"%Y-%m-%d"))=:month_number
+                     AND YEAR(FROM_UNIXTIME(created_at,"%Y-%m-%d")) =:year_number
+                     GROUP by id')
+            ->bindValue('month_number',$month)
+            ->bindValue('year_number',$year)
+            ->queryOne();
+        
+        $article['pagination'] = new Pagination(['totalCount' =>  $count['count'], 'pageSize'=>Article::PAGE_SIZE]);
+
+        $article['articles'] = Yii::$app->db->createCommand(
+            "SELECT month(FROM_UNIXTIME(a.created_at,\"%Y-%m-%d\")) as month,COUNT(a.id) as count,
+                            u.login,a.id,a.title,a.image,a.description,a.created_at,c.id as 'category_id',
+                            c.title as 'category',COUNT(cm.id) as 'comment_count' 
+                  FROM article a
+                  INNER JOIN category c On a.category_id = c.id
+                  Inner join user u On u.id = a.user_id
+                  Left Join comment cm On cm.article_id = a.id
+                     WHERE month(FROM_UNIXTIME(a.created_at,\"%Y-%m-%d\")) =:month_number
+                     AND YEAR(FROM_UNIXTIME(a.created_at,\"%Y-%m-%d\")) =:year_number
+                     GROUP by id LIMIT :offset, :limit")
+            ->bindValue('month_number',$month)
+            ->bindValue('year_number',$year)
+            ->bindValue('offset',$article['pagination']->offset)
+            ->bindValue('limit',$article['pagination']->limit)
+            ->queryAll();
+
+        return $article;
     }
 
 }

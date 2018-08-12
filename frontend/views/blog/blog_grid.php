@@ -5,7 +5,7 @@
 use yii\grid\GridView;
 use yii\widgets\LinkPager;
 
-$this->title = 'Новости';
+$this->title = 'Новини';
 
 $articles_image_path = '/elfinder/global/article_';
 
@@ -21,7 +21,7 @@ $articles_path = '/blog/article?id=';
                 <section class="section-blog-wide-list page-col-one">
                     <div class="blog-wide-list p-t-100 p-b-135">
                         <?php if(!$articles):?>
-                        <h4 class="lw-title">По вашему запросу ничего не найдено. Попробуйте еще раз.</h4>
+                        <h4 class="lw-title">Нічого не знайдено. Спробуйте ще.</h4>
                         <?php endif;?>
                         <?php foreach ($articles as $article): ?>
                              <article class="box-blog-wide">
@@ -42,7 +42,7 @@ $articles_path = '/blog/article?id=';
                             </figure>
                             <div class="bw-body m-b-30">
                                 <p class="bw-text"><?= substr($article['description'],0,600)?></p>
-                                <a class="read-more" href="<?= $articles_path.$article['id']?>">ПРОДОЛЖИТЬ ЧТЕНИЕ</a>
+                                <a class="read-more" href="<?= $articles_path.$article['id']?>">ПРОДОВЖИТИ ЧИТАННЯ</a>
                             </div>
                             <div class="bw-footer">
                                 <ul class="bw-infos h-list">
@@ -51,7 +51,7 @@ $articles_path = '/blog/article?id=';
                                     </li>
                                     <li><?= date('Y-m-d', $article['created_at'])?></li>
                                     <li>
-                                        <?= $article['comment_count']?> Комментариев
+                                        <?= $article['comment_count']?> Коментарів
                                     </li>
                                 </ul>
                             </div>

@@ -4,7 +4,7 @@
            <a class="icon_search" ></a>
         </div>
 
-        <input name="search" id="form-query" value="" placeholder="поиск по сайту">
+        <input name="search" id="form-query" value="" placeholder="пошук">
 
     </div>
 </form>

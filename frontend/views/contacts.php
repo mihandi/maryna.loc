@@ -1,5 +1,5 @@
 <div class="list-widget contact-widget m-b-60">
-    <h4 class="lw-title">CONTACT US</h4>
+    <h4 class="lw-title">ЯК НАС ЗНАЙТИ ?</h4>
     <ul class="lw-list-three v-list">
         <li>
             <span class="icon fa fa-map-marker"></span>

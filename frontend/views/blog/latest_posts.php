@@ -1,10 +1,10 @@
 <div class="list-widget blog-popular-widget m-b-60">
-    <h4 class="lw-title">ПОПУЛЯРНЫЕ СТАТЬИ</h4>
+    <h4 class="lw-title">ПОПУЛЯРНІ СТАТТІ</h4>
     <ul class="blog-sm-list v-list">
         <?php foreach ($popular_articles as $article):?>
             <li class="box-blog-sm">
             <a class="box-image" href="<?= '/blog/article?id='.$article['id']?>">
-                <img src="<?= '/elfinder/global/article_'.$article['id'].'/'.$article['image']?>" alt="Популярные статьи">
+                <img src="<?= '/elfinder/global/article_'.$article['id'].'/'.$article['image']?>" alt="Популярні статті">
             </a>
             <div class="box-content">
                 <h3 class="box-title">

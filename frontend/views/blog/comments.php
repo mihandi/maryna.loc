@@ -3,14 +3,14 @@
 <div id="comments">
 <div class="comment-pane m-b-45">
     <div class="comment-pane-header">
-        <h3 class="comment-pane-title"><?= $comments['count']?> Комментариев</h3>
+        <h3 class="comment-pane-title"><?= $comments['count']?> Коментарів</h3>
     </div>
     <div class="comment-pane-body">
         <ul class="comment-pane-list">
             <?php if (isset($comments['comments']))foreach ($comments['comments'] as $comment):?>
                 <?php
-                $user_image_path = Yii::getAlias( '@backend' ).'/web/elfinder/global/users/user_'.$comment['user_id'].'/user_logo.jpg'
-                    ?'/elfinder/global/users/user_'.$comment['user_id'].'/user_logo.jpg'
+                $user_image_path = Yii::getAlias( '@backend' ).'/web/elfinder/global/users/user_'.$comment['user_id'].'/user-logo.jpg'
+                    ?'/elfinder/global/users/user_'.$comment['user_id'].'/user-logo.jpg'
                     :'/images/user.svg';
                 ?>
                 <li class="list-item has-comment-children">
@@ -74,8 +74,7 @@
 </div>
 <div class="leave-comment-pane">
     <div class="leave-comment-pane-header">
-        <h3 class="leave-comment-pane-title">ОСТАВИТЬ КОММЕНТАРИЙ</h3>
-        <p class="leave-comment-pane-notify">You must be logged in to post a comment.</p>
+        <h3 class="leave-comment-pane-title">Залишити коментар</h3>
     </div>
     <div class="leave-comment-pane-body">
         <form class="leave-comment-pane-form" method="post" id="leave_comment">
@@ -83,16 +82,13 @@
                 <input type="hidden" name="Comment[parent_id]" id="parent_id" value="">
                 <input type="hidden" name="Comment[article_id]"  value="<?= $article['id']?>">
                 <input type="hidden" name="Comment[user_id]" value="<?= YII::$app->user->id?>">
-                <textarea class="au-input au-input-border au-input-radius" name="Comment[text]" id="comment_form" placeholder="Ваш комментарий..."></textarea>
+                <textarea class="au-input au-input-border au-input-radius" name="Comment[text]" id="comment_form" placeholder="Ваш коментар..."></textarea>
             </div>
             <?php if (Yii::$app->user->isGuest): ?>
-                <h3 class="leave-comment-pane-title">ВОЙДИТЕ ЧТОБЫ ОСТАВИТЬ КОММЕНТАРИЙ</h3>
-                <div >
-                    <a class="au-btn au-btn-primary au-btn-pill au-btn-shadow" data-toggle="modal" data-target="#LoginModal" href="/site/login">ВОЙТИ</a>
-                 </div>
+                <h3 class="leave-comment-pane-title">Увійдіть щоб залишити коментар</h3>
             <?php else: ?>
                 <div class="input-submit">
-                    <input class="au-btn au-btn-primary au-btn-pill au-btn-shadow" type="submit"  value="Опубликовать">
+                    <input class="au-btn au-btn-primary au-btn-pill au-btn-shadow" type="submit"  value="Відправити">
                 </div>
             <?php endif;?>
 
