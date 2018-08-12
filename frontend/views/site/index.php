@@ -26,7 +26,7 @@ $testemonials = array_chunk([
         <ul>
             <!-- LAYER No.1-->
             <li class="revo-layer-1" data-transition="fade" data-slotamount="7" data-masterspeed="500">
-                <img class="rev-slidebg" src="images/test/main.jpg" alt="#" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="15" />
+                <img class="rev-slidebg" src="images/slide-01.jpg" alt="#" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="15" />
                 <div class="tp-caption tp-resizeme revo-cap-1" data-frames="[{&quot;from&quot;:&quot;y:50px;opacity:0;&quot;,&quot;speed&quot;:1500,&quot;to&quot;:&quot;o:1;&quot;,&quot;delay&quot;:500,&quot;ease&quot;:&quot;Power4.easeOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:500,&quot;to&quot;:&quot;y:-50px;opacity:0;&quot;,&quot;ease&quot;:&quot;Power2.easeIn&quot;}]"
                      data-x="['center']" data-y="['center']" data-hoffset="['0', '0', '0', '0']" data-voffset="['0', '0', '0', '-100']" data-width="['1170', '970', '768', '480']" data-whitespace="normal" data-textAlign="[center']" data-fontsize="[72, 72, 72, 72]"
                      data-lineheight="[72, 72, 72, 72]" data-fontweight="700" data-color="#fff">МИ ЦЕ</div>
