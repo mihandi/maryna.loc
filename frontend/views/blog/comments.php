@@ -1,3 +1,8 @@
+<?php
+use common\models\User;
+?>
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 
 <div id="comments">
@@ -9,9 +14,8 @@
         <ul class="comment-pane-list">
             <?php if (isset($comments['comments']))foreach ($comments['comments'] as $comment):?>
                 <?php
-                $user_image_path = Yii::getAlias( '@backend' ).'/web/elfinder/global/users/user_'.$comment['user_id'].'/user-logo.jpg'
-                    ?'/elfinder/global/users/user_'.$comment['user_id'].'/user-logo.jpg'
-                    :'/images/user.svg';
+                $user = User::findOne($comment['user_id']);
+                $user_image_path = $user->getImage();
                 ?>
                 <li class="list-item has-comment-children">
                 <div class="comment-item">
@@ -34,9 +38,11 @@
 
                         </div>
                     </div>
-                    <a class="comment-remove" href="" onclick="removeComment(<?=$article['id']?>,<?= $comment['id']?>)">
-                        <i class="fa fa-remove"></i>
-                    </a>
+                    <?php if($comment['user_id'] == Yii::$app->user->id):?>
+                        <a class="comment-remove" href="" onclick="removeComment(<?=$article['id']?>,<?= $comment['id']?>)">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    <?php endif;?>
                 </div>
                     <?php foreach ($comment['answers'] as $answer):?>
 

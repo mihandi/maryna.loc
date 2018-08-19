@@ -93,7 +93,8 @@ class User extends ActiveRecord implements IdentityInterface
     {
 
     }
- public function saveImage($filename)
+
+    public function saveImage($filename)
     {
         $this->image = $filename;
         return $this->save(false);
@@ -101,7 +102,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getImage()
     {
-        return ($this->image) ? '/elfinder/users/user_'.$this->id.'/' . $this->image : '/no-image.png';
+        return ($this->image) ? '/admin/elfinder/global/users/user_'.$this->id.'/' . $this->image : '/no-image.png';
     }
 }
 		

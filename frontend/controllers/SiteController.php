@@ -199,6 +199,8 @@ class SiteController extends Controller
                 $result = [
                     'filelink' => '/admin/elfinder/global/users/user_'.$id.'/'.$imageName.'?'.date_timestamp_get($date)
                 ];
+                $user->image = $imageName;
+                $user->save();
             } else {
                 $result = [
                     'error' => Yii::t('cropper', 'ERROR_CAN_NOT_UPLOAD_FILE')
