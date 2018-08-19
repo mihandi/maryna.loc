@@ -1,6 +1,7 @@
 <?php
 namespace common\models;
 
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -107,6 +108,16 @@ class User extends ActiveRecord implements IdentityInterface
     public function getImage()
     {
         return ($this->image) ? '/admin/elfinder/global/users/user_'.$this->id.'/' . $this->image : '/no-image.png';
+    }
+
+    public static function getAdmins(){
+        $admins =  self::find()->select('id')->where(['status' => [5,10]])->all();
+
+        foreach($admins as $admin){
+            $ids[] = $admin->id;
+        }
+
+        return $ids;
     }
 }
 		
