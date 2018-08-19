@@ -11,11 +11,12 @@ use yii\widgets\ActiveForm;
 $this->title = 'Личный кабинет';
 
 $user_image = Yii::getAlias( '@backend' ).'/web/elfinder/global/users/user_'.Yii::$app->user->id.'/user-logo.jpg'
-    ?'/elfinder/global/users/user_'.Yii::$app->user->id.'/user-logo.jpg'
-    :'/elfinder/global/no-img.jpg';
+    ?'/admin/elfinder/global/users/user_'.Yii::$app->user->id.'/user-logo.jpg'
+    :'/admin/elfinder/global/no-img.jpg';
 
 $user->image = $user_image;
-$route = "/site/set-image";
+$route = Url::toRoute("/site/set-image");
+$route = Url::base('')."site/set-image";
 
 ?>
 <?php /*

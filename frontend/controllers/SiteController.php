@@ -169,7 +169,7 @@ class SiteController extends Controller
         $user = User::findOne($id);
         $model = new ImageUpload();
         if($user->image) {
-            $model->image = '/elfinder/global/users/user_' . $id . '/' . $user->image;
+            $model->image = '/admin/elfinder/global/users/user_' . $id . '/' . $user->image;
         }
         $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/users/user_'.$id;
 
@@ -197,7 +197,7 @@ class SiteController extends Controller
             if ($image->save($path_to_folder.'/'. $imageName, $saveOptions)) {
                 $date = date_create();
                 $result = [
-                    'filelink' => '/elfinder/global/users/user_'.$id.'/'.$imageName.'?'.date_timestamp_get($date)
+                    'filelink' => '/admin/elfinder/global/users/user_'.$id.'/'.$imageName.'?'.date_timestamp_get($date)
                 ];
             } else {
                 $result = [
