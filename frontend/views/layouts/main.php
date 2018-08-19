@@ -131,6 +131,11 @@ AppAsset::register($this);
 <!--                                    </li>-->
 <!--                                </ul>-->
                             </li>
+                            <?php if(in_array(yii::$app->user->id,$admins)):?>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin">Admin Panel</a>
+                                </li>
+                            <?php endif;?>
                             <?php if (Yii::$app->user->isGuest): ?>
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="modal" data-target="#LoginModal" href="/site/login">УВІЙТИ</a>
