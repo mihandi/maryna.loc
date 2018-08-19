@@ -13,10 +13,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" onclick="getLoginForm()">
-                        <h4 class="modal-title" id="Login">Вход</h4>
+                        <h4 class="modal-title" id="Login">Вхiд</h4>
                     </button>
                     <button type="button" class="close" onclick="getSignUpForm()">
-                        <h4 class="modal-title" id="Signup">Регистрация</h4>
+                        <h4 class="modal-title" id="Signup">Реєстрація</h4>
                     </button>
 
                 </div>
