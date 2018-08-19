@@ -146,7 +146,7 @@ AppAsset::register($this);
                                     <a class="nav-link" href="/site/personal">МІЙ ПРОФІЛЬ</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/site/logout">УВІЙТИ</a>
+                                    <a class="nav-link" href="/site/logout">ВИЙТИ</a>
                                 </li>
                             <?php endif;?>
                         </ul>
