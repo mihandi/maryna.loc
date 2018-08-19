@@ -107,7 +107,8 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getImage()
     {
-        return ($this->image) ? '/admin/elfinder/global/users/user_'.$this->id.'/' . $this->image : '/no-image.png';
+        $date = date_create();
+        return ($this->image) ? '/admin/elfinder/global/users/user_'.$this->id.'/' . $this->image.'?'.date_timestamp_get($date): '/no-image.png';
     }
 
     public static function getAdmins(){
