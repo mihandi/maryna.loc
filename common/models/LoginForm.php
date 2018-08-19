@@ -38,9 +38,9 @@ class LoginForm extends Model
 
     public function getAdmin()
     {
-        return User::findOne(['email' => $this->login,'status' => [5,10]])
-            ? User::findOne(['email' => $this->login,'status' => [5,10]])
-            : User::findOne(['login' => $this->login,'status' => [5,10]]);
+        return User::findOne(['email' => $this->login,'status' => [USER::USER_MODER,USER::USER_ADMIN]])
+            ? User::findOne(['email' => $this->login,'status' => [USER::USER_MODER,USER::USER_ADMIN]])
+            : User::findOne(['login' => $this->login,'status' => [USER::USER_MODER,USER::USER_ADMIN]]);
 
     }
 

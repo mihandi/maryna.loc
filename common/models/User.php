@@ -23,6 +23,10 @@ use yii\web\IdentityInterface;
 class User extends ActiveRecord implements IdentityInterface
 {
 
+    const USER_ADMIN = 10;
+    const USER_MODER = 5;
+    const USER = 1;
+
     public function behaviors()
     {
         return [
