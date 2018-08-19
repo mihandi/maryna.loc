@@ -8,12 +8,13 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 
 use budyaga\cropper\Widget;
-$route = "/article/set-image?id=$article_id";
+$route = Url::to(["/article/set-image",'id'=> $article_id]);
+//var_dump($route);die();
 ?>
 
-<a class="btn btn-default" href="/article/view?id=<?=$article_id?>">Return</a>
+<a class="btn btn-default" href="<?= Url::to(['/article/view','id'=> $article_id])?>">Return</a>
 
-<a class="btn btn-success" href="/article/view?id=<?=$article_id?>&saveImage=1">Save Image</a>
+<a class="btn btn-success" href="<?= Url::to(['/article/view','id'=> $article_id,'saveImage' => 1])?>">Save Image</a>
 
 
 
