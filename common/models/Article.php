@@ -366,7 +366,7 @@ class Article extends \yii\db\ActiveRecord
         return Yii::$app->db->createCommand(
             "SELECT month(FROM_UNIXTIME(created_at,\"%Y-%m-%d\")) as month,COUNT(id) as count
                     FROM `article` 
-                     WHERE month(FROM_UNIXTIME(created_at,\"%Y-%m-%d\"))  in (1,2,3,4,5,6,7,9,10,11,12)
+                     WHERE month(FROM_UNIXTIME(created_at,\"%Y-%m-%d\"))  in (1,2,3,4,5,6,7,8,9,10,11,12)
                      AND YEAR(FROM_UNIXTIME(created_at,\"%Y-%m-%d\")) in (2018,1970)
                      GROUP by month
                      ORDER by month Desc
