@@ -224,7 +224,7 @@ $testemonials = array_chunk([
 <section class="section section-contact bg-dark-1 p-t-120 p-b-135">
     <div class="container">
         <div class="section-inner">
-            <h3 class="section-heading m-b-90">НАПИШІТЬ НАМ</h3>
+            <h3 class="section-heading m-b-90">НАПИСАТИ НАМ</h3>
             <div class="messages" id="status"></div>
 
             <form  method="post" action="/site/contact?action=index">

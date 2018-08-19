@@ -79,7 +79,7 @@ AppAsset::register($this);
                         </nav>
                     </div>
                     <div class="header-bar-featured d-none d-xl-block">
-                        <a class="au-btn au-btn-radius au-btn-primary" href="/site/contact">НАПИШІТЬ НАМ</a>
+                        <a class="au-btn au-btn-radius au-btn-primary" href="/site/contact">НАПИСАТИ НАМ</a>
                     </div>
                 </div>
             </div>
