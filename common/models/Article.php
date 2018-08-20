@@ -22,6 +22,7 @@ use yii\data\SqlDataProvider;
  * @property int $category_id
  * @property int $created_at
  * @property int $updated_at
+ * @property string $seo_url
  *
  * @property Comment[] $comments
  */
@@ -42,7 +43,7 @@ class Article extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title','description','content','user_id'], 'required'],
+            [['title','description','content','user_id','seo_url'], 'required'],
             [['title','description','content'], 'string'],
             [['title'], 'string', 'max' => 255],
             [['category_id'], 'number']
@@ -73,6 +74,7 @@ class Article extends \yii\db\ActiveRecord
             'category_id' => 'Category ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'seo_url' => 'Seo Url',
         ];
     }
 
@@ -147,7 +149,8 @@ class Article extends \yii\db\ActiveRecord
         $article['pagination'] = new Pagination(['totalCount' =>  $count['count'], 'pageSize'=>$page_size]);
 
         $article['article'] =  Yii::$app->db->createCommand(
-            'SELECT u.login,a.id,a.title,a.image,a.description,a.created_at,c.id as \'category_id\',c.title as \'category\',COUNT(cm.id) as \'comment_count\' FROM article a 
+            'SELECT u.login,a.id,a.title,a.image,a.description,a.created_at,a.seo_url,c.id as \'category_id\',c.title as \'category\',COUNT(cm.id) as \'comment_count\'
+                  FROM article a 
                   INNER JOIN category c On a.category_id = c.id 
                   INNER JOIN user u On u.id = a.user_id 
                   Left Join comment cm On cm.article_id = a.id
@@ -176,24 +179,23 @@ class Article extends \yii\db\ActiveRecord
         return $res;
     }
 
-    public static function  getSingle()
+    public static function  getSingle($article_id)
     {
-        $id  = yii::$app->request->get('id');
         $article['article'] = Yii::$app->db->createCommand(
-            'SELECT a.id,u.login,a.title,a.content,a.image,a.description,a.viewed,a.created_at,u.id as \'user_id\',c.id as \'category_id\',
+            'SELECT a.id,u.login,a.title,a.content,a.image,a.description,a.viewed,a.seo_url,a.created_at,u.id as \'user_id\',c.id as \'category_id\',
                   c.title as \'category\',COUNT(cm.id) as \'comment_count\' FROM article a 
                   INNER JOIN category c On a.category_id = c.id 
                   INNER JOIN user u On u.id = a.user_id
                   Left Join comment cm On cm.article_id = a.id
                   WHERE a.id=:article_id
                   GROUP BY a.id')
-            ->bindValue('article_id',$id)
+            ->bindValue('article_id',$article_id)
             ->queryOne();
         if(!$article['article']){return false;}
         $article['np'] = Article::getPrevNext($article['article']);
 
         $articleObj = new Article();
-        $article['comments'] = $articleObj->getArticleComments($id);
+        $article['comments'] = $articleObj->getArticleComments($article_id);
 
         return $article;
     }
@@ -209,7 +211,7 @@ class Article extends \yii\db\ActiveRecord
         $article['pagination'] = new Pagination(['totalCount' =>  $article['count'], 'pageSize'=>4]);
 
         $article['article'] =  Yii::$app->db->createCommand(
-            'SELECT a.id,u.login,a.title,a.image,a.description,a.created_at,c.id as \'category_id\',
+            'SELECT a.id,u.login,a.title,a.image,a.description,a.created_at,a.seo_url,c.id as \'category_id\',
                   c.title as \'category\',COUNT(cm.id) as \'comment_count\' FROM article a 
                   INNER JOIN category c On a.category_id = c.id 
                   INNER JOIN user u On u.id = a.user_id
@@ -228,7 +230,7 @@ class Article extends \yii\db\ActiveRecord
     public static function getPopular($limit = 3)
     {
         return  Yii::$app->db->createCommand(
-            'SELECT count(cm.id) as \'comments_count\',a.id,a.image,a.title,a.viewed,a.description,a.created_at,u.login, c.id as \'category_id\',c.title as \'category_title\' FROM article a
+            'SELECT count(cm.id) as \'comments_count\',a.id,a.image,a.title,a.viewed,a.description,a.created_at,u.login,a.seo_url, c.id as \'category_id\',c.title as \'category_title\' FROM article a
                   Inner join user u On u.id = a.user_id
                   left join comment cm On cm.article_id = a.id 
                   Left Join category c On c.id = a.category_id
@@ -243,7 +245,7 @@ class Article extends \yii\db\ActiveRecord
     {
 
         return  Yii::$app->db->createCommand(
-            'SELECT count(cm.id) as \'comments_count\',a.id,a.image,a.title,a.viewed,a.description FROM article a
+            'SELECT count(cm.id) as \'comments_count\',a.id,a.image,a.title,a.viewed,a.seo_url,a.description FROM article a
                   LEFT join comment cm On cm.article_id = a.id 
                   GROUP By a.id
                   ORDER BY a.created_at DESC Limit :limit')
@@ -332,7 +334,7 @@ class Article extends \yii\db\ActiveRecord
         $search_line  = yii::$app->request->get('search');
 
         $articles =  Yii::$app->db->createCommand(
-            'SELECT u.login,a.id FROM article a
+            'SELECT u.login,a.id,a.seo_url FROM article a
                   INNER JOIN category c On a.category_id = c.id
                   Inner join user u On u.id = a.user_id
                   Left Join comment cm On cm.article_id = a.id
@@ -387,7 +389,7 @@ class Article extends \yii\db\ActiveRecord
 
         $article['articles'] = Yii::$app->db->createCommand(
             "SELECT month(FROM_UNIXTIME(a.created_at,\"%Y-%m-%d\")) as month,COUNT(a.id) as count,
-                            u.login,a.id,a.title,a.image,a.description,a.created_at,c.id as 'category_id',
+                            u.login,a.id,a.title,a.image,a.description,a.created_at,a.seo_url,c.id as 'category_id',
                             c.title as 'category',COUNT(cm.id) as 'comment_count' 
                   FROM article a
                   INNER JOIN category c On a.category_id = c.id
@@ -403,6 +405,29 @@ class Article extends \yii\db\ActiveRecord
             ->queryAll();
 
         return $article;
+    }
+
+    public function getSeoUrl($kiriliza_str){
+
+        $cyr = [
+            'а','б','в','г','д','е','ё','ж','з','и','й','к','л','м','н','о','п',
+            'р','с','т','у','ф','х','ц','ч','ш','щ','ъ','ы','ь','э','ю','я',
+            'А','Б','В','Г','Д','Е','Ё','Ж','З','И','Й','К','Л','М','Н','О','П',
+            'Р','С','Т','У','Ф','Х','Ц','Ч','Ш','Щ','Ъ','Ы','Ь','Э','Ю','Я',' '
+        ];
+        $lat = [
+            'a','b','v','g','d','e','io','zh','z','i','y','k','l','m','n','o','p',
+            'r','s','t','u','f','h','ts','ch','sh','sht','a','i','y','e','yu','ya',
+            'A','B','V','G','D','E','Io','Zh','Z','I','Y','K','L','M','N','O','P',
+            'R','S','T','U','F','H','Ts','Ch','Sh','Sht','A','I','Y','e','Yu','Ya','-'
+        ];
+        $latniza_str = str_replace($cyr, $lat, $kiriliza_str);
+
+        return $latniza_str;
+    }
+
+    public static function getLink($article_id,$article_seo_url){
+        return "/blog/article/".$article_seo_url.'-'.$article_id;
     }
 
 }

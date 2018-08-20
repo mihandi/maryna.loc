@@ -60,7 +60,6 @@ class BlogController extends Controller
 
     public function actionArticle()
     {
-
         if(Yii::$app->request->isAjax) {
             if (Yii::$app->user->isGuest) {
                 return $this->goBack();
@@ -98,8 +97,9 @@ class BlogController extends Controller
 
             }
         }
-
-        $data = Article::getSingle();
+    
+        $article_id = $_GET['article_id'];
+        $data = Article::getSingle($article_id);
         if(!$data){return $this->redirect('/site/error');}
         Article::viewedCounter($data['article']['id'], $data['article']['viewed']);
 

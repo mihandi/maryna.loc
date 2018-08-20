@@ -42,6 +42,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'blog/article/<seo-url:(\S+)>-<article_id:(\S+)>' => 'blog/article/',
+                'blog/index/<seo-url:(\S+)>-<category_id:(\S+)>' => 'blog/index/',
             ],
         ],
 

@@ -2,15 +2,13 @@
 
 /* @var $this yii\web\View */
 
+use common\models\Article;
 use yii\grid\GridView;
 use yii\widgets\LinkPager;
 
 $this->title = 'Новини';
 
 $articles_image_path = '/elfinder/global/article_';
-
-$articles_path = '/blog/article?id=';
-
 ?>
 
 
@@ -27,7 +25,7 @@ $articles_path = '/blog/article?id=';
                              <article class="box-blog-wide">
                             <header class="bw-header m-b-30">
                                 <h3 class="bw-title">
-                                    <a href="<?= $articles_path.$article['id']?>"><?= $article['title']?></a>
+                                    <a href="<?= Article::getLink($article['id'],$article['seo_url']) ?>"><?= $article['title']?></a>
                                 </h3>
                                 <ul class="bw-cates h-list">
                                     <li>
@@ -36,13 +34,13 @@ $articles_path = '/blog/article?id=';
                                 </ul>
                             </header>
                             <figure class="bw-image img-radius img-hv-zoomIn">
-                                <a href="<?= $articles_path.$article['id']?>">
+                                <a href="<?= Article::getLink($article['id'],$article['seo_url']) ?>">
                                     <img class="img-fluid" src="<?= $articles_image_path = '/elfinder/global/article_'.$article['id'].'/'.$article['image'] ?>" alt="<?= $article['title']?>">
                                 </a>
                             </figure>
                             <div class="bw-body m-b-30">
                                 <p class="bw-text"><?= substr($article['description'],0,600)?></p>
-                                <a class="read-more" href="<?= $articles_path.$article['id']?>">ПРОДОВЖИТИ ЧИТАННЯ</a>
+                                <a class="read-more" href="<?= Article::getLink($article['id'],$article['seo_url']) ?>">ПРОДОВЖИТИ ЧИТАННЯ</a>
                             </div>
                             <div class="bw-footer">
                                 <ul class="bw-infos h-list">
