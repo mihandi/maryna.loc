@@ -143,10 +143,14 @@ class Article extends \yii\db\ActiveRecord
     public static function getArticles($page_size = 4)
     {
         $count = Yii::$app->db->createCommand(
-            'SELECT COUNT(id) as count FROM article')
+            'SELECT COUNT(a.id) as count
+                  FROM article a 
+                  INNER JOIN category c On a.category_id = c.id 
+                  INNER JOIN user u On u.id = a.user_id 
+                  Left Join comment cm On cm.article_id = a.id')
             ->queryOne();
 
-        $article['pagination'] = new Pagination(['totalCount' =>  $count['count'], 'pageSize'=>$page_size]);
+        $article['pagination'] = new Pagination(['totalCount' =>  $count['count'], 'pageSize' => $page_size]);
 
         $article['article'] =  Yii::$app->db->createCommand(
             'SELECT u.login,a.id,a.title,a.image,a.description,a.created_at,a.seo_url,c.id as \'category_id\',c.title as \'category\',COUNT(cm.id) as \'comment_count\'
@@ -191,6 +195,7 @@ class Article extends \yii\db\ActiveRecord
                   GROUP BY a.id')
             ->bindValue('article_id',$article_id)
             ->queryOne();
+
         if(!$article['article']){return false;}
         $article['np'] = Article::getPrevNext($article['article']);
 
@@ -202,13 +207,13 @@ class Article extends \yii\db\ActiveRecord
 
     public static function getArticlesByCategories($category_id)
     {
-        $article['count'] = Yii::$app->db->createCommand(
-            'SELECT count(id) FROM article 
+        $count = Yii::$app->db->createCommand(
+            'SELECT COUNT(id) as count FROM article 
                   WHERE category_id=:category_id')
             ->bindValue('category_id',$category_id)
-            ->queryAll();
+            ->queryOne();
 
-        $article['pagination'] = new Pagination(['totalCount' =>  $article['count'], 'pageSize'=>4]);
+        $article['pagination'] = new Pagination(['totalCount' =>  $count['count'], 'pageSize'=> 4]);
 
         $article['article'] =  Yii::$app->db->createCommand(
             'SELECT a.id,u.login,a.title,a.image,a.description,a.created_at,a.seo_url,c.id as \'category_id\',

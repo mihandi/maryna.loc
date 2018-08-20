@@ -14,7 +14,6 @@ $user_image = $user->getImage();
 
 $user->image = $user_image;
 $route = Url::toRoute("/site/set-image");
-$route = Url::base('')."site/set-image";
 
 ?>
 <?php /*
@@ -119,7 +118,7 @@ $route = Url::base('')."site/set-image";
                 <div class="row">
                         <div class="col-lg-6 col-md-6 ">
                             <?php echo $form->field($user, 'image')->widget(Widget::className(), [
-                                'uploadUrl' => Url::toRoute($route),
+                                'uploadUrl' => $route,
                                 'width' => 300,
                                 'height' => 300,
                             ]) ?>
