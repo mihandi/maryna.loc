@@ -43,7 +43,7 @@ return [
             'showScriptName' => false,
             'rules' => [
                 'blog/article/<seo-url:(\S+)>-<article_id:(\S+)>' => 'blog/article/',
-                'blog/category/<seo-url:(\S+)>-<category_id:(\S+)>' => 'blog/index/',
+                'blog/category/<seo-url:(\S+)>-<category_id:(\S+)>' => 'blog/category/',
                 'blog/search/<search:(\S+)>' => 'blog/search/',
             ],
         ],
