@@ -1,5 +1,7 @@
 <?php
 
+namespace common\models;
+
 class Functions {
 
     public static function pretty_var_dump($var, $args = array()) {

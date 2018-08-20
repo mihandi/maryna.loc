@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use Functions;
+use common\models\Functions;
 use Yii;
 use common\models\Category;
 use common\models\CategorySearch;

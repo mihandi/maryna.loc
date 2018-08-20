@@ -4,8 +4,8 @@ namespace backend\controllers;
 
 use common\models\Category;
 use common\models\Comment;
+use common\models\Functions;
 use common\models\ImageUpload;
-use Functions;
 use Yii;
 use common\models\Article;
 use common\models\ArticleSearch;
