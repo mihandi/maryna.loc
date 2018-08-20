@@ -3,7 +3,7 @@
     <ul class="lw-list v-list">
         <?php foreach ($categories as $category):?>
             <li>
-                <a href="<?= '/blog/index?category_id='.$category['id']?>"><?= $category['title']?></a>
+                <a href="<?= \common\models\Category::getLink($category['id'],$category['seo_url'])?>"><?= $category['title']?></a>
             </li>
         <?php endforeach; ?>
 

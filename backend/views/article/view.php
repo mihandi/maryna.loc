@@ -41,6 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'title',
+            'seo_url',
             'description:ntext',
             'content:ntext',
             'image',

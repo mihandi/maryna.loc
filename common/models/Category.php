@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string $title
+ * @property string $seo_url
  */
 class Category extends \yii\db\ActiveRecord
 {
@@ -38,6 +39,12 @@ class Category extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'title' => 'Title',
+            'seo_url' => 'Seo Url'
         ];
+    }
+
+    public static function getLink($category_id,$category_seo_url){
+        return "/blog/category/".$category_seo_url.'-'.$category_id;
+
     }
 }

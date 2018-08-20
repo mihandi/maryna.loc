@@ -5,6 +5,7 @@ namespace backend\controllers;
 use common\models\Category;
 use common\models\Comment;
 use common\models\ImageUpload;
+use Functions;
 use Yii;
 use common\models\Article;
 use common\models\ArticleSearch;
@@ -107,10 +108,13 @@ class ArticleController extends Controller
 
         $model = new Article();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $create_folder = new ImageUpload();
-            $create_folder->createFolder($model->id);
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->seo_url = Functions::getSeoUrl($model->title);
+            if($model->save()) {
+                $create_folder = new ImageUpload();
+                $create_folder->createFolder($model->id);
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('create', [
@@ -134,8 +138,11 @@ class ArticleController extends Controller
         }
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->seo_url = Functions::getSeoUrl($model->title);
+            if($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [

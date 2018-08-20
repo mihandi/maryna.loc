@@ -19,23 +19,7 @@ class BlogController extends Controller
 
     public function actionIndex()
     {
-
-        if($category_id = yii::$app->request->get('category_id'))
-        {
-            $data = Article::getArticlesByCategories($category_id);
-
-            return $this->render('blog_grid', [
-                'pagination' => $data['pagination'],
-                'articles' => $data['article'],
-                'count' => $data['count'],
-                'popular_articles' => Article::getPopular(),
-                'categories' => Article::getCategories(),
-                'months' => Article::getArchive()
-
-
-            ]);
-
-        }elseif($var = yii::$app->request->get('var')){
+        if($var = yii::$app->request->get('var')){
             $data = Article::getArticles(6);
 
             return $this->render('blog_grid_var_2', [
@@ -98,9 +82,10 @@ class BlogController extends Controller
             }
         }
     
-        $article_id = $_GET['article_id'];
+        $article_id = (int)$_GET['article_id'];
         $data = Article::getSingle($article_id);
-        if(!$data){return $this->redirect('/site/error');}
+
+        if(!isset($data)){return $this->redirect('/site/error');}
         Article::viewedCounter($data['article']['id'], $data['article']['viewed']);
 
         return $this->render('blog_single', [
@@ -114,6 +99,23 @@ class BlogController extends Controller
         ]);
 
 
+    }
+
+    public function actionCategory(){
+
+        if($category_id = yii::$app->request->get('category_id'))
+        {
+            $data = Article::getArticlesByCategories($category_id);
+
+            return $this->render('blog_grid', [
+                'pagination' => $data['pagination'],
+                'articles' => $data['article'],
+                'count' => $data['count'],
+                'popular_articles' => Article::getPopular(),
+                'categories' => Article::getCategories(),
+                'months' => Article::getArchive()
+            ]);
+        }
     }
 
     public function actionSearch()
