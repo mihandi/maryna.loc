@@ -6370,3 +6370,9 @@ body {
 .pagination > .prev:first-child>a {
   border-radius: 50%;
 }
+
+@media (min-width: 768px) {
+  .navbar-nav {
+    float: inherit !important;
+  }
+}
