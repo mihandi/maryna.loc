@@ -2,6 +2,7 @@
 
 /* @var $this yii\web\View */
 
+use common\models\Category;
 use yii\grid\GridView;
 use yii\widgets\LinkPager;
 
@@ -11,7 +12,7 @@ $article_image_path = '/elfinder/global/article_'.$article['id'].'/'.$article['i
 
 $articles_path = '/blog/article?id=';
 $user_path = '';
-$category_path =  '/blog/index?category_id='.$article['category_id'];
+$category_path =  Category::getLink($article['category_id'],$article['seo_url']);
 
 ?>
 <!-- main content-->

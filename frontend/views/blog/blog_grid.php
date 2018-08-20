@@ -29,7 +29,7 @@ $articles_image_path = '/elfinder/global/article_';
                                 </h3>
                                 <ul class="bw-cates h-list">
                                     <li>
-                                        <a href="<?= '/blog/index?category_id='.$article['category_id']?>"><?= $article['category']?></a>
+                                        <a href="<?= \common\models\Category::getLink($article['category_id'],$article['seo_url'])?>"><?= $article['category']?></a>
                                     </li>
                                 </ul>
                             </header>
