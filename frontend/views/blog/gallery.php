@@ -30,7 +30,7 @@
                             </a>
                         </div>
                     </div>
-                <?php endif;?>
+                <?php else:?>
                 <div class="mix col-lg-3 col-md-3 col-sm-5" style="display: none">
                     <div class="item">
                         <a href="<?= '/admin/elfinder/global/article_'.$article['id'].'/'.$photo?>" data-fancybox="gallery" class="image">
@@ -42,6 +42,7 @@
                         </a>
                     </div>
                 </div>
+                <?php endif;?>
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
