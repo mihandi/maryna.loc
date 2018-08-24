@@ -272,4 +272,13 @@ class ArticleController extends Controller
         ]);
 
     }
+/*
+    public function actionRegenUrl(){
+        $articles = Article::find()->all();
+        foreach ($articles as $article){
+            $article->seo_url = Functions::getSeoUrl($article->seo_url);
+            $article->save();
+        }
+    }
+*/
 }
