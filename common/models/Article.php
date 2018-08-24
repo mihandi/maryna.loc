@@ -29,6 +29,8 @@ use yii\data\SqlDataProvider;
 class Article extends \yii\db\ActiveRecord
 {
     const PAGE_SIZE = 4;
+
+    const META_TITLE = 'Необмежені можливості:';
     /**
      * @inheritdoc
      */

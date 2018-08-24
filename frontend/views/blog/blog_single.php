@@ -8,6 +8,11 @@ use yii\widgets\LinkPager;
 
 $this->title = $article['title'];
 
+$this->registerMetaTag([
+    'name' => 'description',
+    'content' => 'Громадська організація «Необмеженi можливостi». Харкiв'
+]);
+
 $article_image_path = '/elfinder/global/article_'.$article['id'].'/'.$article['image'];
 
 $articles_path = '/blog/article?id=';

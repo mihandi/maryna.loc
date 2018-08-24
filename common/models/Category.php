@@ -13,6 +13,8 @@ use Yii;
  */
 class Category extends \yii\db\ActiveRecord
 {
+    const META_TITLE = 'Необмежені можливості:';
+
     /**
      * @inheritdoc
      */
