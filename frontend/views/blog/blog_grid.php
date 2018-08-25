@@ -8,6 +8,13 @@ use yii\widgets\LinkPager;
 
 $this->title = 'Новини';
 
+if(isset($meta_category)) {
+    $this->registerMetaTag([
+        'name' => 'description',
+        'content' => \common\models\Article::META_TITLE . '. Категорiя:' .$meta_category
+]);
+}
+
 $articles_image_path = '/elfinder/global/article_';
 ?>
 
@@ -44,7 +51,7 @@ $articles_image_path = '/elfinder/global/article_';
                             </div>
                             <div class="bw-footer">
                                 <ul class="bw-infos h-list">
-                                    <li>BY
+                                    <li>By
                                         <a href="#"><?= $article['login']?></a>
                                     </li>
                                     <li><?= date('Y-m-d', $article['created_at'])?></li>

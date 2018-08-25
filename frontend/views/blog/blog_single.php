@@ -10,7 +10,7 @@ $this->title = $article['title'];
 
 $this->registerMetaTag([
     'name' => 'description',
-    'content' => 'Громадська організація «Необмеженi можливостi». Харкiв'
+    'content' => \common\models\Article::META_TITLE.': '.$article['title']
 ]);
 
 $article_image_path = '/elfinder/global/article_'.$article['id'].'/'.$article['image'];

@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\models\Article;
+use common\models\Category;
 use common\models\Comment;
 use common\models\Functions;
 use Yii;
@@ -102,7 +103,8 @@ class BlogController extends Controller
                 'articles' => $data['article'],
                 'popular_articles' => Article::getPopular(),
                 'categories' => Article::getCategories(),
-                'months' => Article::getArchive()
+                'months' => Article::getArchive(),
+                'meta_category' => Category::findOne(['id'=> $category_id])->title
             ]);
         }
     }
