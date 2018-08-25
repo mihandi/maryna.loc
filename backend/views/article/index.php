@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::img($data->getImage(), ['width'=>200]);
                 }
             ],
-             'seo_url',
+//             'seo_url',
             // 'user_id',
             // 'status',
             // 'category_id',

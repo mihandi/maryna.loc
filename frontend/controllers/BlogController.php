@@ -75,8 +75,7 @@ class BlogController extends Controller
         }
     
         $data = Article::getSingle($article_id);
-
-        if(!isset($data)){return $this->redirect('/site/error');}
+        if(empty($data)){$this->set404();}
         Article::viewedCounter($data['article']['id'], $data['article']['viewed']);
 
         return $this->render('blog_single', [
@@ -94,18 +93,26 @@ class BlogController extends Controller
 
     public function actionCategory(){
 
-        if($category_id = yii::$app->request->get('category_id'))
-        {
+        if($category_id = yii::$app->request->get('category_id')) {
             $data = Article::getArticlesByCategories($category_id);
 
-            return $this->render('blog_grid', [
-                'pagination' => $data['pagination'],
-                'articles' => $data['article'],
-                'popular_articles' => Article::getPopular(),
-                'categories' => Article::getCategories(),
-                'months' => Article::getArchive(),
-                'meta_category' => Category::findOne(['id'=> $category_id])->title
-            ]);
+            if(!empty($data['article'])){
+
+                return $this->render('blog_grid', [
+                    'pagination' => $data['pagination'],
+                    'articles' => $data['article'],
+                    'popular_articles' => Article::getPopular(),
+                    'categories' => Article::getCategories(),
+                    'months' => Article::getArchive(),
+                    'meta_category' => Category::findOne(['id'=> $category_id])->title
+                ]);
+            }
+            else{
+                $this->set404();
+            }
+        }
+        else{
+            $this->set404();
         }
     }
 
@@ -136,5 +143,10 @@ class BlogController extends Controller
             'months' => Article::getArchive()
 
         ]);
+    }
+
+
+    private function set404(){
+        $this->redirect('/site/error');
     }
 }
