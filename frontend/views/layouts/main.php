@@ -57,6 +57,9 @@ AppAsset::register($this);
 <!---->
 <!--                                    </ul>-->
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/gallery/">ГАЛЕРЕЯ</a>
+                                </li>
                                 <?php if(in_array(yii::$app->user->id,$admins)):?>
                                     <li class="nav-item">
                                         <a class="nav-link" href="/admin">Admin Panel</a>
@@ -130,6 +133,9 @@ AppAsset::register($this);
 <!--                                        <a class="drop-link" href="/blog/index?var=2">ВАРИАНТ 2</a>-->
 <!--                                    </li>-->
 <!--                                </ul>-->
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/gallery/">ГАЛЕРЕЯ</a>
                             </li>
                             <?php if(in_array(yii::$app->user->id,$admins)):?>
                                 <li class="nav-item">
