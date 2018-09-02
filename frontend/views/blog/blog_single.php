@@ -2,6 +2,7 @@
 
 /* @var $this yii\web\View */
 
+use common\models\Article;
 use common\models\Category;
 use yii\grid\GridView;
 use yii\widgets\LinkPager;
@@ -15,7 +16,6 @@ $this->registerMetaTag([
 
 $article_image_path = '/elfinder/global/article_'.$article['id'].'/'.$article['image'];
 
-$articles_path = '/blog/article?id=';
 $user_path = '';
 $category_path =  Category::getLink($article['category_id'],$article['seo_url']);
 
@@ -36,7 +36,7 @@ $category_path =  Category::getLink($article['category_id'],$article['seo_url'])
                                     <a href="/blog/index">Статті</a>
                                 </li>
                                 <li>
-                                    <a href="<?= $articles_path.$article['id']?>"><?= $article['title']?></a>
+                                    <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>"><?= $article['title']?></a>
                                 </li>
                             </ul>
                             <h3 class="post-title"><?= $article['title']?></h3>

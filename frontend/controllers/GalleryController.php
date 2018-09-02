@@ -12,12 +12,16 @@ class GalleryController extends Controller
     public function actionIndex(){
         $categories = Category::find()->all();
 
-        foreach ($categories as $category){
-            $galleries[] = Gallery::getGalleryByCategory($category);
-        }
+        $galleries = Gallery::getGalleries();
+        shuffle($galleries);
+
 
         return $this->render('index',
-            ['category_galleries' => $galleries,
+            ['galleries' => $galleries,
             'categories' => $categories]);
+    }
+    
+    public function actionSingle(){
+        $gallery_id = (int)$_GET['gallery_id'];
     }
 }

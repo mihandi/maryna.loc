@@ -86,15 +86,22 @@ class Gallery extends \yii\db\ActiveRecord
         }
     }
 
-    public static function getGalleryByCategory($category)
+    public static function getGalleries()
     {
             return Yii::$app->db->createCommand(
-                'SELECT ga.*,c.seo_url as cTitle
+                'SELECT ga.*,c.seo_url as category_seo_url
                   FROM gallery ga 
                   INNER JOIN category c On ga.category_id =c.id 
-                  WHERE c.id =:category_id
                   GROUP BY ga.id')
-                ->bindValue('category_id',$category->id)
                 ->queryAll();
+    }
+
+    public static function getImage($id)
+    {
+        return '/elfinder/global/article_1/main.jpg';
+    }
+
+    public static function getLink($gallery_id,$gallery_seo_url){
+        return "/gallery/single/".$gallery_seo_url.'-'.$gallery_id;
     }
 }

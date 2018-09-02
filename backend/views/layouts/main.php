@@ -46,6 +46,7 @@ AppAsset::register($this);
     } else {
         $menuItems[] = ['label' => 'User Page', 'url' => ['/user/']];
         $menuItems[] = ['label' => 'Articles', 'url' => ['/article/index']];
+        $menuItems[] = ['label' => 'Gallery', 'url' => ['/gallery/index']];
         $menuItems[] = ['label' => 'Categories', 'url' => ['/category/index']];
         $menuItems[] =  ['label' => 'Comments', 'url' => ['/comment/index']];
 

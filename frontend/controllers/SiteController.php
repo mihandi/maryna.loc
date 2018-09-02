@@ -2,6 +2,8 @@
 namespace frontend\controllers;
 
 use common\models\Article;
+use common\models\Category;
+use common\models\Gallery;
 use common\models\ImageUpload;
 use Imagine\Image\Box;
 use Yii;
@@ -76,12 +78,18 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        $categories = Category::find()->all();
 
+        $galleries = Gallery::getGalleries();
+        shuffle($galleries);
         
         $data = Article::getRecent(9);
 
         return $this->render('index',[
-            'recent' => $data]);
+            'recent' => $data,
+            'galleries' => $galleries,
+            'categories' => $categories
+        ]);
 
     }
 

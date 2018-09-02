@@ -1,5 +1,7 @@
 ﻿<?php
-$articles_path = '/blog/article?id=';
+use common\models\Article;
+use common\models\Gallery;
+
 $articles_image_path = '/elfinder/global/article_';
 $articles = array_chunk($recent,3);
 
@@ -129,18 +131,18 @@ $this->registerMetaTag([
                                 <article class="box-primary box-blog">
                                     <figure class="box-figure">
     <!--                                    --><?//= var_dump($articles_image_path.$article['id'].'/'.$article['image']);die();?>
-                                        <a href="<?= $articles_path.$article['id']?>">
+                                        <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>">
                                             <img class="box-image blog-image" src="<?= $articles_image_path.$article['id'].'/'.$article['image']?>" alt="<?= $article['title']?>" />
                                         </a>
                                     </figure>
                                     <header class="box-header">
                                         <h3 class="box-title blog-title">
-                                            <a href="<?= $articles_path.$article['id']?>"><?= $article['title']?></a>
+                                            <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>"><?= $article['title']?></a>
                                         </h3>
                                     </header>
                                     <p class="box-text"><?= substr($article['description'],0,400).'...'?></p>
                                     <footer class="box-footer">
-                                        <a class="blog-link" href="<?= $articles_path.$article['id']?>">продовжити читання</a>
+                                        <a class="blog-link" href="<?= Article::getLink($article['id'],$article['seo_url'])?>">продовжити читання</a>
                                     </footer>
                                 </article>
                             </div>
@@ -153,6 +155,49 @@ $this->registerMetaTag([
     </div>
 </section>
 <!-- end latest blog-->
+
+<!-- section portfolio-->
+<section class="section section-portfolio bg-white p-t-120 p-b-135">
+    <div class="container">
+        <div class="section-inner">
+            <h3 class="section-heading m-b-40">Галерея</h3>
+            <ul class="filter-bar h-list">
+                <li class="list-item active" data-filter="*">Всi</li>
+
+                <?php foreach ($categories as $category): ?>
+                    <li class="list-item" data-filter=".<?= $category->seo_url; ?>"><?= $category->title?></li>
+                <?php endforeach;?>
+            </ul>
+            <div class="row po-list isotope">
+                <?php $i = 0; foreach ($galleries as $gallery): $i++; ?>
+
+                    <div class="col-lg-6 col-md-6 isotope-item <?= $gallery['category_seo_url'] ?> wow fadeIn" data-wow-duration="0.5s">
+
+                        <article class="card-primary card-portfolio" style="display: <?= $i<7?'block':'none'?>">
+                            <a class="card-link-overlay" href="<?= Gallery::getLink($gallery['id'],$gallery['seo_url'])?>"></a>
+                            <div class="bg-overlay"></div>
+                            <figure class="card-figure">
+                                <img class="card-image" src="<?= Gallery::getImage($gallery['id']);?>" alt="<?= $gallery['title'] ?>" />
+                            </figure>
+                            <div class="card-featured">
+                                <a class="portfolio-link fa fa-chain" href="<?= Gallery::getLink($gallery['id'],$gallery['seo_url'])?>"></a>
+                                <a class="portfolio-view fa fa-search" href="<?= Gallery::getImage($gallery['id']);?>" data-lightbox="roadtrip" data-title="<?= $gallery['title'] ?>"></a>
+                            </div>
+                            <header class="card-header">
+                                <h3 class="card-title portfolio-title"><?= $gallery['title'] ?></h3>
+                            </header>
+                        </article>
+                    </div>
+
+                <?php endforeach;?>
+            </div>
+            <div class="po-btn">
+                <a class="au-btn au-btn-lg au-btn-radius au-btn-border au-btn-block load-btn" href="#">Показати всi</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end section portfolio-->
 
 <!-- section testimonials-->
 <section class="section section-testi bg-grey-1 p-t-110 p-b-135">
