@@ -85,4 +85,16 @@ class Gallery extends \yii\db\ActiveRecord
             rmdir($dir);
         }
     }
+
+    public static function getGalleryByCategory($category)
+    {
+            return Yii::$app->db->createCommand(
+                'SELECT ga.*,c.seo_url as cTitle
+                  FROM gallery ga 
+                  INNER JOIN category c On ga.category_id =c.id 
+                  WHERE c.id =:category_id
+                  GROUP BY ga.id')
+                ->bindValue('category_id',$category->id)
+                ->queryAll();
+    }
 }
