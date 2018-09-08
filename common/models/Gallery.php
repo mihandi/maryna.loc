@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use SplFileInfo;
 use Yii;
 
 /**
@@ -57,10 +58,12 @@ class Gallery extends \yii\db\ActiveRecord
     {
         $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/gallery/'.$gallery_title;
         if(!is_dir($path_to_folder)){
-            mkdir($path_to_folder);
-            chmod("$path_to_folder", 0777);
+            if(mkdir($path_to_folder)){
+                chmod("$path_to_folder", 0777);
+                mkdir($path_to_folder.'/main');
+                chmod("$path_to_folder".'/main', 0777);
+            }
         }
-        return $path_to_folder.'/';
     }
 
     public function updateFolder($old_gallery_title,$new_gallery_title)
@@ -96,9 +99,28 @@ class Gallery extends \yii\db\ActiveRecord
                 ->queryAll();
     }
 
-    public static function getImage($id)
+    public static function getMainImage($dir_name)
     {
-        return '/elfinder/global/article_1/main.jpg';
+        $path_to_img = Yii::getAlias( '@backend' ).'/web/elfinder/global/gallery/'.$dir_name."/main";
+        $files1 = scandir($path_to_img);
+
+        foreach ($files1 as $value) {
+            if (!in_array($value, array(".", ".."))
+                && !is_dir($path_to_img . DIRECTORY_SEPARATOR . $value)) {
+                $info = new SplFileInfo($value);
+                if (in_array($info->getExtension(), array("jpg", "png","jpeg"))) {
+
+                    $result[] = $value;
+                }
+            }
+        }
+        if(isset($result) && isset($result[0])){
+            return '/elfinder/global/gallery/'.$dir_name.'/main/'.$result[0];
+        }
+    }
+
+    public static function getImages(){
+
     }
 
     public static function getLink($gallery_id,$gallery_seo_url){

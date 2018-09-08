@@ -34,11 +34,11 @@ $i = 0;
                                     <a class="card-link-overlay" href=""></a>
                                     <div class="bg-overlay"></div>
                                     <figure class="card-figure">
-                                        <img class="card-image" src="<?= Gallery::getImage($gallery['id']);?>" alt="<?= $gallery['title'] ?>" />
+                                        <img class="card-image" src="<?= Gallery::getMainImage($gallery['dir_name']);?>" alt="<?= $gallery['title'] ?>" />
                                     </figure>
                                     <div class="card-featured">
                                         <a class="portfolio-link fa fa-chain" href="portfolio-details.html"></a>
-                                        <a class="portfolio-view fa fa-search" href="<?= Gallery::getImage($gallery['id']);?>" data-lightbox="roadtrip" data-title="<?= $gallery['title'] ?>"></a>
+                                        <a class="portfolio-view fa fa-search" href="<?= Gallery::getMainImage($gallery['dir_name']);?>" data-lightbox="roadtrip" data-title="<?= $gallery['title'] ?>"></a>
                                     </div>
                                     <header class="card-header">
                                         <h3 class="card-title portfolio-title"><?= $gallery['title'] ?></h3>
