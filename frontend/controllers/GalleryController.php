@@ -23,5 +23,12 @@ class GalleryController extends Controller
     
     public function actionSingle(){
         $gallery_id = (int)$_GET['gallery_id'];
+
+        $this->layout = 'test.php';
+        $gallery = Gallery::findOne($gallery_id);
+        $photos = Gallery::getImages($gallery->dir_name);
+
+        return $this->render('single',['photos' => $photos,
+        'gallery' => $gallery]);
     }
 }

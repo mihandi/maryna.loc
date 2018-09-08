@@ -32,7 +32,7 @@ class Gallery extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'category_id', 'seo_url','dir_name'], 'required'],
+            [['title', 'category_id', 'seo_url'], 'required'],
             [['title', 'seo_url','dir_name'], 'string'],
             [['category_id', 'article_id'], 'integer'],
             [['old_dir_name'], 'safe']
@@ -119,8 +119,27 @@ class Gallery extends \yii\db\ActiveRecord
         }
     }
 
-    public static function getImages(){
+    public static function getImages($dir_name)
+    {
+        $path_to_img = Yii::getAlias( '@backend' ).'/web/elfinder/global/gallery/'.$dir_name."/";
+        $files1 = scandir($path_to_img);
 
+        foreach ($files1 as $value) {
+            if (!in_array($value, array(".", ".."))
+                && !is_dir($path_to_img . DIRECTORY_SEPARATOR . $value)) {
+                $info = new SplFileInfo($value);
+                if (in_array($info->getExtension(), array("jpg", "png","jpeg"))) {
+
+                    $result[] = $value;
+                }
+            }
+        }
+
+       return $result;
+    }
+
+    public static function getImage(){
+        
     }
 
     public static function getLink($gallery_id,$gallery_seo_url){

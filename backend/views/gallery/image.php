@@ -21,8 +21,8 @@ $route = "/gallery/set-image?id=".$gallery_id;
 <?php $form = ActiveForm::begin(['id' => 'form-profile']); ?>
 <?php echo $form->field($model, 'image')->widget(Widget::className(), [
     'uploadUrl' => Url::toRoute($route),
-    'width' => 1600,
-    'height' => 718,
+    'width' => 1140,
+    'height' => 758,
 ]) ?>
 <?php ActiveForm::end(); ?>
 

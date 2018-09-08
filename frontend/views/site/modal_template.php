@@ -1,6 +1,6 @@
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>-->
 
 <?php if(isset($model) && !$model->errors):?>
     <div align="center" style='color: #64a933;'>Добро пожаловать</div>

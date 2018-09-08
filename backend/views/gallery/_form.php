@@ -24,7 +24,7 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'old_dir_name')->hiddenInput(['value' => $model->dir_name])->label(false); ?>
 
-    <?= $form->field($model, 'dir_name')->textarea() ?>
+<!--    --><?//= $form->field($model, 'dir_name')->textarea() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

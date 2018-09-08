@@ -142,6 +142,7 @@ class GalleryController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->seo_url = Functions::getSeoUrl($model->title);
+            $model->dir_name = $model->seo_url;
             if ($model->save()) {
                 $model->createFolder($model->dir_name);
                 return $this->redirect(['view', 'id' => $model->id]);
