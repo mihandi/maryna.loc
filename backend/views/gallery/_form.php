@@ -14,7 +14,7 @@ use yii\helpers\ArrayHelper;
 
 <div class="gallery-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?= $form->field($model, 'title')->textarea() ?>
 
@@ -23,6 +23,8 @@ use yii\helpers\ArrayHelper;
     ) ?>
 
     <?= $form->field($model, 'old_dir_name')->hiddenInput(['value' => $model->dir_name])->label(false); ?>
+
+    <?= $form->field($model, 'images[]')->fileInput(['multiple' => true]) ?>
 
 <!--    --><?//= $form->field($model, 'dir_name')->textarea() ?>
 

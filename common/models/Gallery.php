@@ -18,6 +18,7 @@ use Yii;
 class Gallery extends \yii\db\ActiveRecord
 {
     public  $old_dir_name;
+    public $images;
     /**
      * @inheritdoc
      */
@@ -35,7 +36,7 @@ class Gallery extends \yii\db\ActiveRecord
             [['title', 'category_id', 'seo_url'], 'required'],
             [['title', 'seo_url','dir_name'], 'string'],
             [['category_id', 'article_id'], 'integer'],
-            [['old_dir_name'], 'safe']
+            [['old_dir_name'], 'safe'],
         ];
     }
 
@@ -144,5 +145,15 @@ class Gallery extends \yii\db\ActiveRecord
 
     public static function getLink($gallery_id,$gallery_seo_url){
         return "/gallery/single/".$gallery_seo_url.'-'.$gallery_id;
+    }
+
+    public function uploadImages(){
+        $imageUpload = new ImageUpload();
+        $imageUpload->scenario = ImageUpload::GALLERY_UPLOAD_SCENARIO;
+        foreach ($this->images as $file) {
+            $imageUpload->image = $file;
+            $imageUpload->saveImage($this->id);
+        }
+        return true;
     }
 }

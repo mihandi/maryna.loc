@@ -7,6 +7,10 @@ use yii\web\UploadedFile;
 class ImageUpload extends Model{
 
     public $image;
+
+    const GALLERY_UPLOAD_SCENARIO = 1;
+    const ARTICLE_UPLOAD_SCENARIO = 2;
+
     public function rules()
     {
         return [
@@ -25,9 +29,14 @@ class ImageUpload extends Model{
         }
     }
 
-    public function getFolder()
+    public function getFolder($obj_id = null)
     {
-        $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/article_'.yii::$app->request->get('id');
+        if($this->scenario == self::GALLERY_UPLOAD_SCENARIO){
+            $gallery = Gallery::findOne($obj_id);
+            $path_to_folder = Yii::getAlias('@backend') . '/web/elfinder/global/gallery/'.$gallery->dir_name."/";
+        }elseif($this->scenario == self::ARTICLE_UPLOAD_SCENARIO) {
+            $path_to_folder = Yii::getAlias('@backend') . '/web/elfinder/global/article_'.Yii::$app->request->get('id');
+        }
         if(!is_dir($path_to_folder)){
            mkdir($path_to_folder);
         }
@@ -55,10 +64,16 @@ class ImageUpload extends Model{
         }
     }
 
-    public function saveImage()
+    public function saveImage($obj_id = null)
     {
+        $image = new Image();
+        $image->name = $this->image->name;
+        $image->gallery_id = $obj_id;
+        if(!$image->save()){
+            Functions::pretty_var_dump($image->errors);die();
+        }
         $filename = $this->generateFilename();
-        $this->image->saveAs($this->getFolder() . $filename);
+        $this->image->saveAs($this->getFolder($obj_id) . $filename);
         return $filename;
     }
 

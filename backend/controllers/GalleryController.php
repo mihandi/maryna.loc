@@ -141,11 +141,22 @@ class GalleryController extends Controller
         $model = new Gallery();
 
         if ($model->load(Yii::$app->request->post())) {
+            $model->images = UploadedFile::getInstances($model, 'images');
+
             $model->seo_url = Functions::getSeoUrl($model->title);
             $model->dir_name = $model->seo_url;
+            $model->save(false);
+
+            if(isset($model->images)) {
+                $model->uploadImages();
+            }
+
+
             if ($model->save()) {
-                $model->createFolder($model->dir_name);
+//                $model->createFolder($model->dir_name);
                 return $this->redirect(['view', 'id' => $model->id]);
+            }else{
+                Functions::pretty_var_dump($model->errors);die();
             }
         }
 
@@ -215,5 +226,10 @@ class GalleryController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionTest(){
+        $gallery = new Gallery();
+        return $this->render('test',['model' => $gallery]);
     }
 }
