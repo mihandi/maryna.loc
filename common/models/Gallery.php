@@ -116,7 +116,7 @@ class Gallery extends \yii\db\ActiveRecord
             }
         }
         if(isset($result) && isset($result[0])){
-            return '/elfinder/global/gallery/'.$dir_name.'/main/'.$result[0];
+            return '/admin/elfinder/global/gallery/'.$dir_name.'/main/'.$result[0];
         }
     }
 
