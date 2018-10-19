@@ -75,7 +75,7 @@ class ImageUpload extends Model{
 
 
         }elseif($this->scenario == self::ARTICLE_UPLOAD_SCENARIO) {
-            if($main_photo){
+            if(!empty($main_photo)){
                 $image->name = 'main.jpg';
                 $filename = $image->name;
             }
