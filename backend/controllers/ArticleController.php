@@ -151,8 +151,10 @@ class ArticleController extends Controller
             $model->image = UploadedFile::getInstance($model, 'image');
             $model->image->name = 'main.jpg';
             $model->seo_url = Functions::getSeoUrl($model->title);
+            $model->images = UploadedFile::getInstances($model, 'images');
+
             if($model->save()) {
-                if(isset($model->image)) {
+                if(isset($model->image) && isset($model->images)) {
                     $model->uploadImages();
                 }
                 return $this->redirect(['view', 'id' => $model->id]);
