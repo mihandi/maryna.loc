@@ -100,47 +100,57 @@ class Gallery extends \yii\db\ActiveRecord
                 ->queryAll();
     }
 
-    public static function getMainImage($dir_name)
+//    public static function getMainImage($dir_name)
+//    {
+//        $path_to_img = Yii::getAlias( '@backend' ).'/web/elfinder/global/gallery/'.$dir_name."/main";
+//        $files1 = scandir($path_to_img);
+//
+//        foreach ($files1 as $value) {
+//            if (!in_array($value, array(".", ".."))
+//                && !is_dir($path_to_img . DIRECTORY_SEPARATOR . $value)) {
+//                $info = new SplFileInfo($value);
+//                if (in_array($info->getExtension(), array("jpg", "png","jpeg"))) {
+//
+//                    $result[] = $value;
+//                }
+//            }
+//        }
+//        if(isset($result) && isset($result[0])){
+//            return '/admin/elfinder/global/gallery/'.$dir_name.'/main/'.$result[0];
+//        }
+//    }
+
+    public static function getImages($gallery)
     {
-        $path_to_img = Yii::getAlias( '@backend' ).'/web/elfinder/global/gallery/'.$dir_name."/main";
-        $files1 = scandir($path_to_img);
+        $images = Image::findAll(['gallery_id' => $gallery['id']]);
 
-        foreach ($files1 as $value) {
-            if (!in_array($value, array(".", ".."))
-                && !is_dir($path_to_img . DIRECTORY_SEPARATOR . $value)) {
-                $info = new SplFileInfo($value);
-                if (in_array($info->getExtension(), array("jpg", "png","jpeg"))) {
 
-                    $result[] = $value;
-                }
-            }
+        foreach ($images as $photo){
+            $photos[] = $photo['name'];
         }
-        if(isset($result) && isset($result[0])){
-            return '/admin/elfinder/global/gallery/'.$dir_name.'/main/'.$result[0];
-        }
+//        $path_to_img = Yii::getAlias( '@backend' ).'/web/elfinder/global/gallery/'.$dir_name."/";
+//        $files1 = scandir($path_to_img);
+//
+//        foreach ($files1 as $value) {
+//            if (!in_array($value, array(".", ".."))
+//                && !is_dir($path_to_img . DIRECTORY_SEPARATOR . $value)) {
+//                $info = new SplFileInfo($value);
+//                if (in_array($info->getExtension(), array("jpg", "png","jpeg"))) {
+//
+//                    $result[] = $value;
+//                }
+//            }
+//        }
+
+       return $photos;
     }
 
-    public static function getImages($dir_name)
+    public static function getMainImage($gallery,$w = 500, $h = 500)
     {
-        $path_to_img = Yii::getAlias( '@backend' ).'/web/elfinder/global/gallery/'.$dir_name."/";
-        $files1 = scandir($path_to_img);
-
-        foreach ($files1 as $value) {
-            if (!in_array($value, array(".", ".."))
-                && !is_dir($path_to_img . DIRECTORY_SEPARATOR . $value)) {
-                $info = new SplFileInfo($value);
-                if (in_array($info->getExtension(), array("jpg", "png","jpeg"))) {
-
-                    $result[] = $value;
-                }
-            }
-        }
-
-       return $result;
-    }
-
-    public static function getImage(){
-        
+        $get = 'w='.$w.'&h='.$h;
+        return (file_exists(Yii::getAlias( '@backend' ).'/web/elfinder/global/gallery/'.$gallery['dir_name'].'/main/main.jpg') )
+            ? '/admin/timthumb.php?src=/elfinder/global/gallery/'.$gallery['dir_name'].'/main/main.jpg&'.$get
+            : '/admin/no-image.jpg?'.$get;
     }
 
     public static function getLink($gallery_id,$gallery_seo_url){

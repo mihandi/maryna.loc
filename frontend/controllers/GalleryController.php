@@ -26,7 +26,7 @@ class GalleryController extends Controller
 
 //        $this->layout = 'test.php';
         $gallery = Gallery::findOne($gallery_id);
-        $photos = Gallery::getImages($gallery->dir_name);
+        $photos = Gallery::getImages($gallery);
 
         return $this->render('single',['photos' => $photos,
         'gallery' => $gallery]);

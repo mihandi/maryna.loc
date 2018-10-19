@@ -28,16 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     <?php $path_to_folder = '/gallery/'.$model->dir_name;?>
 
-    <?= InputFile::widget([
-        'language'   => 'ru',
-        'controller' => 'elfinder', // вставляем название контроллера, по умолчанию равен elfinder
-        'path' => $path_to_folder, // будет открыта папка из настроек контроллера с добавлением указанной под деритории
-//        'filter'     => 'image',    // фильтр файлов, можно задать массив фильтров https://github.com/Studio-42/elFinder/wiki/Client-configuration-options#wiki-onlyMimes
-        'name'       => 'myinput',
-//        'value'      => '',
-    ]);
-    ?>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [

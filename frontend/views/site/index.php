@@ -2,7 +2,6 @@
 use common\models\Article;
 use common\models\Gallery;
 
-$articles_image_path = '/elfinder/global/article_';
 $articles = array_chunk($recent,3);
 
 $testemonials = array_chunk([
@@ -130,9 +129,8 @@ $this->registerMetaTag([
                                 <div class="col-lg-4 col-md-6">
                                 <article class="box-primary box-blog">
                                     <figure class="box-figure">
-    <!--                                    --><?//= var_dump($articles_image_path.$article['id'].'/'.$article['image']);die();?>
                                         <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>">
-                                            <img class="box-image blog-image" src="<?= $articles_image_path.$article['id'].'/'.$article['image']?>" alt="<?= $article['title']?>" />
+                                            <img class="box-image blog-image" src="<?= Article::getMainImage($article,740,556)?>" alt="<?= $article['title']?>" />
                                         </a>
                                     </figure>
                                     <header class="box-header">
@@ -177,11 +175,11 @@ $this->registerMetaTag([
                             <a class="card-link-overlay" href="<?= Gallery::getLink($gallery['id'],$gallery['seo_url'])?>"></a>
                             <div class="bg-overlay"></div>
                             <figure class="card-figure">
-                                <img class="card-image" src="<?= Gallery::getMainImage($gallery['dir_name']);?>" alt="<?= $gallery['title'] ?>" />
+                                <img class="card-image" src="<?= Gallery::getMainImage($gallery);?>" alt="<?= $gallery['title'] ?>" />
                             </figure>
                             <div class="card-featured">
                                 <a class="portfolio-link fa fa-chain" href="<?= Gallery::getLink($gallery['id'],$gallery['seo_url'])?>"></a>
-                                <a class="portfolio-view fa fa-search" href="<?= Gallery::getMainImage($gallery['dir_name']);?>" data-lightbox="roadtrip" data-title="<?= $gallery['title'] ?>"></a>
+                                <a class="portfolio-view fa fa-search" href="<?= Gallery::getMainImage($gallery);?>" data-lightbox="roadtrip" data-title="<?= $gallery['title'] ?>"></a>
                             </div>
                             <header class="card-header">
                                 <h3 class="card-title portfolio-title"><?= $gallery['title'] ?></h3>

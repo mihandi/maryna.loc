@@ -14,8 +14,6 @@ if(isset($meta_category)) {
         'content' => \common\models\Article::META_TITLE . '. Категорiя:' .$meta_category
 ]);
 }
-
-$articles_image_path = '/elfinder/global/article_';
 ?>
 
 
@@ -42,7 +40,7 @@ $articles_image_path = '/elfinder/global/article_';
                             </header>
                             <figure class="bw-image img-radius img-hv-zoomIn">
                                 <a href="<?= Article::getLink($article['id'],$article['seo_url']) ?>">
-                                    <img class="img-fluid" src="<?= $articles_image_path = '/elfinder/global/article_'.$article['id'].'/'.$article['image'] ?>" alt="<?= $article['title']?>">
+                                    <img class="img-fluid" src="<?= Article::getMainImage($article,1600,718) ?>" alt="<?= $article['title']?>">
                                 </a>
                             </figure>
                             <div class="bw-body m-b-30">

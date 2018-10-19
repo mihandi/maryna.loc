@@ -115,7 +115,7 @@ class GalleryController extends Controller
             if ($image->save($path_to_folder . $imageName, $saveOptions)) {
                 $date = date_create();
                 $result = [
-                    'filelink' => '/elfinder/global/gallery/'.$gallery->dir_name.'/main/'.$imageName.'?'.date_timestamp_get($date)
+                    'filelink' => '/admin/elfinder/global/gallery/'.$gallery->dir_name.'/main/'.$imageName.'?'.date_timestamp_get($date)
                 ];
             } else {
                 $result = [

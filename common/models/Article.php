@@ -28,6 +28,8 @@ use yii\data\SqlDataProvider;
  */
 class Article extends \yii\db\ActiveRecord
 {
+    public $images;
+
     const PAGE_SIZE = 4;
 
     const META_TITLE = 'Необмежені можливості';
@@ -45,7 +47,7 @@ class Article extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title','description','content','user_id','seo_url'], 'required'],
+            [['title','description','content','user_id','seo_url','image'], 'required'],
             [['title','description','content'], 'string'],
             [['title'], 'string', 'max' => 255],
             [['category_id'], 'number']
@@ -91,15 +93,19 @@ class Article extends \yii\db\ActiveRecord
         return $this->save(false);
     }
 
-    public function getImage()
+    public static function getMainImage($article,$w = 500, $h = 500)
     {
-        return ($this->image) ? '/elfinder/global/article_'.$this->id.'/' . $this->image : '/no-image.png';
+        $get = 'w='.$w.'&h='.$h;
+        return ($article['image'] && file_exists(Yii::getAlias( '@backend' ).'/web/elfinder/global/article_'.$article['id'].'/' . $article['image']) )
+            ? '/admin/timthumb.php?src=/elfinder/global/article_'.$article['id'].'/' . $article['image'].'&'.$get
+            : '/admin/no-image.jpg?'.$get;
     }
 
     public function deleteImage()
     {
         $imageUploadModel = new ImageUpload();
-        $imageUploadModel->deleteCurrentImage($this->image);
+        $imageUploadModel->scenario = ImageUpload::ARTICLE_UPLOAD_SCENARIO;
+        $imageUploadModel->deleteCurrentImage($this->image,$this->id);
     }
 
     public function beforeDelete()
@@ -416,6 +422,14 @@ class Article extends \yii\db\ActiveRecord
 
     public static function getLink($article_id,$article_seo_url){
         return "/blog/article/".$article_seo_url.'-'.$article_id;
+    }
+
+    public function uploadImages(){
+        $imageUpload = new ImageUpload();
+        $imageUpload->scenario = ImageUpload::ARTICLE_UPLOAD_SCENARIO;
+            $imageUpload->image = $this->image;
+            $imageUpload->saveImage($this->id);
+        return true;
     }
 
 }

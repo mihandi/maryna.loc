@@ -12,7 +12,7 @@ use yii\widgets\LinkPager;
                     <article class="box-primary box-blog">
                         <figure class="box-figure">
                             <a href="<?= Gallery::getLink($gallery['id'],$gallery['seo_url'])?>">
-                                <img class="box-image blog-image" src="<?= Gallery::getMainImage($gallery['dir_name']);?>" alt="MOBILE FIRST &amp; RESPONSIVE" />
+                                <img class="box-image blog-image" src="<?= Gallery::getMainImage($gallery);?>" alt="MOBILE FIRST &amp; RESPONSIVE" />
                             </a>
                         </figure>
                         <header class="box-header">

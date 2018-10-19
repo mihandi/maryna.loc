@@ -10,6 +10,7 @@ use Yii;
 use common\models\Article;
 use common\models\ArticleSearch;
 use yii\base\DynamicModel;
+use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -110,9 +111,14 @@ class ArticleController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->seo_url = Functions::getSeoUrl($model->title);
+            $model->image = UploadedFile::getInstance($model, 'image');
+            $model->image->name = 'main.jpg';
+
+
             if($model->save()) {
-                $create_folder = new ImageUpload();
-                $create_folder->createFolder($model->id);
+                if(isset($model->image)) {
+                    $model->uploadImages();
+                }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -123,6 +129,8 @@ class ArticleController extends Controller
         ]);
 
     }
+
+
 
     /**
      * Updates an existing Article model.
@@ -164,11 +172,11 @@ class ArticleController extends Controller
         if(yii::$app->user->isGuest) {
             return $this->redirect('/site/login');
         }
-
         $this->findModel($id)->delete();
 
+
         $imageU = new ImageUpload();
-        $imageU->removeDirectory(Yii::getAlias('@backend') . '/web/elfinder/global/article_' . yii::$app->request->get('id'));
+        $imageU->removeDirectory(Yii::getAlias('@backend') . '/web/elfinder/global/article_' . $id);
 
         $comment = new Comment();
         $comment->deleteArticleComments($id);

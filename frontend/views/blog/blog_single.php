@@ -14,7 +14,9 @@ $this->registerMetaTag([
     'content' => \common\models\Article::META_TITLE.': '.$article['title']
 ]);
 
-$article_image_path = '/elfinder/global/article_'.$article['id'].'/'.$article['image'];
+//$article_image_path = ;
+
+    '/admin/timthumb.php?src=/elfinder/global/article_'.$article['id'].'/' . $article['image'];
 
 $user_path = '';
 $category_path =  Category::getLink($article['category_id'],$article['seo_url']);
@@ -42,7 +44,7 @@ $category_path =  Category::getLink($article['category_id'],$article['seo_url'])
                             <h3 class="post-title"><?= $article['title']?></h3>
                         </header>
                         <figure class="post-image img-radius m-b-45">
-                            <img class="img-fluid" src="<?= $article_image_path?>" alt="<?= $article['title']?>">
+                            <img class="img-fluid" src="<?= Article::getMainImage($article,1600,718)?>" alt="<?= $article['title']?>">
                         </figure>
                         <div class="post-body">
                             <h3 class="post-title"><?= $article['title']?></h3>

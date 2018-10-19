@@ -26,6 +26,9 @@ use mihaildev\elfinder\ElFinder;
         ]);
     ?>
 
+    <?= $form->field($model, 'image')->fileInput() ?>
+
+
     <?= $form->field($model, 'user_id')->hiddenInput(['value'=> Yii::$app->user->id])->label(false);?>
 
     <?= $form->field($model, 'category_id')->dropDownList(

@@ -27,7 +27,7 @@ class Image extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['gallery_id', 'name'], 'required'],
+            [['name'], 'required'],
             [['gallery_id'], 'integer'],
             [['name'], 'string'],
         ];

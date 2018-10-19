@@ -8,7 +8,7 @@
         <?php foreach ($popular_articles as $article):?>
             <li class="box-blog-sm">
             <a class="box-image" href="<?= Article::getLink($article['id'],$article['seo_url']) ?>">
-                <img src="<?= '/elfinder/global/article_'.$article['id'].'/'.$article['image']?>" alt="Популярні статті">
+                <img src="<?= Article::getMainImage($article,480,480)?>" alt="Популярні статті">
             </a>
             <div class="box-content">
                 <h3 class="box-title">
