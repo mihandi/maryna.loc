@@ -64,17 +64,21 @@ class ImageUpload extends Model{
         }
     }
 
-    public function saveImage($obj_id = null)
+    public function saveImage($obj_id = null,$main_photo = null)
     {
         $image = new Image();
+        $filename = $this->generateFilename();
+        $image->name = $filename;
+
         if($this->scenario == self::GALLERY_UPLOAD_SCENARIO) {
             $image->gallery_id = $obj_id;
-            $filename = $this->generateFilename();
-            $image->name = $filename;
+
 
         }elseif($this->scenario == self::ARTICLE_UPLOAD_SCENARIO) {
-            $image->name = 'main.jpg';
-            $filename = $image->name;
+            if($main_photo){
+                $image->name = 'main.jpg';
+                $filename = $image->name;
+            }
         }
 
         if(!$image->save()){

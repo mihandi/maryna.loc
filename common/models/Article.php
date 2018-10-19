@@ -427,8 +427,14 @@ class Article extends \yii\db\ActiveRecord
     public function uploadImages(){
         $imageUpload = new ImageUpload();
         $imageUpload->scenario = ImageUpload::ARTICLE_UPLOAD_SCENARIO;
+
             $imageUpload->image = $this->image;
+            $imageUpload->saveImage($this->id,true);
+
+        foreach ($this->images as $file) {
+            $imageUpload->image = $file;
             $imageUpload->saveImage($this->id);
+        }
         return true;
     }
 

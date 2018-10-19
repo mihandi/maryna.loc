@@ -179,7 +179,13 @@ class GalleryController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) ) {
+            $model->images = UploadedFile::getInstances($model, 'images');
             $model->seo_url = Functions::getSeoUrl($model->title);
+            $model->save(false);
+
+            if(isset($model->images)) {
+                $model->uploadImages();
+            }
             if ($model->save()) {
                 $model->updateFolder($model->old_dir_name,$model->dir_name);
                 return $this->redirect(['view', 'id' => $model->id]);
