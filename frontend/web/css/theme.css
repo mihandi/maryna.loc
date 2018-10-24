@@ -2750,7 +2750,6 @@ input[type='submit'], button[type='button'] {
   .filter-bar .list-item {
     margin: 0 0 10px 0;
     display: block;
-    width: 50%;
     float: left;
   }
 }
@@ -5177,7 +5176,7 @@ ul.list-reset {
 ========================================================================
 */
 .section-blog .bo-list .slick-dots {
-  margin-top: 55px;
+  margin-top: 1px;
 }
 
 @media (max-width: 991px) {
@@ -6299,7 +6298,7 @@ ul.list-reset {
 */
 section.gallery .mix {
   padding: 0;
-  /*max-width: 150px;*/
+  max-width: 120px;
   max-height: 100px;
   overflow: hidden;
 }

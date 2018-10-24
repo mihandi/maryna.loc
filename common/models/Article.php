@@ -95,10 +95,24 @@ class Article extends \yii\db\ActiveRecord
 
     public static function getMainImage($article,$w = 500, $h = 500)
     {
-        $get = 'w='.$w.'&h='.$h;
+                $get = 'w='.$w.'&h='.$h;
         return ($article['image'] && file_exists(Yii::getAlias( '@backend' ).'/web/elfinder/global/article_'.$article['id'].'/' . $article['image']) )
             ? '/admin/timthumb.php?src=/elfinder/global/article_'.$article['id'].'/' . $article['image'].'&'.$get
             : '/admin/no-image.jpg?'.$get;
+    }
+
+    public static function getImage($article_id,$image_name,$w = null, $h = null){
+        if(isset($w,$h)) {
+            $get = '&w=' . $w . '&h=' . $h;
+        }else{
+            if(file_exists(Yii::getAlias('@backend').'/web/elfinder/global/article_'.$article_id.'/' . $image_name)) {
+                $size = getimagesize(Yii::getAlias('@backend') . '/web/elfinder/global/article_' . $article_id . '/' . $image_name);
+                $get = '&w=' . $size[0] . '&h=' . $size[1];
+            }else{
+                $get = '';
+            }
+        }
+        return '/admin/timthumb.php?src=/elfinder/global/article_'.$article_id.'/' . $image_name.$get;
     }
 
     public function deleteImage()

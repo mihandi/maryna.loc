@@ -34,7 +34,7 @@ $this->registerMetaTag([
         <ul>
             <!-- LAYER No.1-->
             <li class="revo-layer-1" data-transition="fade" data-slotamount="7" data-masterspeed="500">
-                <img class="rev-slidebg" src="images/slide-01.jpg" alt="#" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="15" />
+                <img class="rev-slidebg" src="/admin/timthumb.php?src=/main1.jpg&w=1920&h=1025" alt="#" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="15" />
                 <div class="tp-caption tp-resizeme revo-cap-1" data-frames="[{&quot;from&quot;:&quot;y:50px;opacity:0;&quot;,&quot;speed&quot;:1500,&quot;to&quot;:&quot;o:1;&quot;,&quot;delay&quot;:500,&quot;ease&quot;:&quot;Power4.easeOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:500,&quot;to&quot;:&quot;y:-50px;opacity:0;&quot;,&quot;ease&quot;:&quot;Power2.easeIn&quot;}]"
                      data-x="['center']" data-y="['center']" data-hoffset="['0', '0', '0', '0']" data-voffset="['0', '0', '0', '-100']" data-width="['1170', '970', '768', '480']" data-whitespace="normal" data-textAlign="[center']" data-fontsize="[72, 72, 72, 72]"
                      data-lineheight="[72, 72, 72, 72]" data-fontweight="700" data-color="#fff">МИ ЦЕ</div>
@@ -79,44 +79,9 @@ $this->registerMetaTag([
 <!-- section services-->
 
 
-<!-- section statistic-->
-<div class="section section-statistic section-statistic-cover p-t-165 p-b-165" style="background: url('images/bg-section-01.jpg') center center / cover fixed no-repeat;">
-    <div class="bg-overlay"></div>
-    <div class="container">
-        <div class="section-inner">
-            <ul class="list-reset row justify-content-center">
-                <li class="col-md-3 col-sm-6">
-                    <div class="box box-number">
-                        <span class="number counterUp">69</span>
-                        <span class="title">Мероприятий</span>
-                    </div>
-                </li>
-                <li class="col-md-3 col-sm-6">
-                    <div class="box box-number">
-                        <span class="number counterUp">12</span>
-                        <span class="title">Баллов по физике</span>
-                    </div>
-                </li>
-                <li class="col-md-3 col-sm-6">
-                    <div class="box box-number">
-                        <span class="number counterUp">7918</span>
-                        <span class="title">Попаданий накатом справа</span>
-                    </div>
-                </li>
-                <li class="col-md-3 col-sm-6">
-                    <div class="box box-number">
-                        <span class="number counterUp">896</span>
-                        <span class="title">Проданных Владом чашек кофе</span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-<!-- end section statistic-->
 
 <!-- section blog-->
-<section class="section section-blog bg-white p-t-120 p-b-135">
+<section class="section section-blog bg-grey-1 p-t-120 p-b-135">
     <div class="container">
         <div class="section-inner">
             <h3 class="section-heading m-b-55">СТАТТІ</h3>
@@ -126,24 +91,24 @@ $this->registerMetaTag([
                     <div class="item">
                         <div class="row">
                             <?php foreach ($recent as $article): ?>
-                                <div class="col-lg-4 col-md-6">
-                                <article class="box-primary box-blog">
-                                    <figure class="box-figure">
-                                        <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>">
-                                            <img class="box-image blog-image" src="<?= Article::getMainImage($article,740,556)?>" alt="<?= $article['title']?>" />
-                                        </a>
-                                    </figure>
-                                    <header class="box-header">
-                                        <h3 class="box-title blog-title">
-                                            <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>"><?= $article['title']?></a>
-                                        </h3>
-                                    </header>
-                                    <p class="box-text"><?= substr($article['description'],0,400).'...'?></p>
-                                    <footer class="box-footer">
-                                        <a class="blog-link" href="<?= Article::getLink($article['id'],$article['seo_url'])?>">продовжити читання</a>
-                                    </footer>
-                                </article>
-                            </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <article class="box-primary box-blog">
+                                        <figure class="box-figure">
+                                            <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>">
+                                                <img class="box-image blog-image" src="<?= Article::getMainImage($article,740,556)?>" alt="<?= $article['title']?>" />
+                                            </a>
+                                        </figure>
+                                        <header class="box-header">
+                                            <h3 class="box-title blog-title">
+                                                <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>"><?= $article['title']?></a>
+                                            </h3>
+                                        </header>
+                                        <p class="box-text"><?= substr($article['description'],0,400).'...'?></p>
+                                        <footer class="box-footer">
+                                            <a class="blog-link" href="<?= Article::getLink($article['id'],$article['seo_url'])?>">продовжити читання</a>
+                                        </footer>
+                                    </article>
+                                </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -169,7 +134,7 @@ $this->registerMetaTag([
             <div class="row po-list isotope">
                 <?php $i = 0; foreach ($galleries as $gallery): $i++; ?>
 
-                    <div class="col-lg-6 col-md-6 isotope-item <?= $gallery['category_seo_url'] ?> wow fadeIn" data-wow-duration="0.5s">
+                    <div class="col-lg-4 col-md-4 col-sm-4 isotope-item <?= $gallery['category_seo_url'] ?> wow fadeIn" data-wow-duration="0.5s">
 
                         <article class="card-primary card-portfolio" style="display: <?= $i<7?'block':'none'?>">
                             <a class="card-link-overlay" href="<?= Gallery::getLink($gallery['id'],$gallery['seo_url'])?>"></a>
@@ -179,7 +144,7 @@ $this->registerMetaTag([
                             </figure>
                             <div class="card-featured">
                                 <a class="portfolio-link fa fa-chain" href="<?= Gallery::getLink($gallery['id'],$gallery['seo_url'])?>"></a>
-                                <a class="portfolio-view fa fa-search" href="<?= Gallery::getMainImage($gallery);?>" data-lightbox="roadtrip" data-title="<?= $gallery['title'] ?>"></a>
+                                <a class="portfolio-view fa fa-search" href="<?= Gallery::getMainImage($gallery,200,200);?>" data-lightbox="roadtrip" data-title="<?= $gallery['title'] ?>"></a>
                             </div>
                             <header class="card-header">
                                 <h3 class="card-title portfolio-title"><?= $gallery['title'] ?></h3>
@@ -211,7 +176,7 @@ $this->registerMetaTag([
                                 <article class="box-primary box-testi">
                                     <figure class="box-figure">
                                         <a href="#">
-                                            <img class="box-image testi-image" src="images/test/testemonials/<?= $i++; ?>.jpg" alt="<?= $testemonial['name']?>,<?= $testemonial['city']?>" />
+                                            <img class="box-image testi-image" src="/images/emonials/<?= $i++; ?>.jpg" alt="<?= $testemonial['name']?>,<?= $testemonial['city']?>" />
                                         </a>
                                     </figure>
                                     <div class="box-body">
