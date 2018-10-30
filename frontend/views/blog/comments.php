@@ -109,7 +109,7 @@ use common\models\User;
             event.preventDefault();
             $.ajax({
                 type: $(this).attr('method'),
-                url: '/blog/article?id=<?= $article['id']?>',
+                url: '<?= \common\models\Article::getLink($article['id'],$article['seo_url'])?>',
                 data: new FormData(this),
                 contentType: false,
                 cache: false,
@@ -135,7 +135,7 @@ use common\models\User;
             event.preventDefault();
             $.ajax({
                 type: 'post',
-                url: '/blog/article?id='+article_id+'&comment='+comment_id,
+                url:'<?= \common\models\Article::getLink($article['id'],$article['seo_url'])?>'+'?comment='+comment_id,
                 data: new FormData(this),
                 contentType: false,
                 cache: false,
