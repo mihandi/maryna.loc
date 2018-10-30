@@ -164,13 +164,10 @@ AppAsset::register($this);
                                 <a class="fa fa-envelope" href="#" data-toggle="tooltip" title="Email"></a>
                             </li>
                             <li class="social-item">
-                                <a class="fa fa-twitter" href="#" data-toggle="tooltip" title="Twitter"></a>
+                                <a class="fa fa-instagram" target="_blank" href="https://www.instagram.com/neobmezheni_mozhlyvosti/" data-toggle="tooltip" title="Instagram"></a>
                             </li>
                             <li class="social-item">
-                                <a class="fa fa-dribbble" href="#" data-toggle="tooltip" title="Dribbble"></a>
-                            </li>
-                            <li class="social-item">
-                                <a class="fa fa-linkedin" href="#" data-toggle="tooltip" title="Linkedin"></a>
+                                <a class="fa fa-facebook" target="_blank" href="https://www.facebook.com/neobmezheni.mozhlyvosti/" data-toggle="tooltip" title="Facebook"></a>
                             </li>
                         </ul>
                         <p class="fo-copy"> Mika 2018</p>
@@ -197,16 +194,10 @@ AppAsset::register($this);
                         <a class="fa fa-envelope" href="#" data-toggle="tooltip" title="Email"></a>
                     </li>
                     <li class="social-item">
-                        <a class="fa fa-twitter" href="#" data-toggle="tooltip" title="Twitter"></a>
+                        <a class="fa fa-instagram" target="_blank" href="https://www.instagram.com/neobmezheni_mozhlyvosti/" data-toggle="tooltip" title="Instagram"></a>
                     </li>
                     <li class="social-item">
-                        <a class="fa fa-dribbble" href="#" data-toggle="tooltip" title="Dribbble"></a>
-                    </li>
-                    <li class="social-item">
-                        <a class="fa fa-linkedin" href="#" data-toggle="tooltip" title="Linkedin"></a>
-                    </li>
-                    <li class="social-item">
-                        <a class="fa fa-vimeo" href="#" data-toggle="tooltip" title="Vimeo"></a>
+                        <a class="fa fa-facebook" target="_blank" href="https://www.facebook.com/neobmezheni.mozhlyvosti/" data-toggle="tooltip" title="Facebook"></a>
                     </li>
                 </ul>
             </div>
