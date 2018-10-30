@@ -114,26 +114,41 @@ $route = Url::toRoute("/site/set-image");
     <div class="container">
         <div class="row">
             <div class="col-lg-9">
-                <?php $form = ActiveForm::begin(['id' => 'form-profile']); ?>
-                <div class="row">
-                        <div class="col-lg-6 col-md-6 ">
-                            <?php echo $form->field($user, 'image')->widget(Widget::className(), [
-                                'uploadUrl' => $route,
-                                'width' => 300,
-                                'height' => 300,
-                            ]) ?>
+                <div class="page-col-one p-t-35 p-b-60">
+                    <article class="post-blog m-b-55">
+                        <header class="post-header m-b-125">
+                            <ul class="post-bre h-list">
+                                <li>
+                                    <a href="/">Головна</a>
+                                </li>
+                                <li>
+                                    <a href="/site/personal">Мій профiль</a>
+                                </li>
+                            </ul>
+                            <h3 class="post-title"><?= 'Редагування '?></h3>
+                        </header>
+                        <?php $form = ActiveForm::begin(['id' => 'form-profile']); ?>
+                        <div class="row">
+                                <div class="col-lg-6 col-md-6 ">
+                                    <?php echo $form->field($user, 'image')->widget(Widget::className(), [
+                                        'uploadUrl' => $route,
+                                        'width' => 300,
+                                        'height' => 300,
+                                    ]) ?>
+                                </div>
+                            <div class="col-lg-6 col-md-6 ">
+                                <?= $form->field($user, 'login')->textInput() ?>
+                                <?= $form->field($user, 'email')->textInput() ?>
+                                <?= $form->field($user, 'first_name')->textInput() ?>
+                                <?= $form->field($user, 'last_name')->textInput() ?>
+                            </div>
                         </div>
-                    <div class="col-lg-6 col-md-6 ">
-                        <?= $form->field($user, 'login')->textInput() ?>
-                        <?= $form->field($user, 'email')->textInput() ?>
-                        <?= $form->field($user, 'first_name')->textInput() ?>
-                        <?= $form->field($user, 'last_name')->textInput() ?>
-                    </div>
+                        <div class="form-group" align="center">
+                            <?= Html::submitButton('Відправити', ['class' => 'btn btn-primary']) ?>
+                        </div>
+                        <?php ActiveForm::end(); ?>
+                    </article>
                 </div>
-                <div class="form-group" align="center">
-                    <?= Html::submitButton('Відправити', ['class' => 'btn btn-primary']) ?>
-                </div>
-                <?php ActiveForm::end(); ?>
             </div>
             <div class="col-lg-3">
                 <aside class="page-col-two p-t-100">

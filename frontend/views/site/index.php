@@ -172,10 +172,6 @@ $this->registerMetaTag([
                             <figure class="card-figure">
                                 <img class="card-image" src="<?= Gallery::getMainImage($gallery);?>" alt="<?= $gallery['title'] ?>" />
                             </figure>
-                            <div class="card-featured">
-                                <a class="portfolio-link fa fa-chain" href="<?= Gallery::getLink($gallery['id'],$gallery['seo_url'])?>"></a>
-                                <a class="portfolio-view fa fa-search" href="<?= Gallery::getMainImage($gallery,200,200);?>" data-lightbox="roadtrip" data-title="<?= $gallery['title'] ?>"></a>
-                            </div>
                             <header class="card-header">
                                 <h3 class="card-title portfolio-title"><?= $gallery['title'] ?></h3>
                             </header>

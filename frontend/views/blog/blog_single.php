@@ -70,17 +70,6 @@ $category_path =  Category::getLink($article['category_id'],$article['seo_url'])
                         </div>
                         <footer class="post-footer">
                             <div class="flex-bar d-md-flex align-items-start justify-content-lg-between m-b-40">
-                                <ul class="post-tags h-list">
-                                    <li class="post-tag-item">
-                                        <a href="#">website</a>
-                                    </li>
-                                    <li class="post-tag-item">
-                                        <a href="#">onepage</a>
-                                    </li>
-                                    <li class="post-tag-item">
-                                        <a href="#">profesional</a>
-                                    </li>
-                                </ul>
                                 <div class="post-socials">
                                     <span class="post-social-label">Поділитися</span>
                                     <ul class="h-list social-list">
