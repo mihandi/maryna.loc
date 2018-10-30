@@ -3,6 +3,7 @@ use common\models\Article;
 use common\models\Gallery;
 
 $articles = array_chunk($recent,4);
+$articles_mobile = array_chunk($recent,3);
 
 $testemonials = array_chunk([
     ['name' => 'Белякин Игорь','testemonial' => 'Спасибо за прекрасный чемпионат и веселое проведения времени!!! ','city' => 'Харьков'],
@@ -85,13 +86,42 @@ $this->registerMetaTag([
     <div class="container">
         <div class="section-inner">
             <h3 class="section-heading m-b-55">СТАТТІ</h3>
-            <div class="js-slick slick-arrow-style-1 bo-list" data-slick-lg="1" data-slick-dots="true" data-slick-arrows="true" data-slick-prevarrow="&lt;i class='arrow arrow-prev arrow_carrot-left'&gt;&lt;/i&gt;" data-slick-nextarrow="&lt;i class='arrow arrow-next arrow_carrot-right'&gt;&lt;/i&gt;"
+            <div class="js-slick slick-arrow-style-1 bo-list visible-lg visible-md visible-sm" data-slick-lg="1" data-slick-dots="true" data-slick-arrows="true" data-slick-prevarrow="&lt;i class='arrow arrow-prev arrow_carrot-left'&gt;&lt;/i&gt;" data-slick-nextarrow="&lt;i class='arrow arrow-next arrow_carrot-right'&gt;&lt;/i&gt;"
                  data-slick-dotsClass="slick-dots dots-style-1">
                 <?php foreach ($articles as $recent): ?>
                     <div class="item">
                         <div class="row">
                             <?php foreach ($recent as $article): ?>
-                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                                    <article class="box-primary box-blog">
+                                        <figure class="box-figure">
+                                            <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>">
+                                                <img class="box-image blog-image" src="<?= Article::getMainImage($article,740,556)?>" alt="<?= $article['title']?>" />
+                                            </a>
+                                        </figure>
+                                        <header class="box-header">
+                                            <h3 class="box-title blog-title">
+                                                <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>"><?= substr($article['title'],0,200).'...'?></a>
+                                            </h3>
+                                        </header>
+                                        <p class="box-text"><?= substr($article['description'],0,200).'...'?></p>
+                                        <footer class="box-footer">
+                                            <a class="blog-link" href="<?= Article::getLink($article['id'],$article['seo_url'])?>">продовжити читання</a>
+                                        </footer>
+                                    </article>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <div class="js-slick slick-arrow-style-1 bo-list visible-xs" data-slick-lg="1" data-slick-dots="true" data-slick-arrows="true" data-slick-prevarrow="&lt;i class='arrow arrow-prev arrow_carrot-left'&gt;&lt;/i&gt;" data-slick-nextarrow="&lt;i class='arrow arrow-next arrow_carrot-right'&gt;&lt;/i&gt;"
+                 data-slick-dotsClass="slick-dots dots-style-1">
+                <?php foreach ($articles_mobile as $recent): ?>
+                    <div class="item">
+                        <div class="row">
+                            <?php foreach ($recent as $article): ?>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
                                     <article class="box-primary box-blog">
                                         <figure class="box-figure">
                                             <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>">
