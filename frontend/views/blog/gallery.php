@@ -21,7 +21,7 @@ use  \common\models\Article;
         <?php if(isset($gallery) && !empty($gallery)) :?>
             <?php foreach($gallery as $photo): ++$i;?>
                 <?php if ($i < 8): ?>
-                    <div class="mix col-lg-3 col-md-3 col-sm-3">
+                    <div class="mix col-lg-3 col-md-3 col-sm-3 col-xs-3">
                         <div class="item">
                             <a href="<?= Article::getImage($article['id'],$photo); ?>" data-fancybox="gallery" class="image">
                                 <img src="<?= Article::getImage($article['id'],$photo,300,300); ?>"  class="img-fluid">

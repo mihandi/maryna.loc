@@ -91,7 +91,7 @@ $this->registerMetaTag([
                     <div class="item">
                         <div class="row">
                             <?php foreach ($recent as $article): ?>
-                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <article class="box-primary box-blog">
                                         <figure class="box-figure">
                                             <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>">
@@ -100,10 +100,10 @@ $this->registerMetaTag([
                                         </figure>
                                         <header class="box-header">
                                             <h3 class="box-title blog-title">
-                                                <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>"><?= $article['title']?></a>
+                                                <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>"><?= substr($article['title'],0,200).'...'?></a>
                                             </h3>
                                         </header>
-                                        <p class="box-text"><?= substr($article['description'],0,400).'...'?></p>
+                                        <p class="box-text"><?= substr($article['description'],0,200).'...'?></p>
                                         <footer class="box-footer">
                                             <a class="blog-link" href="<?= Article::getLink($article['id'],$article['seo_url'])?>">продовжити читання</a>
                                         </footer>
@@ -134,7 +134,7 @@ $this->registerMetaTag([
             <div class="row po-list isotope">
                 <?php $i = 0; foreach ($galleries as $gallery): $i++; ?>
 
-                    <div class="col-lg-4 col-md-4 col-sm-4 isotope-item <?= $gallery['category_seo_url'] ?> wow fadeIn" data-wow-duration="0.5s">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 isotope-item <?= $gallery['category_seo_url'] ?> wow fadeIn" data-wow-duration="0.5s">
 
                         <article class="card-primary card-portfolio" style="display: <?= $i<7?'block':'none'?>">
                             <a class="card-link-overlay" href="<?= Gallery::getLink($gallery['id'],$gallery['seo_url'])?>"></a>

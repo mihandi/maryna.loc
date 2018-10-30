@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Article;
 use common\models\Category;
 use common\models\Functions;
 use common\models\Gallery;
@@ -17,8 +18,12 @@ class GalleryController extends Controller
 
 
         return $this->render('index',
-            ['galleries' => $galleries,
-            'categories' => $categories]);
+            [
+                'galleries' => $galleries,
+                'categories' => $categories,
+                'popular_articles' => Article::getPopular(),
+                'months' => Article::getArchive(),
+            ]);
     }
     
     public function actionSingle(){
@@ -28,7 +33,11 @@ class GalleryController extends Controller
         $gallery = Gallery::findOne($gallery_id);
         $photos = Gallery::getImages($gallery);
 
-        return $this->render('single',['photos' => $photos,
-        'gallery' => $gallery]);
+        return $this->render('single',[
+            'photos' => $photos,
+            'gallery' => $gallery,
+            'categories' => Article::getCategories(),
+            'popular_articles' => Article::getPopular(),
+            'months' => Article::getArchive(),]);
     }
 }
