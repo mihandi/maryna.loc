@@ -2,7 +2,7 @@
 use common\models\Article;
 use common\models\Gallery;
 
-$articles = array_chunk($recent,3);
+$articles = array_chunk($recent,4);
 
 $testemonials = array_chunk([
     ['name' => 'Белякин Игорь','testemonial' => 'Спасибо за прекрасный чемпионат и веселое проведения времени!!! ','city' => 'Харьков'],
@@ -91,7 +91,7 @@ $this->registerMetaTag([
                     <div class="item">
                         <div class="row">
                             <?php foreach ($recent as $article): ?>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
                                     <article class="box-primary box-blog">
                                         <figure class="box-figure">
                                             <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>">
