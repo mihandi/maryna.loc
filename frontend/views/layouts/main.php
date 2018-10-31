@@ -36,7 +36,7 @@ AppAsset::register($this);
                 <div class="section-inner header-bar">
                     <div class="header-bar-logo">
                         <a class="logo-link" href="/">
-                            <img class="logo-light" src="/images/logos.ico" width="45">
+                            <img class="logo-light" src="/admin/nm.png" width="45">
                             <span style="color: #FF7C87;">НЕОБМЕЖЕНI МОЖЛИВОСТI</span>
                         </a>
                     </div>
@@ -95,7 +95,7 @@ AppAsset::register($this);
                 <div class="header-bar">
                     <div class="header-bar-logo">
                         <a class="logo-link" href="/">
-                            <img class="logo-light" src="/images/logos.ico" width="45">
+                            <img class="logo-light" src="/admin/nm.png" width="45">
                             <span style="color: #FF7C87;">НЕОБМЕЖЕНI МОЖЛИВОСТI</span>
                         </a>
                     </div>
@@ -113,7 +113,7 @@ AppAsset::register($this);
                     <div class="box-author">
                         <a href="/">
                             <div class="author-image">
-                                <img src="/images/logos.ico" alt="Необмежені можливості">
+                                <img src="/admin/nm.png" alt="Необмежені можливості">
                             </div>
                             <h3 class="author-name">Необмежені можливості</h3>
                         </a>
