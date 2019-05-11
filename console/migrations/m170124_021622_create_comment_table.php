@@ -8,7 +8,7 @@ class m170124_021622_create_comment_table extends Migration
     /**
      * @inheritdoc
      */
-    public function up()
+    public function safeUp()
     {
         $this->createTable('comment', [
             'id' => $this->primaryKey(),
@@ -54,7 +54,7 @@ class m170124_021622_create_comment_table extends Migration
     /**
      * @inheritdoc
      */
-    public function down()
+    public function safeDown()
     {
         $this->dropForeignKey('fk-post-user_id','comment');
         $this->dropForeignKey('fk-article_id','comment');

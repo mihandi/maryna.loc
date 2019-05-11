@@ -8,7 +8,7 @@ class m170124_021553_create_article_table extends Migration
     /**
      * @inheritdoc
      */
-    public function up()
+    public function safeUp()
     {
         $this->createTable('article', [
             'id' => $this->primaryKey(),
@@ -28,7 +28,7 @@ class m170124_021553_create_article_table extends Migration
     /**
      * @inheritdoc
      */
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('article');
     }
