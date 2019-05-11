@@ -35,8 +35,8 @@ use  \common\models\Article;
                 <?php else:?>
                 <div class="mix col-lg-3 col-md-3 col-sm-3" style="display: none">
                     <div class="item">
-                        <a href="<?= '/admin/elfinder/global/article_'.$article['id'].'/'.$photo?>" data-fancybox="gallery" class="image">
-                            <img src="<?= '/admin/elfinder/global/article_'.$article['id'].'/'.$photo?>"  class="img-fluid">
+                        <a href="<?= Article::getImage($article['id'],$photo); ?>" data-fancybox="gallery" class="image">
+                            <img src="<?= Article::getImage($article['id'],$photo,300,300); ?>"  class="img-fluid">
 
                             <div class="overlay d-flex align-items-center justify-content-center">
                                 <i class="icon-search"></i>
