@@ -26,9 +26,9 @@ use mihaildev\elfinder\ElFinder;
         ]);
     ?>
 
-    <?= $form->field($model, 'image')->fileInput() ?>
+    <?= $form->field($model, 'image')->fileInput([ 'accept'=>'image/*', 'class' => 'form-control styled','id' => 'image']) ?>
 
-    <?= $form->field($model, 'images[]')->fileInput(['multiple' => true]) ?>
+    <?= $form->field($model, 'images[]')->fileInput(['multiple' => true, 'accept'=>'image/*', 'class' => 'form-control styled','id' => 'image']) ?>
 
     <?= $form->field($model, 'user_id')->hiddenInput(['value'=> Yii::$app->user->id])->label(false);?>
 

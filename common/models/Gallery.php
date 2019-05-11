@@ -150,7 +150,7 @@ class Gallery extends \yii\db\ActiveRecord
         $get = 'w='.$w.'&h='.$h;
         return (file_exists(Yii::getAlias( '@backend' ).'/web/elfinder/global/gallery/'.$gallery['dir_name'].'/main/main.jpg') )
             ? '/admin/timthumb.php?src=/elfinder/global/gallery/'.$gallery['dir_name'].'/main/main.jpg&'.$get
-            : '/admin/no-image.jpg?'.$get;
+            : '/admin/timthumb.php?src=/elfinder/no-image.png&'.$get;
     }
 
     public static function getLink($gallery_id,$gallery_seo_url){

@@ -24,7 +24,7 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'old_dir_name')->hiddenInput(['value' => $model->dir_name])->label(false); ?>
 
-    <?= $form->field($model, 'images[]')->fileInput(['multiple' => true]) ?>
+    <?= $form->field($model, 'images[]')->fileInput(['multiple' => true, 'accept'=>'image/*', 'class' => 'form-control styled','id' => 'image']) ?>
 
 
     <div class="form-group">
