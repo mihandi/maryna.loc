@@ -12,7 +12,8 @@ class m170124_021601_create_category_table extends Migration
     {
         $this->createTable('category', [
             'id' => $this->primaryKey(),
-            'title'=>$this->string()
+            'title'=>$this->string(),
+            'seo_url' => $this->string()
         ]);
     }
     /**

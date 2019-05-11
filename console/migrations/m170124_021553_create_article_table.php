@@ -14,6 +14,7 @@ class m170124_021553_create_article_table extends Migration
             'id' => $this->primaryKey(),
             'title'=>$this->string(),
             'description'=>$this->text(),
+            'seo_url'=>$this->text(),
             'content'=>$this->text(),
             'image'=>$this->string(),
             'viewed'=>$this->integer(),

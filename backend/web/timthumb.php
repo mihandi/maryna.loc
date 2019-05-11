@@ -28,6 +28,7 @@ if(! defined('DEBUG_LEVEL') )				define ('DEBUG_LEVEL', 1);								// Debug leve
 if(! defined('MEMORY_LIMIT') )				define ('MEMORY_LIMIT', '30M');							// Set PHP memory limit
 if(! defined('BLOCK_EXTERNAL_LEECHERS') ) 	define ('BLOCK_EXTERNAL_LEECHERS', false);				// If the image or webshot is being loaded on an external site, display a red "No Hotlinking" gif.
 if(! defined('DISPLAY_ERROR_MESSAGES') )	define ('DISPLAY_ERROR_MESSAGES', true);				// Display error messages. Set to false to turn off errors (good for production websites)
+if(! defined('WATERMARK_OVERLAY_IMAGE') )   define ('WATERMARK_OVERLAY_IMAGE', 'upload/watermark.png' ); // the watermark image
 //Image fetching and caching
 if(! defined('ALLOW_EXTERNAL') )			define ('ALLOW_EXTERNAL', TRUE);						// Allow image fetching from external websites. Will check against ALLOWED_SITES if ALLOW_ALL_EXTERNAL_SITES is false
 if(! defined('ALLOW_ALL_EXTERNAL_SITES') ) 	define ('ALLOW_ALL_EXTERNAL_SITES', false);				// Less secure.
@@ -37,7 +38,7 @@ if(! defined('FILE_CACHE_TIME_BETWEEN_CLEANS'))	define ('FILE_CACHE_TIME_BETWEEN
 if(! defined('FILE_CACHE_MAX_FILE_AGE') ) 	define ('FILE_CACHE_MAX_FILE_AGE', 365 * 86400);				// How old does a file have to be to be deleted from the cache
 if(! defined('FILE_CACHE_SUFFIX') ) 		define ('FILE_CACHE_SUFFIX', '.timthumb.txt');			// What to put at the end of all files in the cache directory so we can identify them
 if(! defined('FILE_CACHE_PREFIX') ) 		define ('FILE_CACHE_PREFIX', 'timthumb');				// What to put at the beg of all files in the cache directory so we can identify them
-if(! defined('FILE_CACHE_DIRECTORY') ) 		define ('FILE_CACHE_DIRECTORY', 'timthumb');				// Directory where images are cached. Left blank it will use the system temporary directory (which is better for security)
+if(! defined('FILE_CACHE_DIRECTORY') ) 		define ('FILE_CACHE_DIRECTORY', 'upload/timthumb');				// Directory where images are cached. Left blank it will use the system temporary directory (which is better for security)
 if(! defined('MAX_FILE_SIZE') )				define ('MAX_FILE_SIZE', 9910485760);	 					// 10 Megs is 10485760. This is the max internal or external file size that we'll process.
 if(! defined('CURL_TIMEOUT') )				define ('CURL_TIMEOUT', 20);							// Timeout duration for Curl. This only applies if you have Curl installed and aren't using PHP's default URL fetching mechanism.
 if(! defined('WAIT_BETWEEN_FETCH_ERRORS') )	define ('WAIT_BETWEEN_FETCH_ERRORS', 3600);				// Time to wait between errors fetching remote file
@@ -532,6 +533,7 @@ class timthumb {
         $quality = (int) abs ($this->param('q', DEFAULT_Q));
         $align = $this->cropTop ? 't' : $this->param('a', 'c');
         $filters = $this->param('f', DEFAULT_F);
+        $watermark =  (bool) $this->param('wm', 0);
         $sharpen = (bool) $this->param('s', DEFAULT_S);
         $canvas_color = $this->param('cc', DEFAULT_CC);
         $canvas_trans = (bool) $this->param('ct', '1');
@@ -745,6 +747,47 @@ class timthumb {
         //Straight from Wordpress core code. Reduces filesize by up to 70% for PNG's
         if ( (IMAGETYPE_PNG == $origType || IMAGETYPE_GIF == $origType) && function_exists('imageistruecolor') && !imageistruecolor( $image ) && imagecolortransparent( $image ) > 0 ){
             imagetruecolortopalette( $canvas, false, imagecolorstotal( $image ) );
+        }
+
+        if ($watermark == 1) {
+            $overlay_gd_image = imagecreatefrompng( WATERMARK_OVERLAY_IMAGE );
+            $overlay_width = imagesx( $overlay_gd_image );
+            $overlay_height = imagesy( $overlay_gd_image );
+
+            // Set the alpha blending
+            imagealphablending($canvas, true );
+
+            $max_watermark_ratio = 0.25;
+
+            if (max($overlay_width / $new_width, $overlay_height / $new_height) > $max_watermark_ratio) {
+                // Watermark needs some downscaling
+                if ($overlay_width / $new_width > $overlay_height / $new_height) {
+                    $new_overlay_width = $new_width * $max_watermark_ratio;
+                    $new_overlay_height = $new_width * $max_watermark_ratio * $overlay_height / $overlay_width;
+                } else {
+                    $new_overlay_height = $new_height * $max_watermark_ratio;
+                    $new_overlay_width = $new_height * $max_watermark_ratio * $overlay_width / $overlay_height;
+                }
+
+                $overlay_gd_image_p = imagecreatetruecolor($new_overlay_width, $new_overlay_height);
+
+                // Set the alpha blending
+                imagealphablending( $overlay_gd_image_p, false );
+                imagesavealpha( $overlay_gd_image_p, true );
+
+                imagecopyresampled ($overlay_gd_image_p, $overlay_gd_image, 0, 0, 0, 0, $new_overlay_width, $new_overlay_height, $overlay_width, $overlay_height);
+
+                // Copy the PNG to the canvas
+                imagecopy( $canvas, $overlay_gd_image_p, $new_width - $new_overlay_width - 20, $new_height - $new_overlay_height - 20, 0, 0, $new_overlay_width, $new_overlay_height);
+            } else {
+                // Copy the PNG to the canvas
+                imagecopy( $canvas, $overlay_gd_image, $new_width - $overlay_width - 20, $new_height - $overlay_height - 20, 0, 0, $overlay_width, $overlay_height);
+            }
+
+            // Reset alpha blending
+            imagealphablending($canvas, false );
+            // Save alpha channel
+            imagesavealpha($canvas , true);
         }
 
         $imgType = "";
