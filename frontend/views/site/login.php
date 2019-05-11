@@ -24,8 +24,8 @@ function err($errors)
             <?php endif;?>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-            <button type="submit" id="submit" class="btn au-btn-primary">Войти</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+            <button type="submit" id="submit" class="btn au-btn-primary">Увiйти</button>
         </div>
     </form>
 </div>

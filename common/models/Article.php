@@ -22,12 +22,17 @@ use yii\data\SqlDataProvider;
  * @property int $category_id
  * @property int $created_at
  * @property int $updated_at
+ * @property string $seo_url
  *
  * @property Comment[] $comments
  */
 class Article extends \yii\db\ActiveRecord
 {
+    public $images;
+
     const PAGE_SIZE = 4;
+
+    const META_TITLE = 'Необмежені можливості';
     /**
      * @inheritdoc
      */
@@ -42,7 +47,7 @@ class Article extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title','description','content','user_id'], 'required'],
+            [['title','description','content','user_id','seo_url','image'], 'required'],
             [['title','description','content'], 'string'],
             [['title'], 'string', 'max' => 255],
             [['category_id'], 'number']
@@ -73,6 +78,7 @@ class Article extends \yii\db\ActiveRecord
             'category_id' => 'Category ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'seo_url' => 'Seo Url',
         ];
     }
 
@@ -87,15 +93,34 @@ class Article extends \yii\db\ActiveRecord
         return $this->save(false);
     }
 
-    public function getImage()
+    public static function getMainImage($article,$w = 500, $h = 500, $wm = true)
     {
-        return ($this->image) ? '/elfinder/global/article_'.$this->id.'/' . $this->image : '/no-image.png';
+        $get = '&w='.$w.'&h='.$h.($wm?'&wm=1':'');
+        return ($article['image'] && file_exists(Yii::getAlias( '@backend' ).'/web/elfinder/global/article_'.$article['id'].'/' . $article['image']) )
+            ? '/admin/timthumb.php?src=/elfinder/global/article_'.$article['id'].'/' . $article['image'].$get
+            : '/admin/timthumb.php?src=/elfinder/no-image.png'.$get;
+    }
+
+    public static function getImage($article_id,$image_name,$w = null, $h = null,$wm = true){
+
+        if(isset($w,$h)) {
+            $get = '&w=' . $w . '&h=' . $h.($wm?'&wm=1':'');
+        }else{
+            if(file_exists(Yii::getAlias('@backend').'/web/elfinder/global/article_'.$article_id.'/' . $image_name)) {
+                $size = getimagesize(Yii::getAlias('@backend') . '/web/elfinder/global/article_' . $article_id . '/' . $image_name);
+                $get = '&w=' . $size[0] . '&h=' . $size[1].($wm?'&wm=1':'');
+            }else{
+                $get = '';
+            }
+        }
+        return '/admin/timthumb.php?src=/elfinder/global/article_'.$article_id.'/' . $image_name.$get;
     }
 
     public function deleteImage()
     {
         $imageUploadModel = new ImageUpload();
-        $imageUploadModel->deleteCurrentImage($this->image);
+        $imageUploadModel->scenario = ImageUpload::ARTICLE_UPLOAD_SCENARIO;
+        $imageUploadModel->deleteCurrentImage($this->image,$this->id);
     }
 
     public function beforeDelete()
@@ -141,13 +166,18 @@ class Article extends \yii\db\ActiveRecord
     public static function getArticles($page_size = 4)
     {
         $count = Yii::$app->db->createCommand(
-            'SELECT COUNT(id) as count FROM article')
+            'SELECT COUNT(a.id) as count
+                  FROM article a 
+                  INNER JOIN category c On a.category_id = c.id 
+                  INNER JOIN user u On u.id = a.user_id 
+                  Left Join comment cm On cm.article_id = a.id')
             ->queryOne();
 
-        $article['pagination'] = new Pagination(['totalCount' =>  $count['count'], 'pageSize'=>$page_size]);
+        $article['pagination'] = new Pagination(['totalCount' =>  $count['count'], 'pageSize' => $page_size]);
 
         $article['article'] =  Yii::$app->db->createCommand(
-            'SELECT u.login,a.id,a.title,a.image,a.description,a.created_at,c.id as \'category_id\',c.title as \'category\',COUNT(cm.id) as \'comment_count\' FROM article a 
+            'SELECT u.login,a.id,a.title,a.image,a.description,a.created_at,a.seo_url,c.id as \'category_id\',c.title as \'category\',COUNT(cm.id) as \'comment_count\'
+                  FROM article a 
                   INNER JOIN category c On a.category_id = c.id 
                   INNER JOIN user u On u.id = a.user_id 
                   Left Join comment cm On cm.article_id = a.id
@@ -176,40 +206,40 @@ class Article extends \yii\db\ActiveRecord
         return $res;
     }
 
-    public static function  getSingle()
+    public static function  getSingle($article_id)
     {
-        $id  = yii::$app->request->get('id');
         $article['article'] = Yii::$app->db->createCommand(
-            'SELECT a.id,u.login,a.title,a.content,a.image,a.description,a.viewed,a.created_at,u.id as \'user_id\',c.id as \'category_id\',
+            'SELECT a.id,u.login,a.title,a.content,a.image,a.description,a.viewed,a.seo_url,a.created_at,u.id as \'user_id\',c.id as \'category_id\',
                   c.title as \'category\',COUNT(cm.id) as \'comment_count\' FROM article a 
                   INNER JOIN category c On a.category_id = c.id 
                   INNER JOIN user u On u.id = a.user_id
                   Left Join comment cm On cm.article_id = a.id
                   WHERE a.id=:article_id
                   GROUP BY a.id')
-            ->bindValue('article_id',$id)
+            ->bindValue('article_id',$article_id)
             ->queryOne();
+
         if(!$article['article']){return false;}
         $article['np'] = Article::getPrevNext($article['article']);
 
         $articleObj = new Article();
-        $article['comments'] = $articleObj->getArticleComments($id);
+        $article['comments'] = $articleObj->getArticleComments($article_id);
 
         return $article;
     }
 
     public static function getArticlesByCategories($category_id)
     {
-        $article['count'] = Yii::$app->db->createCommand(
-            'SELECT count(id) FROM article 
+        $count = Yii::$app->db->createCommand(
+            'SELECT COUNT(id) as count FROM article 
                   WHERE category_id=:category_id')
             ->bindValue('category_id',$category_id)
-            ->queryAll();
+            ->queryOne();
 
-        $article['pagination'] = new Pagination(['totalCount' =>  $article['count'], 'pageSize'=>4]);
+        $article['pagination'] = new Pagination(['totalCount' =>  $count['count'], 'pageSize'=> 4]);
 
         $article['article'] =  Yii::$app->db->createCommand(
-            'SELECT a.id,u.login,a.title,a.image,a.description,a.created_at,c.id as \'category_id\',
+            'SELECT a.id,u.login,a.title,a.image,a.description,a.created_at,a.seo_url,c.id as \'category_id\',
                   c.title as \'category\',COUNT(cm.id) as \'comment_count\' FROM article a 
                   INNER JOIN category c On a.category_id = c.id 
                   INNER JOIN user u On u.id = a.user_id
@@ -228,7 +258,7 @@ class Article extends \yii\db\ActiveRecord
     public static function getPopular($limit = 3)
     {
         return  Yii::$app->db->createCommand(
-            'SELECT count(cm.id) as \'comments_count\',a.id,a.image,a.title,a.viewed,a.description,a.created_at,u.login, c.id as \'category_id\',c.title as \'category_title\' FROM article a
+            'SELECT count(cm.id) as \'comments_count\',a.id,a.image,a.title,a.viewed,a.description,a.created_at,u.login,a.seo_url, c.id as \'category_id\',c.title as \'category_title\' FROM article a
                   Inner join user u On u.id = a.user_id
                   left join comment cm On cm.article_id = a.id 
                   Left Join category c On c.id = a.category_id
@@ -243,7 +273,7 @@ class Article extends \yii\db\ActiveRecord
     {
 
         return  Yii::$app->db->createCommand(
-            'SELECT count(cm.id) as \'comments_count\',a.id,a.image,a.title,a.viewed,a.description FROM article a
+            'SELECT count(cm.id) as \'comments_count\',a.id,a.image,a.title,a.viewed,a.seo_url,a.description FROM article a
                   LEFT join comment cm On cm.article_id = a.id 
                   GROUP By a.id
                   ORDER BY a.created_at DESC Limit :limit')
@@ -254,7 +284,7 @@ class Article extends \yii\db\ActiveRecord
     public static function getGallery()
     {
         $result = [];
-        $id  = (int)yii::$app->request->get('id');
+        $id  = (int)Yii::$app->request->get('article_id');
         $dir = Yii::getAlias( '@backend' ).'/web/elfinder/global/article_'.$id;
 
         if(file_exists($dir)) {
@@ -332,7 +362,7 @@ class Article extends \yii\db\ActiveRecord
         $search_line  = yii::$app->request->get('search');
 
         $articles =  Yii::$app->db->createCommand(
-            'SELECT u.login,a.id FROM article a
+            'SELECT u.login,a.id,a.seo_url FROM article a
                   INNER JOIN category c On a.category_id = c.id
                   Inner join user u On u.id = a.user_id
                   Left Join comment cm On cm.article_id = a.id
@@ -346,7 +376,7 @@ class Article extends \yii\db\ActiveRecord
         $result['pagination'] = new Pagination(['totalCount' =>  $count, 'pageSize'=>2]);
 
         $result['articles'] =  Yii::$app->db->createCommand(
-            'SELECT u.login,a.id,a.title,a.image,a.description,a.created_at,c.id as \'category_id\',c.title as \'category\',COUNT(cm.id) as \'comment_count\' FROM article a
+            'SELECT u.login,a.id,a.title,a.image,a.seo_url,a.description,a.created_at,c.id as \'category_id\',c.title as \'category\',COUNT(cm.id) as \'comment_count\' FROM article a
                   INNER JOIN category c On a.category_id = c.id
                   Inner join user u On u.id = a.user_id
                   Left Join comment cm On cm.article_id = a.id
@@ -366,7 +396,7 @@ class Article extends \yii\db\ActiveRecord
         return Yii::$app->db->createCommand(
             "SELECT month(FROM_UNIXTIME(created_at,\"%Y-%m-%d\")) as month,COUNT(id) as count
                     FROM `article` 
-                     WHERE month(FROM_UNIXTIME(created_at,\"%Y-%m-%d\"))  in (1,2,3,4,5,6,7,9,10,11,12)
+                     WHERE month(FROM_UNIXTIME(created_at,\"%Y-%m-%d\"))  in (1,2,3,4,5,6,7,8,9,10,11,12)
                      AND YEAR(FROM_UNIXTIME(created_at,\"%Y-%m-%d\")) in (2018,1970)
                      GROUP by month
                      ORDER by month Desc
@@ -387,7 +417,7 @@ class Article extends \yii\db\ActiveRecord
 
         $article['articles'] = Yii::$app->db->createCommand(
             "SELECT month(FROM_UNIXTIME(a.created_at,\"%Y-%m-%d\")) as month,COUNT(a.id) as count,
-                            u.login,a.id,a.title,a.image,a.description,a.created_at,c.id as 'category_id',
+                            u.login,a.id,a.title,a.image,a.description,a.created_at,a.seo_url,c.id as 'category_id',
                             c.title as 'category',COUNT(cm.id) as 'comment_count' 
                   FROM article a
                   INNER JOIN category c On a.category_id = c.id
@@ -403,6 +433,24 @@ class Article extends \yii\db\ActiveRecord
             ->queryAll();
 
         return $article;
+    }
+
+    public static function getLink($article_id,$article_seo_url){
+        return "/blog/article/".$article_seo_url.'-'.$article_id;
+    }
+
+    public function uploadImages(){
+        $imageUpload = new ImageUpload();
+        $imageUpload->scenario = ImageUpload::ARTICLE_UPLOAD_SCENARIO;
+
+            $imageUpload->image = $this->image;
+            $imageUpload->saveImage($this->id,true);
+
+        foreach ($this->images as $file) {
+            $imageUpload->image = $file;
+            $imageUpload->saveImage($this->id);
+        }
+        return true;
     }
 
 }

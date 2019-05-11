@@ -1,7 +1,9 @@
 ﻿<?php
-$articles_path = '/blog/article?id=';
-$articles_image_path = '/elfinder/global/article_';
-$articles = array_chunk($recent,3);
+use common\models\Article;
+use common\models\Gallery;
+
+$articles = array_chunk($recent,4);
+$articles_mobile = array_chunk($recent,3);
 
 $testemonials = array_chunk([
     ['name' => 'Белякин Игорь','testemonial' => 'Спасибо за прекрасный чемпионат и веселое проведения времени!!! ','city' => 'Харьков'],
@@ -12,6 +14,11 @@ $testemonials = array_chunk([
     ['name' => 'Чирка Віталій','testemonial' => 'Дуже радий прийняти участь в такому заході і здобути призові місця. Успіхів вам в нелегкій роботі та процвітання вашій організації ','city' => 'Харьков'],
     ['name' => 'Агеев Саша','testemonial' => 'Участвовал в нескольких мероприятии, которые вы проводили. Высокий уровень, приятные люди и мега позитивная атмосфера.','city' => 'Харьков'],
     ['name' => 'Бреус Евгения','testemonial' => 'Спасибо большое за приглашение)) Море эмоций получила от участия в турнире. Больше таких турниров. ','city' => 'Харьков'],],2);
+
+$this->registerMetaTag([
+    'name' => 'description',
+    'content' => 'Громадська організація «Необмеженi можливостi». Харкiв'
+]);
 ?>
 
 <?php if (Yii::$app->session->hasFlash('success')): ?>
@@ -28,7 +35,7 @@ $testemonials = array_chunk([
         <ul>
             <!-- LAYER No.1-->
             <li class="revo-layer-1" data-transition="fade" data-slotamount="7" data-masterspeed="500">
-                <img class="rev-slidebg" src="images/slide-01.jpg" alt="#" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="15" />
+                <img class="rev-slidebg" src="/admin/timthumb.php?src=/main1.jpg&w=1920&h=1025" alt="#" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="15" />
                 <div class="tp-caption tp-resizeme revo-cap-1" data-frames="[{&quot;from&quot;:&quot;y:50px;opacity:0;&quot;,&quot;speed&quot;:1500,&quot;to&quot;:&quot;o:1;&quot;,&quot;delay&quot;:500,&quot;ease&quot;:&quot;Power4.easeOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:500,&quot;to&quot;:&quot;y:-50px;opacity:0;&quot;,&quot;ease&quot;:&quot;Power2.easeIn&quot;}]"
                      data-x="['center']" data-y="['center']" data-hoffset="['0', '0', '0', '0']" data-voffset="['0', '0', '0', '-100']" data-width="['1170', '970', '768', '480']" data-whitespace="normal" data-textAlign="[center']" data-fontsize="[72, 72, 72, 72]"
                      data-lineheight="[72, 72, 72, 72]" data-fontweight="700" data-color="#fff">МИ ЦЕ</div>
@@ -73,72 +80,65 @@ $testemonials = array_chunk([
 <!-- section services-->
 
 
-<!-- section statistic-->
-<div class="section section-statistic section-statistic-cover p-t-165 p-b-165" style="background: url('images/bg-section-01.jpg') center center / cover fixed no-repeat;">
-    <div class="bg-overlay"></div>
-    <div class="container">
-        <div class="section-inner">
-            <ul class="list-reset row justify-content-center">
-                <li class="col-md-3 col-sm-6">
-                    <div class="box box-number">
-                        <span class="number counterUp">69</span>
-                        <span class="title">Мероприятий</span>
-                    </div>
-                </li>
-                <li class="col-md-3 col-sm-6">
-                    <div class="box box-number">
-                        <span class="number counterUp">12</span>
-                        <span class="title">Баллов по физике</span>
-                    </div>
-                </li>
-                <li class="col-md-3 col-sm-6">
-                    <div class="box box-number">
-                        <span class="number counterUp">7918</span>
-                        <span class="title">Попаданий накатом справа</span>
-                    </div>
-                </li>
-                <li class="col-md-3 col-sm-6">
-                    <div class="box box-number">
-                        <span class="number counterUp">896</span>
-                        <span class="title">Проданных Владом чашек кофе</span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-<!-- end section statistic-->
 
 <!-- section blog-->
-<section class="section section-blog bg-white p-t-120 p-b-135">
+<section class="section section-blog bg-grey-1 p-t-120 p-b-135">
     <div class="container">
         <div class="section-inner">
             <h3 class="section-heading m-b-55">СТАТТІ</h3>
-            <div class="js-slick slick-arrow-style-1 bo-list" data-slick-lg="1" data-slick-dots="true" data-slick-arrows="true" data-slick-prevarrow="&lt;i class='arrow arrow-prev arrow_carrot-left'&gt;&lt;/i&gt;" data-slick-nextarrow="&lt;i class='arrow arrow-next arrow_carrot-right'&gt;&lt;/i&gt;"
+            <div class="js-slick slick-arrow-style-1 bo-list visible-lg visible-md visible-sm" data-slick-lg="1" data-slick-dots="true" data-slick-arrows="true" data-slick-prevarrow="&lt;i class='arrow arrow-prev arrow_carrot-left'&gt;&lt;/i&gt;" data-slick-nextarrow="&lt;i class='arrow arrow-next arrow_carrot-right'&gt;&lt;/i&gt;"
                  data-slick-dotsClass="slick-dots dots-style-1">
                 <?php foreach ($articles as $recent): ?>
                     <div class="item">
                         <div class="row">
                             <?php foreach ($recent as $article): ?>
-                                <div class="col-lg-4 col-md-6">
-                                <article class="box-primary box-blog">
-                                    <figure class="box-figure">
-    <!--                                    --><?//= var_dump($articles_image_path.$article['id'].'/'.$article['image']);die();?>
-                                        <a href="<?= $articles_path.$article['id']?>">
-                                            <img class="box-image blog-image" src="<?= $articles_image_path.$article['id'].'/'.$article['image']?>" alt="<?= $article['title']?>" />
-                                        </a>
-                                    </figure>
-                                    <header class="box-header">
-                                        <h3 class="box-title blog-title">
-                                            <a href="<?= $articles_path.$article['id']?>"><?= $article['title']?></a>
-                                        </h3>
-                                    </header>
-                                    <p class="box-text"><?= substr($article['description'],0,400).'...'?></p>
-                                    <footer class="box-footer">
-                                        <a class="blog-link" href="<?= $articles_path.$article['id']?>">продовжити читання</a>
-                                    </footer>
-                                </article>
-                            </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                                    <article class="box-primary box-blog">
+                                        <figure class="box-figure">
+                                            <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>">
+                                                <img class="box-image blog-image" src="<?= Article::getMainImage($article,740,556)?>" alt="<?= $article['title']?>" />
+                                            </a>
+                                        </figure>
+                                        <header class="box-header">
+                                            <h3 class="box-title blog-title">
+                                                <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>"><?= substr($article['title'],0,200).'...'?></a>
+                                            </h3>
+                                        </header>
+                                        <p class="box-text"><?= substr($article['description'],0,200).'...'?></p>
+                                        <footer class="box-footer">
+                                            <a class="blog-link" href="<?= Article::getLink($article['id'],$article['seo_url'])?>">продовжити читання</a>
+                                        </footer>
+                                    </article>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <div class="js-slick slick-arrow-style-1 bo-list visible-xs" data-slick-lg="1" data-slick-dots="true" data-slick-arrows="true" data-slick-prevarrow="&lt;i class='arrow arrow-prev arrow_carrot-left'&gt;&lt;/i&gt;" data-slick-nextarrow="&lt;i class='arrow arrow-next arrow_carrot-right'&gt;&lt;/i&gt;"
+                 data-slick-dotsClass="slick-dots dots-style-1">
+                <?php foreach ($articles_mobile as $recent): ?>
+                    <div class="item">
+                        <div class="row">
+                            <?php foreach ($recent as $article): ?>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                                    <article class="box-primary box-blog">
+                                        <figure class="box-figure">
+                                            <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>">
+                                                <img class="box-image blog-image" src="<?= Article::getMainImage($article,740,556)?>" alt="<?= $article['title']?>" />
+                                            </a>
+                                        </figure>
+                                        <header class="box-header">
+                                            <h3 class="box-title blog-title">
+                                                <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>"><?= substr($article['title'],0,200).'...'?></a>
+                                            </h3>
+                                        </header>
+                                        <p class="box-text"><?= substr($article['description'],0,200).'...'?></p>
+                                        <footer class="box-footer">
+                                            <a class="blog-link" href="<?= Article::getLink($article['id'],$article['seo_url'])?>">продовжити читання</a>
+                                        </footer>
+                                    </article>
+                                </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -148,6 +148,45 @@ $testemonials = array_chunk([
     </div>
 </section>
 <!-- end latest blog-->
+
+<!-- section portfolio-->
+<section class="section section-portfolio bg-white p-t-120 p-b-135">
+    <div class="container">
+        <div class="section-inner">
+            <h3 class="section-heading m-b-40">Галерея</h3>
+            <ul class="filter-bar h-list">
+                <li class="list-item active" data-filter="*">Всi</li>
+
+                <?php foreach ($categories as $category): ?>
+                    <li class="list-item" data-filter=".<?= $category->seo_url; ?>"><?= $category->title?></li>
+                <?php endforeach;?>
+            </ul>
+            <div class="row po-list isotope">
+                <?php $i = 0; foreach ($galleries as $gallery): $i++; ?>
+
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 isotope-item <?= $gallery['category_seo_url'] ?> wow fadeIn" data-wow-duration="0.5s">
+
+                        <article class="card-primary card-portfolio" style="display: <?= $i<7?'block':'none'?>">
+                            <a class="card-link-overlay" href="<?= Gallery::getLink($gallery['id'],$gallery['seo_url'])?>"></a>
+                            <div class="bg-overlay"></div>
+                            <figure class="card-figure">
+                                <img class="card-image" src="<?= Gallery::getMainImage($gallery);?>" alt="<?= $gallery['title'] ?>" />
+                            </figure>
+                            <header class="card-header">
+                                <h3 class="card-title portfolio-title"><?= $gallery['title'] ?></h3>
+                            </header>
+                        </article>
+                    </div>
+
+                <?php endforeach;?>
+            </div>
+            <div class="po-btn">
+                <a class="au-btn au-btn-lg au-btn-radius au-btn-border au-btn-block load-btn" href="#">Показати всi</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end section portfolio-->
 
 <!-- section testimonials-->
 <section class="section section-testi bg-grey-1 p-t-110 p-b-135">
@@ -163,7 +202,7 @@ $testemonials = array_chunk([
                                 <article class="box-primary box-testi">
                                     <figure class="box-figure">
                                         <a href="#">
-                                            <img class="box-image testi-image" src="images/test/testemonials/<?= $i++; ?>.jpg" alt="<?= $testemonial['name']?>,<?= $testemonial['city']?>" />
+                                            <img class="box-image testi-image" src="/images/emonials/<?= $i++; ?>.jpg" alt="<?= $testemonial['name']?>,<?= $testemonial['city']?>" />
                                         </a>
                                     </figure>
                                     <div class="box-body">
@@ -224,7 +263,7 @@ $testemonials = array_chunk([
 <section class="section section-contact bg-dark-1 p-t-120 p-b-135">
     <div class="container">
         <div class="section-inner">
-            <h3 class="section-heading m-b-90">НАПИШІТЬ НАМ</h3>
+            <h3 class="section-heading m-b-90">НАПИСАТИ НАМ</h3>
             <div class="messages" id="status"></div>
 
             <form  method="post" action="/site/contact?action=index">

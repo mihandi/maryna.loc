@@ -3,13 +3,14 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use common\models\User;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
-
+$admins = User::getAdmins();
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -35,7 +36,7 @@ AppAsset::register($this);
                 <div class="section-inner header-bar">
                     <div class="header-bar-logo">
                         <a class="logo-link" href="/">
-                            <img class="logo-light" src="/images/logos.ico" width="45">
+                            <img class="logo-light" src="/admin/nm.png" width="45">
                             <span style="color: #FF7C87;">НЕОБМЕЖЕНI МОЖЛИВОСТI</span>
                         </a>
                     </div>
@@ -56,6 +57,14 @@ AppAsset::register($this);
 <!---->
 <!--                                    </ul>-->
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/gallery/">ГАЛЕРЕЯ</a>
+                                </li>
+                                <?php if(in_array(yii::$app->user->id,$admins)):?>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/admin/">Admin Panel</a>
+                                    </li>
+                                <?php endif;?>
                                 <?php if (Yii::$app->user->isGuest): ?>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="modal" data-target="#LoginModal" href="/site/login">УВІЙТИ</a>
@@ -73,7 +82,7 @@ AppAsset::register($this);
                         </nav>
                     </div>
                     <div class="header-bar-featured d-none d-xl-block">
-                        <a class="au-btn au-btn-radius au-btn-primary" href="/site/contact">НАПИШІТЬ НАМ</a>
+                        <a class="au-btn au-btn-radius au-btn-primary" href="/site/contact">НАПИСАТИ НАМ</a>
                     </div>
                 </div>
             </div>
@@ -86,7 +95,7 @@ AppAsset::register($this);
                 <div class="header-bar">
                     <div class="header-bar-logo">
                         <a class="logo-link" href="/">
-                            <img class="logo-light" src="/images/logos.ico" width="45">
+                            <img class="logo-light" src="/admin/nm.png" width="45">
                             <span style="color: #FF7C87;">НЕОБМЕЖЕНI МОЖЛИВОСТI</span>
                         </a>
                     </div>
@@ -104,7 +113,7 @@ AppAsset::register($this);
                     <div class="box-author">
                         <a href="/">
                             <div class="author-image">
-                                <img src="/images/logos.ico" alt="Необмежені можливості">
+                                <img src="/admin/nm.png" alt="Необмежені можливості">
                             </div>
                             <h3 class="author-name">Необмежені можливості</h3>
                         </a>
@@ -125,6 +134,14 @@ AppAsset::register($this);
 <!--                                    </li>-->
 <!--                                </ul>-->
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/gallery/">ГАЛЕРЕЯ</a>
+                            </li>
+                            <?php if(in_array(yii::$app->user->id,$admins)):?>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/">Admin Panel</a>
+                                </li>
+                            <?php endif;?>
                             <?php if (Yii::$app->user->isGuest): ?>
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="modal" data-target="#LoginModal" href="/site/login">УВІЙТИ</a>
@@ -135,7 +152,7 @@ AppAsset::register($this);
                                     <a class="nav-link" href="/site/personal">МІЙ ПРОФІЛЬ</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/site/logout">УВІЙТИ</a>
+                                    <a class="nav-link" href="/site/logout">ВИЙТИ</a>
                                 </li>
                             <?php endif;?>
                         </ul>
@@ -147,13 +164,10 @@ AppAsset::register($this);
                                 <a class="fa fa-envelope" href="#" data-toggle="tooltip" title="Email"></a>
                             </li>
                             <li class="social-item">
-                                <a class="fa fa-twitter" href="#" data-toggle="tooltip" title="Twitter"></a>
+                                <a class="fa fa-instagram" target="_blank" href="https://www.instagram.com/neobmezheni_mozhlyvosti/" data-toggle="tooltip" title="Instagram"></a>
                             </li>
                             <li class="social-item">
-                                <a class="fa fa-dribbble" href="#" data-toggle="tooltip" title="Dribbble"></a>
-                            </li>
-                            <li class="social-item">
-                                <a class="fa fa-linkedin" href="#" data-toggle="tooltip" title="Linkedin"></a>
+                                <a class="fa fa-facebook" target="_blank" href="https://www.facebook.com/neobmezheni.mozhlyvosti/" data-toggle="tooltip" title="Facebook"></a>
                             </li>
                         </ul>
                         <p class="fo-copy"> Mika 2018</p>
@@ -180,16 +194,10 @@ AppAsset::register($this);
                         <a class="fa fa-envelope" href="#" data-toggle="tooltip" title="Email"></a>
                     </li>
                     <li class="social-item">
-                        <a class="fa fa-twitter" href="#" data-toggle="tooltip" title="Twitter"></a>
+                        <a class="fa fa-instagram" target="_blank" href="https://www.instagram.com/neobmezheni_mozhlyvosti/" data-toggle="tooltip" title="Instagram"></a>
                     </li>
                     <li class="social-item">
-                        <a class="fa fa-dribbble" href="#" data-toggle="tooltip" title="Dribbble"></a>
-                    </li>
-                    <li class="social-item">
-                        <a class="fa fa-linkedin" href="#" data-toggle="tooltip" title="Linkedin"></a>
-                    </li>
-                    <li class="social-item">
-                        <a class="fa fa-vimeo" href="#" data-toggle="tooltip" title="Vimeo"></a>
+                        <a class="fa fa-facebook" target="_blank" href="https://www.facebook.com/neobmezheni.mozhlyvosti/" data-toggle="tooltip" title="Facebook"></a>
                     </li>
                 </ul>
             </div>

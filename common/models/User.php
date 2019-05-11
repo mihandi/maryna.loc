@@ -1,6 +1,7 @@
 <?php
 namespace common\models;
 
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -22,6 +23,10 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+
+    const USER_ADMIN = 10;
+    const USER_MODER = 5;
+    const USER = 1;
 
     public function behaviors()
     {
@@ -93,7 +98,8 @@ class User extends ActiveRecord implements IdentityInterface
     {
 
     }
- public function saveImage($filename)
+
+    public function saveImage($filename)
     {
         $this->image = $filename;
         return $this->save(false);
@@ -101,7 +107,18 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getImage()
     {
-        return ($this->image) ? '/elfinder/users/user_'.$this->id.'/' . $this->image : '/no-image.png';
+        $date = date_create();
+        return ($this->image) ? '/admin/elfinder/global/users/user_'.$this->id.'/' . $this->image.'?'.date_timestamp_get($date): '/no-image.png';
+    }
+
+    public static function getAdmins(){
+        $admins =  self::find()->select('id')->where(['status' => [5,10]])->all();
+
+        foreach($admins as $admin){
+            $ids[] = $admin->id;
+        }
+
+        return $ids;
     }
 }
 		

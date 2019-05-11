@@ -14,6 +14,7 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'baseUrl' => '/'
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -40,7 +41,14 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'baseUrl' => '',
             'rules' => [
+                'blog/article/<seo-url:(\S+)>-<article_id:(\S+)>' => 'blog/article/',
+                'gallery/single/<seo-url:(\S+)>-<gallery_id:(\S+)>' => 'gallery/single/',
+                'blog/category/<seo-url:(\S+)>-<category_id:(\S+)>' => 'blog/category/',
+                'blog/search/<search:(\S+)>' => 'blog/search/',
+
+                'sitemap.xml' => 'sitemap/index'
             ],
         ],
 

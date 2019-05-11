@@ -2,7 +2,9 @@
 namespace frontend\controllers;
 
 use common\models\Article;
+use common\models\Category;
 use common\models\Comment;
+use common\models\Functions;
 use Yii;
 
 use yii\db\Exception;
@@ -19,33 +21,6 @@ class BlogController extends Controller
 
     public function actionIndex()
     {
-
-        if($category_id = yii::$app->request->get('category_id'))
-        {
-            $data = Article::getArticlesByCategories($category_id);
-
-            return $this->render('blog_grid', [
-                'pagination' => $data['pagination'],
-                'articles' => $data['article'],
-                'count' => $data['count'],
-                'popular_articles' => Article::getPopular(),
-                'categories' => Article::getCategories(),
-                'months' => Article::getArchive()
-
-
-            ]);
-
-        }elseif($var = yii::$app->request->get('var')){
-            $data = Article::getArticles(6);
-
-            return $this->render('blog_grid_var_2', [
-                'pagination' => $data['pagination'],
-                'articles' => $data['article'],
-                'popular_articles' => Article::getPopular(),
-                'categories' => Article::getCategories(),
-            ]);
-        }
-        else {
             $data = Article::getArticles();
 
             return $this->render('blog_grid', [
@@ -55,11 +30,11 @@ class BlogController extends Controller
                 'categories' => Article::getCategories(),
                 'months' => Article::getArchive()
             ]);
-        }
     }
 
     public function actionArticle()
     {
+        $article_id = (int)$_GET['article_id'];
 
         if(Yii::$app->request->isAjax) {
             if (Yii::$app->user->isGuest) {
@@ -75,7 +50,7 @@ class BlogController extends Controller
                 }
                 Comment::deleteComment($id);
 
-                $data = Article::getSingle();
+                $data = Article::getSingle($article_id);
 
                 return $this->renderAjax('/blog/comments',[
                     'article' => $data['article'],
@@ -89,7 +64,7 @@ class BlogController extends Controller
                 }else{
                     var_dump($commentPost->errors);die();
                 }
-                $data = Article::getSingle();
+                $data = Article::getSingle($article_id);
 
                 return $this->renderAjax('/blog/comments',[
                     'article' => $data['article'],
@@ -98,9 +73,9 @@ class BlogController extends Controller
 
             }
         }
-
-        $data = Article::getSingle();
-        if(!$data){return $this->redirect('/site/error');}
+    
+        $data = Article::getSingle($article_id);
+        if(empty($data)){$this->set404();}
         Article::viewedCounter($data['article']['id'], $data['article']['viewed']);
 
         return $this->render('blog_single', [
@@ -114,6 +89,31 @@ class BlogController extends Controller
         ]);
 
 
+    }
+
+    public function actionCategory(){
+
+        if($category_id = yii::$app->request->get('category_id')) {
+            $data = Article::getArticlesByCategories($category_id);
+
+            if(!empty($data['article'])){
+
+                return $this->render('blog_grid', [
+                    'pagination' => $data['pagination'],
+                    'articles' => $data['article'],
+                    'popular_articles' => Article::getPopular(),
+                    'categories' => Article::getCategories(),
+                    'months' => Article::getArchive(),
+                    'meta_category' => Category::findOne(['id'=> $category_id])->title
+                ]);
+            }
+            else{
+                $this->set404();
+            }
+        }
+        else{
+            $this->set404();
+        }
     }
 
     public function actionSearch()
@@ -143,5 +143,10 @@ class BlogController extends Controller
             'months' => Article::getArchive()
 
         ]);
+    }
+
+
+    private function set404(){
+        $this->redirect('/site/error');
     }
 }

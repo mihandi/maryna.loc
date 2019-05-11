@@ -17,7 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Set Image', ['set-image', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -25,15 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-        <?= InputFile::widget([
-            'language'   => 'ru',
-            'controller' => 'elfinder', // вставляем название контроллера, по умолчанию равен elfinder
-            'path' => '/', // будет открыта папка из настроек контроллера с добавлением указанной под деритории
-//        'filter'     => 'image',    // фильтр файлов, можно задать массив фильтров https://github.com/Studio-42/elFinder/wiki/Client-configuration-options#wiki-onlyMimes
-            'name'       => 'myinput',
-//        'value'      => '',
-        ]);
-        ?>
     </p>
 
     <?= DetailView::widget([
@@ -41,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'title',
+            'seo_url',
             'description:ntext',
             'content:ntext',
             'image',

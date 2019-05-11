@@ -4,11 +4,13 @@ namespace backend\controllers;
 
 use common\models\Category;
 use common\models\Comment;
+use common\models\Functions;
 use common\models\ImageUpload;
 use Yii;
 use common\models\Article;
 use common\models\ArticleSearch;
 use yii\base\DynamicModel;
+use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -107,10 +109,19 @@ class ArticleController extends Controller
 
         $model = new Article();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $create_folder = new ImageUpload();
-            $create_folder->createFolder($model->id);
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->seo_url = Functions::getSeoUrl($model->title);
+            $model->image = UploadedFile::getInstance($model, 'image');
+            $model->image->name = 'main.jpg';
+            $model->images = UploadedFile::getInstances($model, 'images');
+
+
+            if($model->save()) {
+                if(isset($model->image) && isset($model->images)) {
+                    $model->uploadImages();
+                }
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('create', [
@@ -119,6 +130,8 @@ class ArticleController extends Controller
         ]);
 
     }
+
+
 
     /**
      * Updates an existing Article model.
@@ -134,8 +147,18 @@ class ArticleController extends Controller
         }
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->image = UploadedFile::getInstance($model, 'image');
+            $model->image->name = 'main.jpg';
+            $model->seo_url = Functions::getSeoUrl($model->title);
+            $model->images = UploadedFile::getInstances($model, 'images');
+
+            if($model->save()) {
+                if(isset($model->image) && isset($model->images)) {
+                    $model->uploadImages();
+                }
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [
@@ -157,11 +180,11 @@ class ArticleController extends Controller
         if(yii::$app->user->isGuest) {
             return $this->redirect('/site/login');
         }
-
         $this->findModel($id)->delete();
 
+
         $imageU = new ImageUpload();
-        $imageU->removeDirectory(Yii::getAlias('@backend') . '/web/elfinder/global/article_' . yii::$app->request->get('id'));
+        $imageU->removeDirectory(Yii::getAlias('@backend') . '/web/elfinder/global/article_' . $id);
 
         $comment = new Comment();
         $comment->deleteArticleComments($id);
@@ -265,4 +288,13 @@ class ArticleController extends Controller
         ]);
 
     }
+/*
+    public function actionRegenUrl(){
+        $articles = Article::find()->all();
+        foreach ($articles as $article){
+            $article->seo_url = Functions::getSeoUrl($article->seo_url);
+            $article->save();
+        }
+    }
+*/
 }

@@ -7,6 +7,10 @@ use yii\web\UploadedFile;
 class ImageUpload extends Model{
 
     public $image;
+
+    const GALLERY_UPLOAD_SCENARIO = 1;
+    const ARTICLE_UPLOAD_SCENARIO = 2;
+
     public function rules()
     {
         return [
@@ -25,11 +29,16 @@ class ImageUpload extends Model{
         }
     }
 
-    public function getFolder()
+    public function getFolder($obj_id = null)
     {
-        $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/article_'.yii::$app->request->get('id');
+        if($this->scenario == self::GALLERY_UPLOAD_SCENARIO ){
+            $gallery = Gallery::findOne($obj_id);
+            $path_to_folder = Yii::getAlias('@backend') . '/web/elfinder/global/gallery/'.$gallery->dir_name."/";
+        }elseif($this->scenario == self::ARTICLE_UPLOAD_SCENARIO) {
+            $path_to_folder = Yii::getAlias('@backend') . '/web/elfinder/global/article_'.$obj_id;
+        }
         if(!is_dir($path_to_folder)){
-           mkdir($path_to_folder);
+           mkdir($path_to_folder, 0777);
         }
         return $path_to_folder.'/';
     }
@@ -39,26 +48,44 @@ class ImageUpload extends Model{
         return strtolower(md5(uniqid($this->image->baseName)) . '.' . $this->image->extension);
     }
 
-    public function deleteCurrentImage($currentImage)
+    public function deleteCurrentImage($currentImage,$obj_id = null)
     {
-        if($this->fileExists($currentImage))
+        if($this->fileExists($currentImage,$obj_id))
         {
-            unlink($this->getFolder() . $currentImage);
+            unlink($this->getFolder($obj_id) . $currentImage);
         }
     }
 
-    public function fileExists($currentImage)
+    public function fileExists($currentImage,$obj_id = null)
     {
         if(!empty($currentImage) && $currentImage != null)
         {
-            return file_exists($this->getFolder() . $currentImage);
+            return file_exists($this->getFolder($obj_id) . $currentImage);
         }
     }
 
-    public function saveImage()
+    public function saveImage($obj_id = null,$main_photo = null)
     {
+        $image = new Image();
         $filename = $this->generateFilename();
-        $this->image->saveAs($this->getFolder() . $filename);
+        $image->name = $filename;
+
+        if($this->scenario == self::GALLERY_UPLOAD_SCENARIO) {
+            $image->gallery_id = $obj_id;
+
+
+        }elseif($this->scenario == self::ARTICLE_UPLOAD_SCENARIO) {
+            if(!empty($main_photo)){
+                $image->name = 'main.jpg';
+                $filename = $image->name;
+            }
+        }
+
+        if(!$image->save()){
+            Functions::pretty_var_dump($image->errors);die();
+        }
+
+        $this->image->saveAs($this->getFolder($obj_id) . $filename);
         return $filename;
     }
 
@@ -68,7 +95,9 @@ class ImageUpload extends Model{
                 is_dir($obj) ? $this->removeDirectory($obj) : unlink($obj);
             }
         }
-        rmdir($dir);
+        if(file_exists($dir)) {
+            rmdir($dir);
+        }
     }
   public function createFolder($article_id)
     {

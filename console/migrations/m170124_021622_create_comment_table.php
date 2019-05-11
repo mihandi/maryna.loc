@@ -18,6 +18,7 @@ class m170124_021622_create_comment_table extends Migration
             'status'=>$this->integer(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
+            'parent_id' => $this->integer()->null()
         ]);
         // creates index for column `user_id`
         $this->createIndex(
@@ -55,6 +56,8 @@ class m170124_021622_create_comment_table extends Migration
      */
     public function down()
     {
+        $this->dropForeignKey('fk-post-user_id','comment');
+        $this->dropForeignKey('fk-article_id','comment');
         $this->dropTable('comment');
     }
 }

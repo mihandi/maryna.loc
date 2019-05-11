@@ -2586,10 +2586,12 @@ input[type='submit'], button[type='button'] {
 
 .slick-arrow-style-1 .arrow-prev {
   left: 0;
+  top: 50%!important;
 }
 
 .slick-arrow-style-1 .arrow-next {
   right: 0;
+  top: 50%!important;
 }
 
 .slick-arrow-style-1 {
@@ -2648,10 +2650,12 @@ input[type='submit'], button[type='button'] {
 
 .slick-arrow-style-1 .arrow-prev {
   left: -10px;
+  top: 50%!important;
 }
 
 .slick-arrow-style-1 .arrow-next {
   right: -10px;
+  top: 50%!important;
 }
 
 .slick-arrow-style-2 {
@@ -2750,7 +2754,6 @@ input[type='submit'], button[type='button'] {
   .filter-bar .list-item {
     margin: 0 0 10px 0;
     display: block;
-    width: 50%;
     float: left;
   }
 }
@@ -3729,6 +3732,28 @@ ul.list-reset {
 .box-blog-sm .blog-post-time {
   font-size: 13px;
   color: #999;
+}
+/*
+========================================================================
+    BLOG SMALL
+========================================================================
+*/
+
+@media (max-width: 767px) {
+  .col-xs-4 {
+    -ms-flex: 0 0 33.333333%;
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+    font-size: 10px;
+  }
+  .box-primary .box-title {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-family: "Poppins", sans-serif;
+    font-size: 10px;
+    color: #333;
+    font-weight: 500;
+  }
 }
 
 /*
@@ -5177,7 +5202,7 @@ ul.list-reset {
 ========================================================================
 */
 .section-blog .bo-list .slick-dots {
-  margin-top: 55px;
+  margin-top: 1px;
 }
 
 @media (max-width: 991px) {
@@ -6299,7 +6324,7 @@ ul.list-reset {
 */
 section.gallery .mix {
   padding: 0;
-  /*max-width: 150px;*/
+  max-width: 120px;
   max-height: 100px;
   overflow: hidden;
 }
@@ -6369,4 +6394,10 @@ body {
 }
 .pagination > .prev:first-child>a {
   border-radius: 50%;
+}
+
+@media (min-width: 768px) {
+  .navbar-nav {
+    float: inherit !important;
+  }
 }

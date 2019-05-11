@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Functions;
 use Yii;
 use common\models\Category;
 use common\models\CategorySearch;
@@ -77,8 +78,11 @@ class CategoryController extends Controller
         }
             $model = new Category();
 
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load(Yii::$app->request->post())) {
+                $model->seo_url = Functions::getSeoUrl($model->title);
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
             }
 
             return $this->render('create', [
@@ -101,8 +105,11 @@ class CategoryController extends Controller
         }
             $model = $this->findModel($id);
 
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load(Yii::$app->request->post())) {
+                $model->seo_url = Functions::getSeoUrl($model->title);
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
             }
 
             return $this->render('update', [

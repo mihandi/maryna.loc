@@ -15,6 +15,7 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'baseUrl' => '/admin'
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -47,15 +48,15 @@ return [
     ],
 
     'controllerMap' => [
-        'elfinder' => [
-            'class' => 'mihaildev\elfinder\PathController',
-            'access' => ['@'],
-            'root' => [
-                'path' => 'elfinder/global',
-                'name' => 'Global'
-            ],
-//
-        ]
+//        'elfinder' => [
+//            'class' => 'mihaildev\elfinder\PathController',
+//            'access' => ['@'],
+//            'root' => [
+//                'path' => 'elfinder/global',
+//                'name' => 'Global'
+//            ],
+////
+//        ]
     ],
     'params' => $params,
 ];

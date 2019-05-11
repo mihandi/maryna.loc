@@ -2,6 +2,8 @@
 namespace frontend\controllers;
 
 use common\models\Article;
+use common\models\Category;
+use common\models\Gallery;
 use common\models\ImageUpload;
 use Imagine\Image\Box;
 use Yii;
@@ -76,12 +78,18 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        $categories = Category::find()->all();
 
+        $galleries = Gallery::getGalleries();
+        shuffle($galleries);
         
         $data = Article::getRecent(9);
 
         return $this->render('index',[
-            'recent' => $data]);
+            'recent' => $data,
+            'galleries' => $galleries,
+            'categories' => $categories
+        ]);
 
     }
 
@@ -106,7 +114,7 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->goHome();
+        return $this->redirect('/');
     }
 
     public function actionSignup()
@@ -169,7 +177,7 @@ class SiteController extends Controller
         $user = User::findOne($id);
         $model = new ImageUpload();
         if($user->image) {
-            $model->image = '/elfinder/global/users/user_' . $id . '/' . $user->image;
+            $model->image = '/admin/elfinder/global/users/user_' . $id . '/' . $user->image;
         }
         $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/users/user_'.$id;
 
@@ -197,8 +205,10 @@ class SiteController extends Controller
             if ($image->save($path_to_folder.'/'. $imageName, $saveOptions)) {
                 $date = date_create();
                 $result = [
-                    'filelink' => '/elfinder/global/users/user_'.$id.'/'.$imageName.'?'.date_timestamp_get($date)
+                    'filelink' => '/admin/elfinder/global/users/user_'.$id.'/'.$imageName.'?'.date_timestamp_get($date)
                 ];
+                $user->image = $imageName;
+                $user->save();
             } else {
                 $result = [
                     'error' => Yii::t('cropper', 'ERROR_CAN_NOT_UPLOAD_FILE')

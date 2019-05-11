@@ -2,16 +2,24 @@
 
 /* @var $this yii\web\View */
 
+use common\models\Article;
+use common\models\Category;
 use yii\grid\GridView;
 use yii\widgets\LinkPager;
 
 $this->title = $article['title'];
 
-$article_image_path = '/elfinder/global/article_'.$article['id'].'/'.$article['image'];
+$this->registerMetaTag([
+    'name' => 'description',
+    'content' => \common\models\Article::META_TITLE.': '.$article['title']
+]);
 
-$articles_path = '/blog/article?id=';
+//$article_image_path = ;
+
+    '/admin/timthumb.php?src=/elfinder/global/article_'.$article['id'].'/' . $article['image'];
+
 $user_path = '';
-$category_path =  '/blog/index?category_id='.$article['category_id'];
+$category_path =  Category::getLink($article['category_id'],$article['seo_url']);
 
 ?>
 <!-- main content-->
@@ -30,13 +38,13 @@ $category_path =  '/blog/index?category_id='.$article['category_id'];
                                     <a href="/blog/index">Статті</a>
                                 </li>
                                 <li>
-                                    <a href="<?= $articles_path.$article['id']?>"><?= $article['title']?></a>
+                                    <a href="<?= Article::getLink($article['id'],$article['seo_url'])?>"><?= $article['title']?></a>
                                 </li>
                             </ul>
                             <h3 class="post-title"><?= $article['title']?></h3>
                         </header>
                         <figure class="post-image img-radius m-b-45">
-                            <img class="img-fluid" src="<?= $article_image_path?>" alt="<?= $article['title']?>">
+                            <img class="img-fluid" src="<?= Article::getMainImage($article,1600,718)?>" alt="<?= $article['title']?>">
                         </figure>
                         <div class="post-body">
                             <h3 class="post-title"><?= $article['title']?></h3>
@@ -62,17 +70,6 @@ $category_path =  '/blog/index?category_id='.$article['category_id'];
                         </div>
                         <footer class="post-footer">
                             <div class="flex-bar d-md-flex align-items-start justify-content-lg-between m-b-40">
-                                <ul class="post-tags h-list">
-                                    <li class="post-tag-item">
-                                        <a href="#">website</a>
-                                    </li>
-                                    <li class="post-tag-item">
-                                        <a href="#">onepage</a>
-                                    </li>
-                                    <li class="post-tag-item">
-                                        <a href="#">profesional</a>
-                                    </li>
-                                </ul>
                                 <div class="post-socials">
                                     <span class="post-social-label">Поділитися</span>
                                     <ul class="h-list social-list">
