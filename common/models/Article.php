@@ -101,13 +101,14 @@ class Article extends \yii\db\ActiveRecord
             : '/admin/timthumb.php?src=/elfinder/no-image.png'.$get;
     }
 
-    public static function getImage($article_id,$image_name,$w = null, $h = null){
+    public static function getImage($article_id,$image_name,$w = null, $h = null,$wm = true){
+
         if(isset($w,$h)) {
-            $get = '&w=' . $w . '&h=' . $h;
+            $get = '&w=' . $w . '&h=' . $h.($wm?'&wm=1':'');
         }else{
             if(file_exists(Yii::getAlias('@backend').'/web/elfinder/global/article_'.$article_id.'/' . $image_name)) {
                 $size = getimagesize(Yii::getAlias('@backend') . '/web/elfinder/global/article_' . $article_id . '/' . $image_name);
-                $get = '&w=' . $size[0] . '&h=' . $size[1];
+                $get = '&w=' . $size[0] . '&h=' . $size[1].($wm?'&wm=1':'');
             }else{
                 $get = '';
             }
