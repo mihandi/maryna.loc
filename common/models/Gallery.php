@@ -57,7 +57,9 @@ class Gallery extends \yii\db\ActiveRecord
 
     public function createFolder($gallery_title)
     {
-        $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/gallery/'.$gallery_title;
+        Functions::pretty_var_dump('createFolder');
+        die();
+        $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/gallery/'.$gallery_title;
         if(!is_dir($path_to_folder)){
             if(mkdir($path_to_folder)){
                 chmod("$path_to_folder", 0777);
@@ -69,7 +71,7 @@ class Gallery extends \yii\db\ActiveRecord
 
     public function updateFolder($old_gallery_title,$new_gallery_title)
     {
-        $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/gallery/';
+        $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/gallery/';
 
         return rename($path_to_folder.$old_gallery_title,$path_to_folder.$new_gallery_title);
 
@@ -148,8 +150,18 @@ class Gallery extends \yii\db\ActiveRecord
     public static function getMainImage($gallery,$w = 500, $h = 500)
     {
         $get = 'w='.$w.'&h='.$h;
-        return (file_exists(Yii::getAlias( '@backend' ).'/web/elfinder/global/gallery/'.$gallery['dir_name'].'/main/main.jpg') )
-            ? '/admin/timthumb.php?src=/elfinder/global/gallery/'.$gallery['dir_name'].'/main/main.jpg&'.$get
+        return (file_exists(Yii::getAlias( '@backend' ).'/web/elfinder/gallery/'.$gallery['dir_name'].'/main/main.jpg') )
+            ? '/admin/timthumb.php?src=/elfinder/gallery/'.$gallery['dir_name'].'/main/main.jpg&'.$get
+            : '/admin/timthumb.php?src=/elfinder/no-image.png&'.$get;
+    }
+
+    public static function getImage($gallery,$image, $w = 500, $h = 500, $wm = true){
+        $get = 'w='.$w.'&h='.$h.($wm ?'&wm=1':'');
+//        Functions::pretty_var_dump(file_exists(Yii::getAlias( '@backend' ).'/web/elfinder/gallery/'.$gallery['dir_name'].$image));
+//        Functions::pretty_var_dump($gallery['dir_name']);
+//        Functions::pretty_var_dump($image);die();
+        return (file_exists(Yii::getAlias( '@backend' ).'/web/elfinder/gallery/'.$gallery['dir_name'].'/'.$image) )
+            ? '/admin/timthumb.php?src=/elfinder/gallery/'.$gallery['dir_name'].'/'.$image.'&'.$get
             : '/admin/timthumb.php?src=/elfinder/no-image.png&'.$get;
     }
 

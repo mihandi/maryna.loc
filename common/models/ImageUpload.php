@@ -33,12 +33,12 @@ class ImageUpload extends Model{
     {
         if($this->scenario == self::GALLERY_UPLOAD_SCENARIO ){
             $gallery = Gallery::findOne($obj_id);
-            $path_to_folder = Yii::getAlias('@backend') . '/web/elfinder/global/gallery/'.$gallery->dir_name."/";
+            $path_to_folder = Yii::getAlias('@backend') . '/web/elfinder/gallery/'.$gallery->dir_name."/";
         }elseif($this->scenario == self::ARTICLE_UPLOAD_SCENARIO) {
             $path_to_folder = Yii::getAlias('@backend') . '/web/elfinder/global/article_'.$obj_id;
         }
         if(!is_dir($path_to_folder)){
-           mkdir($path_to_folder, 0777);
+            Functions::custom_mkdir($path_to_folder,0777,true);
         }
         return $path_to_folder.'/';
     }
@@ -103,7 +103,7 @@ class ImageUpload extends Model{
     {
         $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/article_'.$article_id;
         if(!is_dir($path_to_folder)){
-            mkdir($path_to_folder);
+            Functions::custom_mkdir($path_to_folder);
         }
         return $path_to_folder.'/';
     }
@@ -112,7 +112,7 @@ class ImageUpload extends Model{
     {
         $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/users/user_'.$user_id;
         if(!is_dir($path_to_folder)){
-            mkdir($path_to_folder);
+            Functions::custom_mkdir($path_to_folder);
         }
         return $path_to_folder.'/';
     }

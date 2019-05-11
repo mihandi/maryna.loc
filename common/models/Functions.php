@@ -162,4 +162,11 @@ function rightCellToggleCollapsed(){
         return $latniza_str;
     }
 
+    public static function custom_mkdir($path, $mode = 0777, $recursive = false){
+        $old = umask(0);
+        mkdir($path,$mode, $recursive);
+        umask($old);
+        chmod($path, $mode);
+    }
+
 }

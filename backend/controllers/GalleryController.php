@@ -210,7 +210,7 @@ class GalleryController extends Controller
     {
         $gallery = Gallery::findOne(['id'=>$id]);
 
-        $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/global/gallery/';
+        $path_to_folder = Yii::getAlias( '@backend' ).'/web/elfinder/gallery/';
 
         Gallery::removeDirectory($path_to_folder.$gallery->dir_name);
         $this->findModel($id)->delete();
@@ -232,10 +232,5 @@ class GalleryController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-    public function actionTest(){
-        $gallery = new Gallery();
-        return $this->render('test',['model' => $gallery]);
     }
 }

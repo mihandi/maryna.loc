@@ -27,8 +27,8 @@
                                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">
                                         <article class="box-primary box-blog">
                                             <figure class="box-figure">
-                                                <a href="<?= '/admin/elfinder/global/gallery/'.$gallery['dir_name'].'/'.$photo?>" data-fancybox="gallery" class="image">
-                                                    <img class="box-image blog-image" src="<?= '/admin/timthumb.php?src=/elfinder/global/gallery/'.$gallery['dir_name'].'/'.$photo.'&w=274&h=275'?>" alt="MOBILE FIRST &amp; RESPONSIVE"  />
+                                                <a href="<?= $gallery->getImage($gallery,$photo);?>" data-fancybox="gallery" class="image">
+                                                    <img class="box-image blog-image" src="<?= $gallery->getImage($gallery,$photo,274,275);?>" alt="MOBILE FIRST &amp; RESPONSIVE"  />
                                                 </a>
                                             </figure>
                                         </article>

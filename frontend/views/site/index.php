@@ -20,7 +20,14 @@ $this->registerMetaTag([
     'content' => 'Громадська організація «Необмеженi можливостi». Харкiв'
 ]);
 ?>
-
+<style>
+    .p-t {
+        padding-top: 30px;
+    }
+    /*.col-lg-6 .col-md-6 .col-sm-6 .col-xs-6 {*/
+        /*width: 50%;*/
+    /*}*/
+</style>
 <?php if (Yii::$app->session->hasFlash('success')): ?>
     <div class="alert alert-success alert-dismissable">
         <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
@@ -38,10 +45,10 @@ $this->registerMetaTag([
                 <img class="rev-slidebg" src="/admin/timthumb.php?src=/main1.jpg&w=1920&h=1025" alt="#" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="15" />
                 <div class="tp-caption tp-resizeme revo-cap-1" data-frames="[{&quot;from&quot;:&quot;y:50px;opacity:0;&quot;,&quot;speed&quot;:1500,&quot;to&quot;:&quot;o:1;&quot;,&quot;delay&quot;:500,&quot;ease&quot;:&quot;Power4.easeOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:500,&quot;to&quot;:&quot;y:-50px;opacity:0;&quot;,&quot;ease&quot;:&quot;Power2.easeIn&quot;}]"
                      data-x="['center']" data-y="['center']" data-hoffset="['0', '0', '0', '0']" data-voffset="['0', '0', '0', '-100']" data-width="['1170', '970', '768', '480']" data-whitespace="normal" data-textAlign="[center']" data-fontsize="[72, 72, 72, 72]"
-                     data-lineheight="[72, 72, 72, 72]" data-fontweight="700" data-color="#fff">МИ ЦЕ</div>
+                     data-lineheight="[72, 72, 72, 72]" data-fontweight="700" data-color="black">МИ ЦЕ</div>
                 <div class="tp-caption tp-resizeme revo-cap-2" data-frames="[{&quot;from&quot;:&quot;y:50px;opacity:0;&quot;,&quot;speed&quot;:1600,&quot;to&quot;:&quot;o:1;&quot;,&quot;delay&quot;:1100,&quot;ease&quot;:&quot;Power4.easeOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:500,&quot;to&quot;:&quot;y:-50px;opacity:0;&quot;,&quot;ease&quot;:&quot;Power2.easeIn&quot;}]"
                      data-x="['center']" data-y="['center']" data-hoffset="['0', '0', '0', '0']" data-voffset="['110', '110', '110', '20']" data-width="['1170', '970', '768', '480']" data-whitespace="normal" data-textAlign="[center']" data-fontsize="[72, 72, 72, 72]"
-                     data-lineheight="[72, 72, 72, 72]" data-fontweight="700" data-color="#fff">НЕОБМЕЖЕНI МОЖЛИВОСТI</div>
+                     data-lineheight="[72, 72, 72, 72]" data-fontweight="700" data-color="black">НЕОБМЕЖЕНI МОЖЛИВОСТI</div>
             </li>
         </ul>
     </div>
@@ -52,7 +59,7 @@ $this->registerMetaTag([
 <!-- END INTRO-->
 <div id="down"></div>
 <!-- section about-->
-<section class="section section-about bg-white p-t-120 p-b-135">
+<section class="section section-about bg-white p-t p-b-30">
     <div class="container">
         <article class="section-inner">
             <h3 class="section-heading m-b-40">ТРОХИ ПРО НАС</h3>
@@ -82,7 +89,7 @@ $this->registerMetaTag([
 
 
 <!-- section blog-->
-<section class="section section-blog bg-grey-1 p-t-120 p-b-135">
+<section class="section section-blog bg-grey-1 p-t p-b-30">
     <div class="container">
         <div class="section-inner">
             <h3 class="section-heading m-b-55">СТАТТІ</h3>
@@ -150,7 +157,7 @@ $this->registerMetaTag([
 <!-- end latest blog-->
 
 <!-- section portfolio-->
-<section class="section section-portfolio bg-white p-t-120 p-b-135">
+<section class="section section-portfolio bg-white p-t p-b-30">
     <div class="container">
         <div class="section-inner">
             <h3 class="section-heading m-b-40">Галерея</h3>
@@ -189,16 +196,16 @@ $this->registerMetaTag([
 <!-- end section portfolio-->
 
 <!-- section testimonials-->
-<section class="section section-testi bg-grey-1 p-t-110 p-b-135">
+<section class="section section-testi bg-grey-1 p-t p-b-30">
     <div class="container">
         <div class="section-inner">
             <h3 class="section-heading m-b-55">ВІДГУКИ УЧАСНИКІВ</h3>
-            <div class="js-slick slick-arrow-style-1 te-list" data-slick-lg="1" data-slick-dots="true" data-slick-dotsClass="slick-dots dots-style-1">
+            <div class="js-slick slick-arrow-style-1 " data-slick-lg="1" data-slick-dots="true" data-slick-dotsClass="slick-dots dots-style-1">
                 <?php $i = 1; foreach ($testemonials as $block): ?>
                     <div class="item">
                         <div class="row">
                             <?php foreach ($block as $testemonial): ?>
-                            <div class="col-lg-6 col-md-12">
+                            <div class="col-lg-6 col-md-12 col-xs-12">
                                 <article class="box-primary box-testi">
                                     <figure class="box-figure">
                                         <a href="#">
@@ -207,7 +214,7 @@ $this->registerMetaTag([
                                     </figure>
                                     <div class="box-body">
                                         <p class="box-text"><?= $testemonial['testemonial']?></p>
-                                        <p class="box-title testi-title"><?= $testemonial['name']?>, <?= $testemonial['city']?></p>
+                                        <p class="box-title"><?= $testemonial['name']?>, <?= $testemonial['city']?></p>
                                     </div>
                                 </article>
                             </div>
@@ -220,6 +227,8 @@ $this->registerMetaTag([
     </div>
 </section>
 <!-- end section testimonials-->
+
+
 <?php
 /*
 <!-- section partner-->
@@ -260,7 +269,7 @@ $this->registerMetaTag([
 */
 ?>
 <!-- section contact-->
-<section class="section section-contact bg-dark-1 p-t-120 p-b-135">
+<section class="section section-contact bg-dark-1 p-t p-b-30">
     <div class="container">
         <div class="section-inner">
             <h3 class="section-heading m-b-90">НАПИСАТИ НАМ</h3>
@@ -316,7 +325,6 @@ $this->registerMetaTag([
     </div>
 </section>
 <!-- end section contact-->
-
 
 <div id="up-to-top">
     <i class="fa fa-angle-up"></i>
