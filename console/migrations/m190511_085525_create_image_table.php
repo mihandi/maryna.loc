@@ -12,7 +12,7 @@ class m190511_085525_create_image_table extends Migration
      */
     public function safeUp()
     {
-        $this->createTable('image', [
+        $this->createTable('Image', [
             'id' => $this->primaryKey(),
             'gallery_id' => $this->integer(),
             'name' => $this->string()
@@ -20,7 +20,7 @@ class m190511_085525_create_image_table extends Migration
 
         $this->addForeignKey(
             'fk-gallery_id',
-            'image',
+            'Image',
             'gallery_id',
             'gallery',
             'id',
@@ -33,7 +33,7 @@ class m190511_085525_create_image_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('fk-gallery_id','image');
-        $this->dropTable('image');
+        $this->dropForeignKey('fk-gallery_id','Image');
+        $this->dropTable('Image');
     }
 }

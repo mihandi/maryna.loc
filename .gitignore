@@ -46,6 +46,9 @@ phpunit.phar
 
 /composer.lock
 
-/backend/web/elfinder
+/backend/web/elfinder/gallery
+/backend/web/elfinder/global
+/backend/web/elfinder/users
+backend/web/upload/*
 
 .bowerrc
